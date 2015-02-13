@@ -20,4 +20,4 @@ What this tool will do ?
 
 Note: 
 
-This tool might need modifactions and contributions are welcome. 
+This tool might need modifications, and contributions are welcome. 
