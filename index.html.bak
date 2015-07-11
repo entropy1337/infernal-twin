@@ -56,12 +56,10 @@
             aria-hidden="true"><span class="octicon octicon-link"></span></a>Coming
           Soon:</h3>
         <ul>
-          <li>Public Access to GUI version</li>
           <li>More attack vectors</li>
           <li>Cracking variety type of hashes</li>
-          <li>Added Social engineering attacks</li>
+          <li>Added More Social engineering attacks</li>
           <li>Remote Code execution for Flash/Java</li>
-          <li>Karma Attack</li>
         </ul>
         <br>
         <h3> <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors"
