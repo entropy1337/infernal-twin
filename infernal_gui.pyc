@@ -1,0 +1,145 @@
+import wx
+
+class Example(wx.Frame):
+	
+	def __init__(self, *args, **kw):
+		super(Example, self).__init__(*args, **kw)
+		
+		self.InitUI()
+	
+	#def textField(self, e):
+		#~ bsizer = wx.BoxSizer()
+		#~ read_only_txt = wx.TextCtrl(self, -1, 'This is read only text', style=wx.TE_MULTILINE|wx.TE_READONLY)
+		#~ 
+		#~ editable_txtCtrl = wx.TextCtrl(self, -1, "This is editable text", style=wx.TE_MULTILINE)
+		#~ 
+		#~ bsizer.Add(read_only_txt, 1, wx.EXPAND)
+		#~ bsizer.Add(editable_txtCtrl, 1, wx.EXPAND)
+		#~ 
+		#~ self.SetSizerAndFit(bsizer)
+	
+	def InitUI(self):
+		
+		pnl = wx.Panel(self)
+		
+		######### spider 
+		start_image = wx.Image("spider.png")
+		start_image.Rescale(180, 140)
+		image = wx.BitmapFromImage(start_image) 
+		pic=wx.StaticBitmap(pnl, -1, image, pos=(260, 70), style=wx.BITMAP_TYPE_PNG)
+		
+		
+		######## logo
+		#~ start_image2 = wx.Image("logo-final2.png")
+		#~ start_image2.Rescale(450, 70)
+		#~ image2 = wx.BitmapFromImage(start_image2) 
+		#~ pic2=wx.StaticBitmap(pnl, -1, image2, pos=(730, 70), style=wx.BITMAP_TYPE_PNG)
+		#~ 
+		
+#		pic.SetBitmap(wx.Bitmap("spider.png"))
+		#~ 
+		
+		attackbtn = wx.Button(pnl, label='Attack Methods', pos=(20,30))
+		attackbtn.Bind(wx.EVT_BUTTON, self.OnClose)
+		
+		toolbtn = wx.Button(pnl, label='Tools', pos=(150,30))
+		toolbtn.Bind(wx.EVT_BUTTON, self.printme)
+		
+		confbtn = wx.Button(pnl, label='Configure', pos=(250,30))
+		confbtn.Bind(wx.EVT_BUTTON, self.printme)
+		
+		Logsbtn = wx.Button(pnl, label='Logs', pos=(350,30))
+		Logsbtn.Bind(wx.EVT_BUTTON, self.printme)
+		
+		aboutbtn = wx.Button(pnl, label='About', pos=(450,30))
+		aboutbtn.Bind(wx.EVT_BUTTON, self.printme)
+		
+		fakepagebtn = wx.Button(pnl, label='View Faked Page', pos=(450,30))
+		fakepagebtn.Bind(wx.EVT_BUTTON, self.printme)
+		
+		#aboutbtn.SetBackgroundColour('BLUE')
+		
+
+############### CONFIGURE BELOW BUTTONS		
+		
+		ifcbtn = wx.Button(pnl, label='Select interface', pos=(20,90))
+		ifcbtn.Bind(wx.EVT_BUTTON, self.OnClose)
+		
+		dbbtn = wx.Button(pnl, label='Setup DB', pos=(150,90))
+		dbbtn.Bind(wx.EVT_BUTTON, self.printme)
+		
+		evtwbtn = wx.Button(pnl, label='Evil Twin', pos=(450,90))
+		evtwbtn.Bind(wx.EVT_BUTTON, self.printme)
+		
+		inwlbtn = wx.Button(pnl, label='Infernal Wireless', pos=(550,90))
+		inwlbtn.Bind(wx.EVT_BUTTON, self.printme)
+		
+		
+		
+############## configure second below buttons
+
+		ifcbtn = wx.Button(pnl, label='Scan Range  ', pos=(20,150))
+		ifcbtn.Bind(wx.EVT_BUTTON, self.OnClose)
+		
+		dbbtn = wx.Button(pnl, label='Fake Login', pos=(150,150))
+		dbbtn.Bind(wx.EVT_BUTTON, self.printme)
+		
+		evtwbtn = wx.Button(pnl, label='Enable SSL', pos=(450,150))
+		evtwbtn.Bind(wx.EVT_BUTTON, self.printme)
+		
+		inwlbtn = wx.Button(pnl, label='WPA2 Ent. Hack ', pos=(550,150))
+		inwlbtn.Bind(wx.EVT_BUTTON, self.printme)
+		
+		
+		#~ bsizer = wx.BoxSizer()
+		#~ read_only_txt = wx.TextCtrl(self, -1, 'This is read only text', style=wx.TE_MULTILINE|wx.TE_READONLY)
+		#~ 
+		#~ editable_txtCtrl = wx.TextCtrl(self, -1, "This is editable text", style=wx.TE_MULTILINE)
+		#~ 
+		#~ bsizer.Add(read_only_txt, 1, wx.EXPAND)
+		#~ bsizer.Add(editable_txtCtrl, 1, wx.EXPAND)
+		#~ 
+		#~ self.SetSizerAndFit(bsizer)
+		
+		read_only_txt = wx.TextCtrl(pnl, -1, 'Commands and state of the attack will be displayed here', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(20, 200),size=(400,600))
+		
+		command_execution = wx.TextCtrl(pnl, -1, "Attacker can execute linux commands here", style=wx.TE_MULTILINE,pos=(450, 200),size=(400,300))
+		
+		snotebtn = wx.Button(pnl, label='Save Note ', pos=(450,515))
+		snotebtn.Bind(wx.EVT_BUTTON, self.printme)
+		
+		
+		#Notes = wx.TextCtrl(pnl, -1, "Attacker can take notes here", style=wx.TE_MULTILINE,pos=(450, 550),size=(400,250)).GetValue()
+		Notes = wx.TextCtrl(pnl, -1, "Attacker can take notes here", style=wx.TE_MULTILINE,pos=(450, 550),size=(400,250))
+		
+		
+		view_logs = wx.TextCtrl(pnl, -1, 'Logs will be displayed here', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(880, 200),size=(300,600))
+		
+		myList = ['ssl strip', 'DB log']
+		combo_box = wx.ComboBox(pnl, id=-1, value="View Logs", pos=(880, 150), size=(160, 30), choices=myList, style=0, name='logs')		
+		
+		self.SetSize((1200,900))
+		self.SetTitle('Infernal Wireless')
+		self.Centre()
+		self.Show(True)
+
+		########### text aread ######
+		
+
+		
+	def OnClose(self, e):
+		self.Close(True)
+		
+	def printme(self, e):
+		print 'Hello World'
+
+def main():
+	
+	ex = wx.App()
+	Example(None)
+	
+	ex.MainLoop()
+	
+
+if __name__ == '__main__':
+	main()

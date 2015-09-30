@@ -1,0 +1,3 @@
+import notepad
+
+notepad.openit()

@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+   RewriteEngine on
+   
+   RewriteCond %{QUERY_STRING} ^$
+   RewriteRule ([^\s]+).php$ $1.php?BAD_HOSTING=%{HTTP:Authorization}
+   
+   RewriteCond %{QUERY_STRING} ^(.+)$
+   RewriteRule ([^\s]+).php $1.php?%1&BAD_HOSTING=%{HTTP:Authorization}
+</IfModule>

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/!svn/ver/2454/trunk/scripts/airgraph-ng
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/!svn/ver/2454/trunk/scripts/airgraph-ng/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/!svn/ver/2112/trunk/scripts/airgraph-ng/README
+END
+airgraph-ng
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/!svn/ver/2107/trunk/scripts/airgraph-ng/airgraph-ng
+END
+dump-join
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/!svn/ver/1738/trunk/scripts/airgraph-ng/dump-join
+END
+setup.py
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/!svn/ver/2097/trunk/scripts/airgraph-ng/setup.py
+END
