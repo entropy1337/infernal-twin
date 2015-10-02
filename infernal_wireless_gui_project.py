@@ -386,14 +386,19 @@ class Example(wx.Frame):
 		self.Close()
 		
 	def killall(self, e):
+		os.system("airmon-ng check kill &")
 		os.system("kill  `ps aux | grep hostapd | head -1 | awk '{print $2}'`")
 		os.system("kill  `ps aux | grep dnsmasq | head -1 | awk '{print $2}'`")
 		os.system("airmon-ng stop mon0")
 		os.system("airmon-ng stop mon1")
 		os.system("airmon-ng stop mon2")
 		os.system("airmon-ng stop mon3")
+		os.system("airmon-ng stop wlan0mon")
 		os.system("kill  `ps aux | grep aircrack-ng | head -1 | awk '{print $2}'`")
 		os.system("kill  `ps aux | grep radiusd | head -1 | awk '{print $2}'`")
+		time.sleep(5)
+		print 'Giving some time to kill'
+		
 	
 	def radiusd_check(self, e):
 		check_rd = subprocess.Popen(["which","radiusd"], stdout=subprocess.PIPE)
@@ -557,12 +562,13 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 		if 'wlan0' in out:
 			os.system("ifconfig eth0 up")
 
-			hostapd = open('/etc/hostapd/hostapd.conf', 'wb')
+			hostapd = open('hostapd-freenet.conf', 'wb')
 				#~ config_file = "interface="+wireless_interface+"\ndriver=nl80211\nssid=thisisme\nchannel=1\n#enable_karma=1\n"
 			config_file = "interface=wlan0\ndriver=nl80211\nssid=Free Internet\nchannel=1\n#enable_karma=1\n"
 			hostapd.write(config_file)
 			hostapd.close()
-			os.system("service hostapd start")
+			
+			os.system("gnome-terminal -x hostapd hostapd-freenet.conf &")
 			
 			os.system("""sed -i 's#^DAEMON_CONF=.*#DAEMON_CONF=/etc/hostapd/hostapd.conf#' /etc/init.d/hostapd
 			cat <<EOF > /etc/dnsmasq.conf
@@ -857,12 +863,19 @@ rsn_pairwise=CCMP
 		os.system("/sbin/ldconfig -v")
 		os.system("gnome-terminal -x radiusd -X &")
 		os.system("/usr/local/etc/raddb/certs/bootstrap &")
+		#~ os.system("airmon-ng check kill")
+		#~ print 'it is a about to sleep'
 		
+		time.sleep(5)
+		#~ print 'came back from sleep'
 		os.system("airmon-ng start wlan0 &")
+		#~ print 'airmong ng is started'
+		
 		
 		os.system("gnome-terminal -x hostapd hostapd-wpe.conf &")
-		os.system("gnome-terminal -x tail -f /usr/local/var/log/radius/freeradius-server-wpe.log &")
-		
+		#~ print 'hostapd started'
+		#~ os.system("gnome-terminal -x tail -f /usr/local/var/log/radius/freeradius-server-wpe.log &")
+		#~ print 'tail is started'
 		
 		
 		
@@ -1201,12 +1214,14 @@ class EvilWindow(wx.Frame):
 
 
 			#mon_interface = Popen(["airmon-ng", "start", wireless_interface], stdout=PIPE).communicate()[0]
-			hostapd = open('/etc/hostapd/hostapd.conf', 'wb')
+			
+			#~ hostapd = open('/etc/hostapd/hostapd.conf', 'wb')
+			hostapd = open('hostapd-evil.conf', 'wb')
 			#~ config_file = "interface="+wireless_interface+"\ndriver=nl80211\nssid=thisisme\nchannel=1\n#enable_karma=1\n"
 			config_file = "interface="+wireless_interface+"\ndriver=nl80211\nssid="+str(SSID)+"\nchannel=1\n#enable_karma=1\n"
 			hostapd.write(config_file)
 			hostapd.close()
-			os.system("service hostapd start")
+			os.system("gnome-terminal -x hostapd hostapd-evil.conf &")
 		
 			os.system("""sed -i 's#^DAEMON_CONF=.*#DAEMON_CONF=/etc/hostapd/hostapd.conf#' /etc/init.d/hostapd
 			cat <<EOF > /etc/dnsmasq.conf
@@ -1481,12 +1496,13 @@ class infernal_wireless(wx.Frame):
 			time.sleep(3)
 			
 			#mon_interface = Popen(["airmon-ng", "start", wireless_interface], stdout=PIPE).communicate()[0]
-			hostapd = open('/etc/hostapd/hostapd.conf', 'wb')
+			hostapd = open('infernal-hostapd.conf', 'wb')
 			#~ config_file = "interface="+wireless_interface+"\ndriver=nl80211\nssid=thisisme\nchannel=1\n#enable_karma=1\n"
 			config_file = "interface=wlan0\ndriver=nl80211\nssid="+str(ssid)+"\nchannel=1\n#enable_karma=1\n"
 			hostapd.write(config_file)
 			hostapd.close()
-			os.system("service hostapd start")
+			os.system("gnome-terminal -x hostapd infernal-hostapd.conf &")
+			
 		
 			os.system("""sed -i 's#^DAEMON_CONF=.*#DAEMON_CONF=/etc/hostapd/hostapd.conf#' /etc/init.d/hostapd
 			cat <<EOF > /etc/dnsmasq.conf
