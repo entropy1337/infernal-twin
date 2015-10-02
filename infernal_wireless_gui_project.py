@@ -396,8 +396,10 @@ class Example(wx.Frame):
 		os.system("airmon-ng stop wlan0mon")
 		os.system("kill  `ps aux | grep aircrack-ng | head -1 | awk '{print $2}'`")
 		os.system("kill  `ps aux | grep radiusd | head -1 | awk '{print $2}'`")
+		wx.MessageBox('Wait for 5 seconds', 'Info', wx.OK | wx.ICON_INFORMATION)
 		time.sleep(5)
-		print 'Giving some time to kill'
+		
+		wx.MessageBox('Done', 'Info', wx.OK | wx.ICON_INFORMATION)
 		
 	
 	def radiusd_check(self, e):
@@ -557,8 +559,10 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 			
 	################  FREE INTERNET ###############
 	def free_evil(self, e):
+		os.system("ifconfig wlan0 up")
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
 		(out, err) = proc.communicate()
+		
 		if 'wlan0' in out:
 			os.system("ifconfig eth0 up")
 
@@ -593,6 +597,8 @@ EOF""")
 			iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 			iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
 			echo '1' > /proc/sys/net/ipv4/ip_forward""")
+			
+			wx.MessageBox('Free Internet SSID is launched', 'Info', wx.OK | wx.ICON_INFORMATION)
 		elif 'eth0' not in out:
 			
 			wx.MessageBox('make sure you have eth0 interface', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
@@ -876,6 +882,7 @@ rsn_pairwise=CCMP
 		#~ print 'hostapd started'
 		#~ os.system("gnome-terminal -x tail -f /usr/local/var/log/radius/freeradius-server-wpe.log &")
 		#~ print 'tail is started'
+		wx.MessageBox('WPA2 Enterpise attack started', 'Info', wx.OK | wx.ICON_INFORMATION)
 		
 		
 		
@@ -1264,7 +1271,7 @@ log-queries
 		
 		
 		
-		
+		wx.MessageBox('Evil Twin Attack on '+str(text)+' is started', 'Info', wx.OK | wx.ICON_INFORMATION)
 		######## close the child frame
 		
 		self.Show(False)
