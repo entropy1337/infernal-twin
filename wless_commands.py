@@ -1,5 +1,7 @@
 from scapy.all import *
 import multiprocessing
+import re
+import subprocess
 import time
 
 __author__      = "Khalilov Mukhammad"
@@ -8,7 +10,7 @@ __copyright__   = "GNU V3.0"
 def start_probing():
 	def prob_request():
 		
-		os.system("airmon-ng start wlan2")
+		os.system("airmon-ng start wlan0")
 	
 		prob_log = open('prob_request.txt','a')
 		#interface = str(monitor)
@@ -21,8 +23,17 @@ def start_probing():
 					probReqs.append(netName)
 					print str(netName)
 					prob_log.write(netName+'\n')
+		
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out, err) = proc.communicate()
+
+		m = re.search('[wma]\S*', out)
+
+		monitoring_interface =  m.group(0)
+
+#~ print monitoring_interface
 				
-		sniff(iface='mon0', prn=sniffProbs, count=3000)
+		sniff(iface=monitoring_interface, prn=sniffProbs, count=3000)
 	prob_request()
 	os.system("airmon-ng stop mon0")
 
