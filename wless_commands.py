@@ -7,7 +7,7 @@ import time
 __author__      = "Khalilov Mukhammad"
 __copyright__   = "GNU V3.0"
 
-def start_probing():
+def start_probing(packet_num):
 	def prob_request():
 		
 		os.system("airmon-ng start wlan0")
@@ -32,8 +32,10 @@ def start_probing():
 		monitoring_interface =  m.group(0)
 
 #~ print monitoring_interface
-				
-		sniff(iface=monitoring_interface, prn=sniffProbs, count=3000)
+		#~ print "Number of packes to capture: " + numPackets
+		#~ print 'number of packets' + str(packet_num)		
+		sniff(iface=monitoring_interface, prn=sniffProbs, count=packet_num)
+		
 	prob_request()
 	os.system("airmon-ng stop mon0")
 

@@ -646,19 +646,35 @@ EOF""")
 	def probRequest(self, e):
 		
 		os.system("echo '' > prob_request.txt")
-		os.system("airmon-ng start wlan0")
+		os.system("ifconfig wlan0 up")
+		#~ os.system("airmon-ng start wlan0")
+		
 		print 'airmon-ng start is created'
+		wx.MessageBox('Small area : < 300\nMedium are: < 1000\nLarge area: 3000-4000\nOr You can go further up', 'Probe Capture Value Hints', wx.OK | wx.ICON_INFORMATION)
+		prob_packets = str(self.ask(message = 'Enter the Number for Probe Request Packets Capture')).strip()
+		
 		try:
 			
 			read_only_txt = wx.TextCtrl(self, -1, '**PROBE REQUEST**\n', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(20, 200),size=(400,600))
-			wless_commands.start_probing()
+			
+			#~ print 'the value is ' + prob_packets
+			
+			wless_commands.start_probing(int(prob_packets))
+			
+			#~ print 'probe scan started'
 			with open('prob_request.txt') as f:
 				for i in f:
 					if i.strip() != '':
 						read_only_txt.AppendText(str(i))
-			os.system("airmon-ng stop mon0")
+			proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+			(out, err) = proc.communicate()
+
+			m = re.search('[wma]\S*', out)
+
+			monitoring_interface =  m.group(0)			
+			os.system("airmon-ng stop "+str(monitoring_interface))
 		except:
-			wx.MessageBox('Perform Probe Scan adsfFirst', 'Warning', wx.ICON_INFORMATION)
+			wx.MessageBox('Perform Probe Scan First', 'Warning', wx.ICON_INFORMATION)
 			
 			
 	######################### probe scanner is ready #################			
