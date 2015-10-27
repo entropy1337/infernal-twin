@@ -27,7 +27,7 @@ cxn.query('CREATE DATABASE IF NOT EXISTS InfernalWireless')
 cxn.commit()
 cxn.close()
 
-cxn = MySQLdb.connect(db='InfernalWireless')
+cxn = MySQLdb.connect('localhost',str(dbfile[0]).replace('\n',''),str(dbfile[1]).replace('\n',''), db='InfernalWireless')
 
 cur = cxn.cursor()
 
