@@ -1,123 +1,117 @@
 This tool is created to aid the penetration testers in assessing wireless security. 
-Author is not responsible for misuse. 
+Author is not responsible for misuse. Please read instructions thoroughly.  
 
-Usage: python InfernalWireless.py (from the same folder where you codes exist)
-
-thank you for reading. 
+Usage: `python InfernalWireless.py` (from the same folder where your code exists)
 
 For any comments and suggestions please email on 3ntr0py1337@gmail.com
 
-NOTE:
-Please make sure to run the 'configure under File menu to install required software'
+**Note:** Please make sure to run the 'configure under File menu to install required software'
 
-FAQ:
-1) I have a problem with connecting to Database
+## FAQ:
 
-Solution: 
+### I have a problem with connecting to the Database
+
+**Solution:**
+
+*(Thanks to `@lightos` for this fix)*
 
 There seem to be few issues with Database connectivity. The solution is to create a new user on the database and use that user for launching the tool. Follow the following steps. 
 
 1. Delete dbconnect.conf file from the Infernalwireless folder
 
-2.run the following command from your mysql console.
+2. Run the following command from your mysql console.
 
-mysql>use mysql;
+	mysql>`use mysql;`
 
-mysql> CREATE USER 'root2'@'localhost' IDENTIFIED BY 'enter the new password here';
+	mysql>`CREATE USER 'root2'@'localhost' IDENTIFIED BY 'enter the new password here';`
 
-mysql> GRANT ALL PRIVILEGES ON \*.\* TO 'root2'@'localhost' WITH GRANT OPTION;
+	mysql>`GRANT ALL PRIVILEGES ON \*.\* TO 'root2'@'localhost' WITH GRANT OPTION;`
 
 3. Try to run the tool again. 
 
 
-   @lightos thank you for mentioning fix. 
+## Release Notes: 
 
-Release Notes: 
+### New Features:
 
----------------------------------------------------------------------
-Release 
----------------------------------------------------------------------
+* GUI Wireless security assessment SUIT
 
-NEW FEATURES:
+* Impelemented 
 
-- GUI Wireless security assessment SUIT
+* WPA2 hacking
 
-- Impelemented 
+* WEP Hacking
 
--- WPA2 hacking
+* WPA2 Enterprise hacking
 
--- WEP Hacking
+* Wireless Social Engineering
 
--- WPA2 Enterprise hacking
+* SSL Strip
 
--- Wireless Social Engineering
+* Report generation 
 
--- SSL Strip
+* PDF Report
 
--- Report generation 
+* HTML Report
 
---- PDF Report
+* Note taking function
 
---- HTML Report
+* Data is saved into Database
 
--- Note taking function
+* Network mapping 
 
--- Data is saved into Database
+* MiTM 
 
--- Network mapping 
-
--- MiTM 
-
--- Probe Request
+* Probe Request
 
 
-CHANGES:
-- Improved compatibility 
+### Changes:
 
-- Report improvement
+* Improved compatibility 
 
-- Better NAT Rules
+* Report improvement
 
-
-BUG FIXES:
-
-- Wireless Evil Access Point traffic redirect
-- Fixed WPA2 Cracking
-- Fixed Infernal Wireless
-- Fixed Free AP
-- Check for requirements
-- DB implementation via config file
-- Improved Catch and error
-- Check for requirements
-- Works with Kali 2
-
-Coming Soon: 
-- Parsing t-shark log files for gathering creds and more
-
-- More attacks.
-
-BUGS exptected: 
-- wireless card might not be supported
-
-- windodw might crash 
-
-- freeze
-
-- a lot of work to be done, but this tool is still being developed. 
-
-Thanks and Credits: 
-
-- Special thanks to all my friends for comments
-
-- creators: 
-
--- Aircrack
-
--- SSL Strip
-
--- Online Community
-
--- others whom I forgot to mention. 
+* Better NAT Rules
 
 
+### Bug Fixes:
 
+* Wireless Evil Access Point traffic redirect
+* Fixed WPA2 Cracking
+* Fixed Infernal Wireless
+* Fixed Free AP
+* Check for requirements
+* DB implementation via config file
+* Improved Catch and error
+* Check for requirements
+* Works with Kali 2
+
+### Coming Soon: 
+
+* Parsing t-shark log files for gathering creds and more
+
+* More attacks.
+
+### Expected bugs: 
+
+* Wireless card might not be supported
+
+* Windodw might crash 
+
+* Freeze
+
+* A lot of work to be done, but this tool is still being developed. 
+
+## Thanks and Credits: 
+
+* Special thanks to all my friends for comments
+
+* Creators: 
+
+   * Aircrack
+
+   * SSL Strip
+
+   * Online Community
+
+   * Others whom I forgot to mention. 
