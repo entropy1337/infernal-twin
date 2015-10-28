@@ -114,4 +114,4 @@ There seem to be few issues with Database connectivity. The solution is to creat
 
    * Online Community
 
-   * others whom I forgot to mention. 
+   * Others whom I forgot to mention. 
