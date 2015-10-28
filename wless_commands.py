@@ -11,6 +11,9 @@ def start_probing(packet_num):
 	def prob_request():
 		
 		os.system("airmon-ng start wlan0")
+		os.system("airmon-ng start wlan1")
+		os.system("airmon-ng start wlan2")
+		os.system("airmon-ng start wlan3")
 	
 		prob_log = open('prob_request.txt','a')
 		#interface = str(monitor)

