@@ -11,7 +11,7 @@ For any comments and suggestions please email on 3ntr0py1337@gmail.com
 
 ### I have a problem with connecting to the Database
 
-Solution: 
+**Solution:**
 
 *(Thanks to `@lightos` for this fix)*
 
