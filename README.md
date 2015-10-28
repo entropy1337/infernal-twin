@@ -7,7 +7,7 @@ For any comments and suggestions please email on 3ntr0py1337@gmail.com
 
 **NOTE:** Please make sure to run the 'configure under File menu to install required software'
 
-FAQ:
+## FAQ:
 
 1. I have a problem with connecting to Database
 
@@ -32,7 +32,7 @@ mysql>`GRANT ALL PRIVILEGES ON \*.\* TO 'root2'@'localhost' WITH GRANT OPTION;`
 
 ## Release Notes: 
 
-### NEW FEATURES:
+### New Features:
 
 * GUI Wireless security assessment SUIT
 
@@ -65,7 +65,7 @@ mysql>`GRANT ALL PRIVILEGES ON \*.\* TO 'root2'@'localhost' WITH GRANT OPTION;`
 * Probe Request
 
 
-### CHANGES:
+### Changes:
 
 * Improved compatibility 
 
@@ -74,7 +74,7 @@ mysql>`GRANT ALL PRIVILEGES ON \*.\* TO 'root2'@'localhost' WITH GRANT OPTION;`
 * Better NAT Rules
 
 
-### BUG FIXES:
+### Bug Fixes:
 
 * Wireless Evil Access Point traffic redirect
 * Fixed WPA2 Cracking
@@ -92,7 +92,7 @@ mysql>`GRANT ALL PRIVILEGES ON \*.\* TO 'root2'@'localhost' WITH GRANT OPTION;`
 
 * More attacks.
 
-### BUGS exptected: 
+### Expected bugs: 
 
 * Wireless card might not be supported
 
@@ -102,19 +102,16 @@ mysql>`GRANT ALL PRIVILEGES ON \*.\* TO 'root2'@'localhost' WITH GRANT OPTION;`
 
 * A lot of work to be done, but this tool is still being developed. 
 
-Thanks and Credits: 
+## Thanks and Credits: 
 
 * Special thanks to all my friends for comments
 
-* creators: 
+* Creators: 
 
-..* Aircrack
+   * Aircrack
 
-..* SSL Strip
+   * SSL Strip
 
-..* Online Community
+   * Online Community
 
-..* others whom I forgot to mention. 
-
-
-
+   * others whom I forgot to mention. 
