@@ -1,11 +1,11 @@
 This tool is created to aid the penetration testers in assessing wireless security. 
 Author is not responsible for misuse. Please read instructions thoroughly.  
 
-Usage: python InfernalWireless.py (from the same folder where you codes exist)
+Usage: `python InfernalWireless.py` (from the same folder where your code exists)
 
 For any comments and suggestions please email on 3ntr0py1337@gmail.com
 
-**NOTE:** Please make sure to run the 'configure under File menu to install required software'
+**Note:** Please make sure to run the 'configure under File menu to install required software'
 
 ## FAQ:
 
