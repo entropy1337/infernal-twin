@@ -9,9 +9,11 @@ For any comments and suggestions please email on 3ntr0py1337@gmail.com
 
 ## FAQ:
 
-1. I have a problem with connecting to Database
+### I have a problem with connecting to the Database
 
 Solution: 
+
+*(Thanks to `@lightos` for this fix)*
 
 There seem to be few issues with Database connectivity. The solution is to create a new user on the database and use that user for launching the tool. Follow the following steps. 
 
@@ -19,15 +21,13 @@ There seem to be few issues with Database connectivity. The solution is to creat
 
 2. Run the following command from your mysql console.
 
-mysql>`use mysql;`
+	mysql>`use mysql;`
 
-mysql>`CREATE USER 'root2'@'localhost' IDENTIFIED BY 'enter the new password here';`
+	mysql>`CREATE USER 'root2'@'localhost' IDENTIFIED BY 'enter the new password here';`
 
-mysql>`GRANT ALL PRIVILEGES ON \*.\* TO 'root2'@'localhost' WITH GRANT OPTION;`
+	mysql>`GRANT ALL PRIVILEGES ON \*.\* TO 'root2'@'localhost' WITH GRANT OPTION;`
 
 3. Try to run the tool again. 
-
-   Thanks to `@lightos` for mentioning fix. 
 
 
 ## Release Notes: 
