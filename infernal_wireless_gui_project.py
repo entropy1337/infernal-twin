@@ -710,8 +710,7 @@ EOF"""%iface)
 				p = r'SSID: \S*|cipher: \S*'
 				match = re.findall(p, output)
 				grouped = list(zip(*[iter(match)] * 2))
-				os.system('echo "" > wScan.log')
-				wireless_ssid_file = open('wScan.log', 'a')
+				wireless_ssid_file = open('wScan.log', 'w')
 				for i in grouped:
 					#print sorted(i)
 					read_only_txt.AppendText(str(sorted(i))+'\n')
@@ -739,7 +738,7 @@ EOF"""%iface)
 		(out, err) = proc.communicate()
 		m = re.search('[wma]\S*', out)
 		iface = m.group(0)
-		os.system("echo '' > prob_request.txt")
+		open('prob_request.txt', 'w').close()
 		os.system("ifconfig "+iface+" up")
 		#~ os.system("airmon-ng start wlan0")
 		
@@ -1441,7 +1440,7 @@ log-queries
 		######## close the child frame
 		
 		self.Show(False)
-		os.system("echo '' > wScan.log")
+		open('wScan.log', 'w').close()
 		
 ################## wpa2 crack capture is finished##########	
 class WPA2_crack(wx.Frame):
@@ -1494,8 +1493,7 @@ class WPA2_crack(wx.Frame):
 		#p = r'SSID: \S*|cipher: \S*|Authentication suites: \S*'
 		p = r'SSID: \S*|cipher: \S*'
 		match = re.findall(p, output)
-		os.system('echo "" > wScan_cracker.log')
-		wireless_ssid_file = open('wScan_cracker.log', 'a')
+		wireless_ssid_file = open('wScan_cracker.log', 'w')
 		grouped = list(zip(*[iter(match)] * 2))
 		for i in grouped:
 			
