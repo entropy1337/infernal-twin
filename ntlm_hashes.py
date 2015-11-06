@@ -41,8 +41,7 @@ class Example(wx.Frame):
         panel.SetSizer(vbox)
 	
     def clearlog(self, e):
-		
-        os.system("echo '' > /usr/local/var/log/radius/freeradius-server-wpe.log")
+        open('/usr/local/var/log/radius/freeradius-server-wpe.log', 'w').close()
 		
     def refresh(self, e):
 		pathtofile ="/usr/local/var/log/radius/freeradius-server-wpe.log"
