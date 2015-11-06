@@ -9,12 +9,7 @@ __copyright__   = "GNU V3.0"
 
 def start_probing(packet_num):
 	def prob_request():
-		
-		os.system("airmon-ng start wlan0")
-		os.system("airmon-ng start wlan1")
-		os.system("airmon-ng start wlan2")
-		os.system("airmon-ng start wlan3")
-	
+		start_airmon()
 		prob_log = open('prob_request.txt','a')
 		#interface = str(monitor)
 	
@@ -27,20 +22,39 @@ def start_probing(packet_num):
 					print str(netName)
 					prob_log.write(netName+'\n')
 		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
 
-		m = re.search('[wma]\S*', out)
-
-		monitoring_interface =  m.group(0)
-
+		monitoring_interfaces = get_monitoring_interfaces()
 #~ print monitoring_interface
 		#~ print "Number of packes to capture: " + numPackets
 		#~ print 'number of packets' + str(packet_num)		
-		sniff(iface=monitoring_interface, prn=sniffProbs, count=packet_num)
+		sniff(iface=monitoring_interfaces[0], prn=sniffProbs, count=packet_num)
 		
 	prob_request()
 	os.system("airmon-ng stop mon0")
+
+def bring_wlan_devs_up():
+	"""Bring up all wlan interfaces."""
+	for dev in sorted(get_net_devices()):
+		if re.search(r'^wlan[0-9]$', dev):
+			os.system("ifconfig %s up" % dev)
+
+def get_net_devices():
+	"""Return list of network devices."""
+	with open('/proc/net/dev', 'r') as fhandle:
+		lines = [line.lstrip() for line in fhandle.readlines()]
+
+	return [line.split(':', 1)[0] for line in lines
+		if not (line.startswith('face') or line.startswith('Inter-'))]
+
+def get_monitoring_interfaces():
+	return [dev for dev in sorted(get_net_devices())
+		if re.match(r'[wma]\S*', dev)]
+
+def start_airmon():
+	"""Start airmon at all wlan interfaces."""
+	for dev in sorted(get_net_devices()):
+		if re.match(r'^wlan[0-9]$', dev):
+			os.system("airmon-ng start %s" % dev)
 
 #~ start_probing()
  # iwconfig wlan0 mode monitor

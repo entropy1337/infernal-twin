@@ -8,6 +8,7 @@ import wless_commands
 from scapy.all import *
 import os
 import time
+import traceback
 from subprocess import *
 from bs4 import BeautifulSoup
 from wp2_crack import *
@@ -20,7 +21,6 @@ import fakePagecreate
 import ntlm_hashes
 import access_to_db
 from project_form import *
-
 
 
 
@@ -694,17 +694,9 @@ EOF"""%iface)
 	def wireless_scan(self,e):
 		
 		try:
-			
-			os.system("ifconfig wlan0 up")
-			os.system("ifconfig wlan1 up")
-			os.system("ifconfig wlan2 up")
-			os.system("ifconfig wlan3 up")
-			os.system("ifconfig wlan4 up")
-			proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-			(out, err) = proc.communicate()
-			m = re.search('[wma]\S*', out)
-			iface = m.group(0)
-			
+			wless_commands.bring_wlan_devs_up()
+			iface = wless_commands.get_monitoring_interfaces()[0]
+			logging.debug('WiFi scan interface: %s', iface)
 			os.system("ifconfig "+iface+" up")
 			
 			proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
@@ -726,9 +718,10 @@ EOF"""%iface)
 					wireless_ssid_file.write(str(sorted(i))+'\n')
 				wireless_ssid_file.close()
 			else:
-				wx.MessageBox('I could not bring up interface wlan0', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
+				wx.MessageBox('I could not bring up interface %s' % iface, 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
 		except:
-			wx.MessageBox('I could not bring up interface wlan0', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
+			wx.MessageBox('Failed to get a scan of wireless networks.', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
+			logging.error(traceback.format_exc())
 		######################### wireless scanner is ready #################
 
 			
