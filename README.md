@@ -1,4 +1,4 @@
-This tool is created to aid the penetration testers in assessing wireless security. 
+This tool is created to aid the penetration testers in assessing wireless security.
 Author is not responsible for misuse. Please read instructions thoroughly.  
 
 Usage: `python InfernalWireless.py` (from the same folder where your code exists)
@@ -15,7 +15,7 @@ For any comments and suggestions please email on 3ntr0py1337@gmail.com
 
 *(Thanks to `@lightos` for this fix)*
 
-There seem to be few issues with Database connectivity. The solution is to create a new user on the database and use that user for launching the tool. Follow the following steps. 
+There seem to be few issues with Database connectivity. The solution is to create a new user on the database and use that user for launching the tool. Follow the following steps.
 
 1. Delete dbconnect.conf file from the Infernalwireless folder
 
@@ -27,16 +27,16 @@ There seem to be few issues with Database connectivity. The solution is to creat
 
 	mysql>`GRANT ALL PRIVILEGES ON \*.\* TO 'root2'@'localhost' WITH GRANT OPTION;`
 
-3. Try to run the tool again. 
+3. Try to run the tool again.
 
 
-## Release Notes: 
+## Release Notes:
 
 ### New Features:
 
 * GUI Wireless security assessment SUIT
 
-* Impelemented 
+* Impelemented
 
 * WPA2 hacking
 
@@ -48,7 +48,7 @@ There seem to be few issues with Database connectivity. The solution is to creat
 
 * SSL Strip
 
-* Report generation 
+* Report generation
 
 * PDF Report
 
@@ -58,16 +58,16 @@ There seem to be few issues with Database connectivity. The solution is to creat
 
 * Data is saved into Database
 
-* Network mapping 
+* Network mapping
 
-* MiTM 
+* MiTM
 
 * Probe Request
 
 
 ### Changes:
 
-* Improved compatibility 
+* Improved compatibility
 
 * Report improvement
 
@@ -86,27 +86,27 @@ There seem to be few issues with Database connectivity. The solution is to creat
 * Check for requirements
 * Works with Kali 2
 
-### Coming Soon: 
+### Coming Soon:
 
 * Parsing t-shark log files for gathering creds and more
 
 * More attacks.
 
-### Expected bugs: 
+### Expected bugs:
 
 * Wireless card might not be supported
 
-* Windodw might crash 
+* Might crash on Windows
 
 * Freeze
 
-* A lot of work to be done, but this tool is still being developed. 
+* A lot of work to be done, but this tool is still being developed.
 
-## Thanks and Credits: 
+## Thanks and Credits:
 
 * Special thanks to all my friends for comments
 
-* Creators: 
+* Creators:
 
    * Aircrack
 
@@ -114,4 +114,4 @@ There seem to be few issues with Database connectivity. The solution is to creat
 
    * Online Community
 
-   * Others whom I forgot to mention. 
+   * Others whom I forgot to mention.
