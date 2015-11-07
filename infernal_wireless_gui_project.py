@@ -400,14 +400,7 @@ class Example(wx.Frame):
 		self.Close()
 		
 	def killall(self, e):
-		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
-
-		m = re.search('[wma]\S*', out)
-
-		monitoring_interface =  m.group(0)
-		
+		monitoring_interface = wless_commands.get_monitoring_interfaces()[0]
 		os.system("airmon-ng check kill &")
 		os.system("kill  `ps aux | grep hostapd | head -1 | awk '{print $2}'`")
 		os.system("kill  `ps aux | grep dnsmasq | head -1 | awk '{print $2}'`")
@@ -453,13 +446,7 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 		self.Close(True)
 	
 	def mapWireless(self, e):
-		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
-		m = re.search('[wma]\S*', out)
-		
-		iface = m.group(0)
-		
+		iface = wless_commands.get_monitoring_interfaces()[0]
 		os.system("ifconfig "+iface+" up")
 		#os.system("airmon-ng stop mon0")
 		os.system("airmon-ng start "+iface)
@@ -474,12 +461,7 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 		user = str(ask(message = 'Enter the name for the dump file\nHit Ctrl+C on Dump Window to Stop Scanning')).strip()
 		os.system('mkdir ' + user)
 		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
-
-		m = re.search('[wma]\S*', out)
-
-		monitoring_interface =  m.group(0)
+		monitoring_interface = wless_commands.get_monitoring_interfaces()[0]
 		
 		os.system("airodump-ng -w "+user+"/"+user+" "+monitoring_interface)
 		
@@ -585,13 +567,7 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
 		(out2, err) = proc.communicate()
 		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		
-		(out, err) = proc.communicate()
-
-		m = re.search('[wma]\S*', out)
-
-		monitoring_interface =  m.group(0)
+		monitoring_interface = wless_commands.get_monitoring_interfaces()[0]
 		
 		if monitoring_interface in out2:
 			
@@ -609,13 +585,7 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
 		(out2, err) = proc.communicate()
 		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		
-		(out, err) = proc.communicate()
-
-		m = re.search('[wma]\S*', out)
-
-		monitoring_interface =  m.group(0)
+		monitoring_interface = wless_commands.get_monitoring_interfaces()[0]
 				
 		if monitoring_interface in out2:
 			#os.system("airmon-ng start wlan0")
@@ -628,11 +598,7 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 			
 	################  FREE INTERNET ###############
 	def free_evil(self, e):
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
-		m = re.search('[wma]\S*', out)
-		
-		iface = m.group(0)
+		iface = wless_commands.get_monitoring_interfaces()[0]
 		
 		os.system("ifconfig "+iface+" up")
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
@@ -733,11 +699,7 @@ EOF"""%iface)
 				
 	
 	def probRequest(self, e):
-		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
-		m = re.search('[wma]\S*', out)
-		iface = m.group(0)
+		iface = wless_commands.get_monitoring_interfaces()[0]
 		open('prob_request.txt', 'w').close()
 		os.system("ifconfig "+iface+" up")
 		#~ os.system("airmon-ng start wlan0")
@@ -759,12 +721,8 @@ EOF"""%iface)
 				for i in f:
 					if i.strip() != '':
 						read_only_txt.AppendText(str(i))
-			proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-			(out, err) = proc.communicate()
 
-			m = re.search('[wma]\S*', out)
-
-			monitoring_interface =  m.group(0)			
+			monitoring_interface = wless_commands.get_monitoring_interfaces()[0]
 			os.system("airmon-ng stop "+str(monitoring_interface))
 		except:
 			wx.MessageBox('Please try to Kill Srv', 'Warning', wx.ICON_INFORMATION)
@@ -797,12 +755,7 @@ EOF"""%iface)
 			wx.MessageBox('You did not enter SSID or Canceled the attack', 'Warning', wx.ICON_INFORMATION)
 		
 	def captureIV(self, e):
-		
-		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
-		m = re.search('[wma]\S*', out)
-		iface = m.group(0)
+		iface = wless_commands.get_monitoring_interfaces()[0]
 		
 		os.system("ifconfig "+iface+" up")
 		os.system("gnome-terminal -x airmon-ng start "+iface+" &")
@@ -811,14 +764,7 @@ EOF"""%iface)
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
 		(out, err) = proc.communicate()
 		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		
-		(out2, err) = proc.communicate()
-
-		m = re.search('[wma]\S*', out2)
-
-		monitoring_interface =  m.group(0)
-		
+		monitoring_interface = wless_commands.get_monitoring_interfaces()[0]
 		os.system("gnome-terminal -x airodump-ng "+monitoring_interface+" &")
 		#~ print 'Attack is launched  is created'
 		if 'mon0' in out:
@@ -838,23 +784,13 @@ EOF"""%iface)
 			
 	
 	def fakeAPauth(self, e):
-		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
-		m = re.search('[wma]\S*', out)
-		iface = m.group(0)
-
+		iface = wless_commands.get_monitoring_interfaces()[0]
 		os.system("ifconfig "+iface+" up")
 			
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
 		(out, err) = proc.communicate()
 		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out2, err) = proc.communicate()
-
-		m = re.search('[wma]\S*', out2)
-
-		monitoring_interface =  m.group(0)
+		monitoring_interface = wless_commands.get_monitoring_interfaces()[0]
 		
 		if monitoring_interface in out:
 					
@@ -886,12 +822,7 @@ EOF"""%iface)
 			ask_mac = str(ask(message = 'Enter the AP MAC Address')).strip()
 			host_mac = str(ask(message = 'Enter the HOST MAC Address')).strip()
 			
-			proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-			(out, err) = proc.communicate()
-
-			m = re.search('[wma]\S*', out)
-
-			monitoring_interface =  m.group(0)
+			monitoring_interface = wless_commands.get_monitoring_interfaces()[0]
 			
 			os.system("gnome-terminal -x aireplay-ng -3 -b "+ask_mac+" -h "+host_mac+" "+monitoring_interface+" &")
 		except:
@@ -985,11 +916,7 @@ iptables -t nat -A POSTROUTING -j MASQUERADE
 #~ wpa_pairwise=TKIP CCMP""" %SSID
 		#~ 
 		
-		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
-		m = re.search('[wma]\S*', out)
-		iface = m.group(0)
+		iface = wless_commands.get_monitoring_interfaces()[0]
 		
 		configuration = """interface=%s
 driver=nl80211
@@ -1024,10 +951,7 @@ rsn_pairwise=CCMP
 		time.sleep(5)
 		#~ print 'came back from sleep'
 		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
-		m = re.search('[wma]\S*', out)
-		iface = m.group(0)
+		iface = wless_commands.get_monitoring_interfaces()[0]
 		
 		#~ os.system("airmon-ng start "+iface+" &")
 		#~ print 'airmong ng is started'
@@ -1410,11 +1334,7 @@ log-queries
 
 			os.system("service dnsmasq start")
 
-			proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-			(out, err) = proc.communicate()
-			m = re.search('[wma]\S*', out)
-			
-			iface = m.group(0)
+			iface = wless_commands.get_monitoring_interfaces()[0]
 			os.system("""ifconfig %s up
 			ifconfig %s 10.0.0.1/24
 
@@ -1479,12 +1399,7 @@ class WPA2_crack(wx.Frame):
     app_select= ''
     
     def wireless_scan_cracker(self):
-		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
-		m = re.search('[wma]\S*', out)
-		
-		iface = m.group(0)
+		iface = wless_commands.get_monitoring_interfaces()[0]
 		
 		os.system("ifconfig "+iface+" up")
 		read_only_txt = wx.TextCtrl(self, -1, '', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(20, 200),size=(400,600))
@@ -1510,25 +1425,14 @@ class WPA2_crack(wx.Frame):
 				self.listbox.Append(i)
 
     def wpa_crack_key(self, SSID):
-		
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		(out, err) = proc.communicate()
-		m = re.search('[wma]\S*', out)
-		
-		iface = m.group(0)
+		iface = wless_commands.get_monitoring_interfaces()[0]
 		
 		os.system("airmon-ng start "+iface)
 		#os.system("mkdir capture")
 		print 'wpa2 hack is started'
 		
 		##os.system("airodump-ng --essid "+str(SSID)+" --write "+str(SSID)+"_crack mon0")
-		proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-		
-		(out, err) = proc.communicate()
-
-		m = re.search('[wma]\S*', out)
-
-		monitoring_interface =  m.group(0)
+		monitoring_interface = wless_commands.get_monitoring_interfaces()[0]
 		
 		#~ os.system("gnome-terminal -x airodump-ng --essid "+SSID+" --write capture/"+SSID+"_crack mon0")
 		os.system("airodump-ng --essid "+SSID+" --write capture/"+SSID+"_crack "+monitoring_interface+" &")
@@ -1686,11 +1590,7 @@ class infernal_wireless(wx.Frame):
 			os.system('firefox http://localhost/index.html &')
 			time.sleep(3)
 			
-			proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-			(out, err) = proc.communicate()
-			m = re.search('[wma]\S*', out)
-			
-			iface = m.group(0)
+			iface = wless_commands.get_monitoring_interfaces()[0]
 			
 			#mon_interface = Popen(["airmon-ng", "start", wireless_interface], stdout=PIPE).communicate()[0]
 			hostapd = open('infernal-hostapd.conf', 'wb')
@@ -1738,11 +1638,7 @@ EOF""")
 #~ iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.0.0.1:80
 #~ iptables -t nat -A POSTROUTING -j MASQUERADE""")
 			
-			proc = subprocess.Popen(["ls /sys/class/net"], stdout=subprocess.PIPE, shell=True)
-			(out, err) = proc.communicate()
-			m = re.search('[wma]\S*', out)
-			
-			iface = m.group(0)
+			iface = wless_commands.get_monitoring_interfaces()[0]
 			
 			os.system("""ifconfig """+iface+""" up
 			ifconfig """+iface+""" 10.0.0.1/24
