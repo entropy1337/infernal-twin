@@ -105,7 +105,7 @@ There seem to be few issues with Database connectivity. The solution is to creat
 ## Thanks and Credits:
 
 * Special thanks to all my friends for comments and feedbacks. 
-* Thank you zstyblik for your patches. 
+* Thank you zstyblik a lot for your patches, suggestions and improvements on the tool.
 
 * Creators:
 
