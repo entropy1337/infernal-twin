@@ -657,35 +657,75 @@ EOF"""%iface)
 	################ FREE INTERNET ################	
 		
 		######################### wireless scanner is ready #################
-	def wireless_scan(self,e):
-		
-		try:
-			wless_commands.bring_wlan_devs_up()
-			iface = wless_commands.get_monitoring_interfaces()[0]
-			logging.debug('WiFi scan interface: %s', iface)
-			os.system("ifconfig "+iface+" up")
-			
-			proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
-			(out, err) = proc.communicate()
-			if iface in out:
-				
-				read_only_txt = wx.TextCtrl(self, -1, '**WIRELESS SCAN**\n', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(20, 200),size=(400,600))
-				output = str(commands.getstatusoutput("iw "+iface+" scan")[1])
-		
-				p = r'SSID: \S*|cipher: \S*|Authentication suites: \S*'
-				p = r'SSID: \S*|cipher: \S*'
-				match = re.findall(p, output)
-				grouped = list(zip(*[iter(match)] * 2))
-				wireless_ssid_file = open('wScan.log', 'w')
-				for i in grouped:
-					#print sorted(i)
-					read_only_txt.AppendText(str(sorted(i))+'\n')
-					wireless_ssid_file.write(str(sorted(i))+'\n')
-				wireless_ssid_file.close()
+	def parse_iw_scan(self, iw_output):
+		"""Parse output of % iw <iface> scan; command."""
+		parsed = []
+		iw_net = {
+			'BSS': None,
+			'SSID': None,
+			'ciphers': None,
+		}
+		reBSS = re.compile(r'^BSS [\w\d]{2}:.+\(')
+		reGroup = re.compile(r'Group cipher: ')
+		for line in iw_output.splitlines():
+			line = line.strip()
+			if line == '':
+				continue
+
+			if line.startswith('BSS '):
+				match = reBSS.search(line)
+				if not match:
+					continue
+				elif iw_net['BSS']:
+					parsed.append(iw_net.copy())
+					for key in iw_net:
+						iw_net[key] = None
+
+				iw_net['BSS'] = line.split('(', 1)[0].replace('BSS ', '')
+			elif line.startswith('SSID: '):
+				iw_net['SSID'] = line.split(':', 1)[1][1:]
+			elif reGroup.search(line):
+				iw_net['ciphers'] = line.split(':', 1)[1][1:]
 			else:
-				wx.MessageBox('I could not bring up interface %s' % iface, 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
+				continue
+
+		if iw_net['BSS']:
+			parsed.append(iw_net.copy())
+
+		return parsed
+
+	def wireless_scan(self, e):
+		try:
+			iface = wless_commands.get_monitoring_interfaces()[0]
+			wless_commands.bring_wlan_devs_up([iface])
+			read_only_txt = wx.TextCtrl(self, -1, '**WIRELESS SCAN**\n',
+				style=wx.TE_MULTILINE|wx.TE_READONLY,
+				pos=(20, 200),size=(400,600))
+			logging.debug('WiFi scan in progress at %s.', iface)
+			proc1 = subprocess.Popen(['iw', iface, 'scan'],
+					stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			out, err = proc1.communicate()
+			if proc1.returncode != 0:
+				raise ValueError
+
+			logging.debug('WiFi scan complete.')
+			parsed_out = self.parse_iw_scan(out)
+			wireless_ssid_file = open('wScan.log', 'w')
+			for iw_network in parsed_out:
+				text = ('[SSID: %(SSID)s, BSS: %(BSS)s, Ciphers: %(ciphers)s]\n'
+						% iw_network)
+				read_only_txt.AppendText(text)
+				wireless_ssid_file.write(text)
+
+			wireless_ssid_file.close()
+		except IndexError:
+			wx.MessageBox('Failed to get a wireless interface.',
+						'Warning/Error',
+						wx.ICON_ERROR | wx.ICON_INFORMATION)
 		except:
-			wx.MessageBox('Failed to get a scan of wireless networks.', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
+			wx.MessageBox('Failed to get a scan of wireless networks.',
+						'Warning/Error',
+						wx.ICON_ERROR | wx.ICON_INFORMATION)
 			logging.error(traceback.format_exc())
 		######################### wireless scanner is ready #################
 
