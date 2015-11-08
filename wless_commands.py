@@ -32,10 +32,14 @@ def start_probing(packet_num):
 	prob_request()
 	os.system("airmon-ng stop mon0")
 
-def bring_wlan_devs_up():
+def bring_wlan_devs_up(devices=[]):
 	"""Bring up all wlan interfaces."""
-	for dev in sorted(get_net_devices()):
+	if not devices:
+		devices = sorted(get_net_devices())
+
+	for dev in devices:
 		if re.search(r'^wlan[0-9]$', dev):
+			logging.debug('ifup at %s', dev)
 			os.system("ifconfig %s up" % dev)
 
 def get_net_devices():
