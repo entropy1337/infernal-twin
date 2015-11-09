@@ -1,28 +1,29 @@
-import wx
-import logging
-logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
-
 #from scapy.all import *
-import commands, re
-import wless_commands
-from scapy.all import *
+import InfernalWireless
+import access_to_db
+import commands
+import create_db_hotspot
+import fakePagecreate
+import httplib
+import logging
+import notepad
+import ntlm_hashes
 import os
+import re
+import redirecthandle
+import subprocess
 import time
 import traceback
-from subprocess import *
-from bs4 import BeautifulSoup
-from wp2_crack import *
-import create_db_hotspot
-import urllib2, httplib, redirecthandle
+import urllib2
+import wless_commands
+import wx
 import wx.html
-import notepad
-import InfernalWireless
-import fakePagecreate
-import ntlm_hashes
-import access_to_db
+from bs4 import BeautifulSoup
 from project_form import *
+from scapy.all import *
+from wp2_crack import *
 
-
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
 class Example(wx.Frame):
 	
