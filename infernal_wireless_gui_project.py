@@ -1,7 +1,6 @@
 #from scapy.all import *
 import InfernalWireless
 import access_to_db
-import commands
 import create_db_hotspot
 import fakePagecreate
 import httplib
@@ -1444,7 +1443,9 @@ class WPA2_crack(wx.Frame):
 		
 		os.system("ifconfig "+iface+" up")
 		read_only_txt = wx.TextCtrl(self, -1, '', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(20, 200),size=(400,600))
-		output = str(commands.getstatusoutput("iw "+iface+" scan")[1])
+		proc1 = subprocess.Popen(['iw', iface, 'up'], stdout=subprocess.PIPE,
+				stderr=subprocess.PIPE)
+		output, err = proc1.communicate()
 
 		#p = r'SSID: \S*|cipher: \S*|Authentication suites: \S*'
 		p = r'SSID: \S*|cipher: \S*'
