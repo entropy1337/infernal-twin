@@ -447,9 +447,9 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 	
 	def mapWireless(self, e):
 		iface = wless_commands.get_monitoring_interfaces()[0]
-		os.system("ifconfig "+iface+" up")
+		wless_commands.bring_wlan_devs_up([iface])
 		#os.system("airmon-ng stop mon0")
-		os.system("airmon-ng start "+iface)
+		wless_commands.start_airmon([iface])
 		def ask(parent=None, message='', default_value=''):
 			
 			dlg = wx.TextEntryDialog(parent, message, defaultValue=default_value)
@@ -600,7 +600,7 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 	def free_evil(self, e):
 		iface = wless_commands.get_monitoring_interfaces()[0]
 		
-		os.system("ifconfig "+iface+" up")
+		wless_commands.bring_wlan_devs_up([iface])
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
 		(out, err) = proc.communicate()
 		
@@ -741,7 +741,7 @@ EOF"""%iface)
 	def probRequest(self, e):
 		iface = wless_commands.get_monitoring_interfaces()[0]
 		open('prob_request.txt', 'w').close()
-		os.system("ifconfig "+iface+" up")
+		wless_commands.bring_wlan_devs_up([iface])
 		#~ os.system("airmon-ng start wlan0")
 		
 		print 'airmon-ng start is created'
@@ -796,8 +796,7 @@ EOF"""%iface)
 		
 	def captureIV(self, e):
 		iface = wless_commands.get_monitoring_interfaces()[0]
-		
-		os.system("ifconfig "+iface+" up")
+		wless_commands.bring_wlan_devs_up([iface])
 		os.system("gnome-terminal -x airmon-ng start "+iface+" &")
 		#~ print 'mon0 is created'
 		time.sleep(5)	
@@ -825,8 +824,8 @@ EOF"""%iface)
 	
 	def fakeAPauth(self, e):
 		iface = wless_commands.get_monitoring_interfaces()[0]
-		os.system("ifconfig "+iface+" up")
-			
+		wless_commands.bring_wlan_devs_up([iface])
+
 		proc = subprocess.Popen(["ifconfig", ""], stdout=subprocess.PIPE, shell=True)
 		(out, err) = proc.communicate()
 		
@@ -1441,7 +1440,7 @@ class WPA2_crack(wx.Frame):
     def wireless_scan_cracker(self):
 		iface = wless_commands.get_monitoring_interfaces()[0]
 		
-		os.system("ifconfig "+iface+" up")
+		wless_commands.bring_wlan_devs_up([iface])
 		read_only_txt = wx.TextCtrl(self, -1, '', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(20, 200),size=(400,600))
 		proc1 = subprocess.Popen(['iw', iface, 'up'], stdout=subprocess.PIPE,
 				stderr=subprocess.PIPE)
@@ -1469,7 +1468,7 @@ class WPA2_crack(wx.Frame):
     def wpa_crack_key(self, SSID):
 		iface = wless_commands.get_monitoring_interfaces()[0]
 		
-		os.system("airmon-ng start "+iface)
+		wless_commands.start_airmon([iface])
 		#os.system("mkdir capture")
 		print 'wpa2 hack is started'
 		
