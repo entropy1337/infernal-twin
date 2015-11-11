@@ -1114,8 +1114,6 @@ class wpa_cracker(wx.Frame):
 		print self.capturelist
 		print mySSID.GetValue()
 		
-		import subprocess
-		
 		#~ test = subprocess.Popen(["aircrack-ng","-w",self.wordlist,self.capturelist,"-l","captures/key_found.txt"], stdout=subprocess.PIPE)
 		
 		
@@ -1240,7 +1238,6 @@ class wpa2enterprise_cracker(wx.Frame):
 		
 		#~ os.system("gnome-terminal -x asleap -C "+self.g_challenge+" -R "+self.g_response+" -W "+self.wordlist+ " read")
 		print str(self.wordlist)
-		import subprocess
 		test = subprocess.Popen(["asleap","-C",str(self.g_challenge.GetValue()),"-R",str(self.g_response.GetValue()),"-W",str(self.filepath)], stdout=subprocess.PIPE)
 		output = test.communicate()[0]
 		
