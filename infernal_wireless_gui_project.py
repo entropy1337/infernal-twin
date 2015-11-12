@@ -1,4 +1,3 @@
-#from scapy.all import *
 import InfernalWireless
 import access_to_db
 import create_db_hotspot
