@@ -1,4 +1,5 @@
 from scapy.all import *
+import logging
 import multiprocessing
 import re
 import subprocess
