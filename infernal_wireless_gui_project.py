@@ -1292,8 +1292,27 @@ class suggestions(wx.Frame):
 class wifi_card_info(wx.Frame):
 	def __init__(self, parent, title):
 		wx.Frame.__init__(self, parent, -1, title)
+		net_devs = wless_commands.get_net_devices()
+		lines = []
+		for dev in sorted(net_devs):
+			info = wless_commands.get_net_device_info(dev)
+			if not info:
+				logging.error('Failed to get information about device %s.', dev)
+				continue
+			elif not info['wireless']:
+				continue
+
+			lines.append(('<li>%s, MAC %s, link state: %s'
+				% (dev, info['mac_address'], info['link_state'])))
+
+
+		if not lines:
+			text = 'No wireless card found?'
+		else:
+			text = '<ul>\n%s\n</ul>\n' % '\n'.join(lines)
+
 		html = wx.html.HtmlWindow(self)
-		html.SetPage("Following is the information about the wireless card")
+		html.SetPage(text)
 		
 class EvilWindow(wx.Frame):
 	
