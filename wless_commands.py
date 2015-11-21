@@ -34,6 +34,43 @@ def start_probing(packet_num):
 	prob_request()
 	os.system("airmon-ng stop mon0")
 
+def _parse_iw_scan(iw_output):
+	"""Parse output of % iw <iface> scan; command."""
+	parsed = []
+	iw_net = {
+		'BSS': None,
+		'SSID': None,
+		'ciphers': None,
+	}
+	reBSS = re.compile(r'^BSS [\w\d]{2}:.+\(')
+	reGroup = re.compile(r'Group cipher: ')
+	for line in iw_output.splitlines():
+		line = line.strip()
+		if line == '':
+			continue
+
+		if line.startswith('BSS '):
+			match = reBSS.search(line)
+			if not match:
+				continue
+			elif iw_net['BSS']:
+				parsed.append(iw_net.copy())
+				for key in iw_net:
+					iw_net[key] = None
+
+			iw_net['BSS'] = line.split('(', 1)[0].replace('BSS ', '')
+		elif line.startswith('SSID: '):
+			iw_net['SSID'] = line.split(':', 1)[1][1:]
+		elif reGroup.search(line):
+			iw_net['ciphers'] = line.split(':', 1)[1][1:]
+		else:
+			continue
+
+	if iw_net['BSS']:
+		parsed.append(iw_net.copy())
+
+	return parsed
+
 def bring_wlan_devs_up(devices=[]):
 	"""Bring up all wlan interfaces."""
 	if not devices:
@@ -81,6 +118,19 @@ def get_net_devices():
 def get_monitoring_interfaces():
 	return [dev for dev in sorted(get_net_devices())
 		if re.match(r'[wma]\S*', dev)]
+
+def get_wireless_scan(device):
+	"""Return parsed wireless scan from given interface."""
+	logging.debug('WiFi scan in progress at %s.', device)
+	bring_wlan_devs_up([device])
+	proc1 = subprocess.Popen(['iw', device, 'scan'],
+			stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	out, err = proc1.communicate()
+	if proc1.returncode != 0:
+		raise ValueError
+
+	logging.debug('WiFi scan complete.')
+	return _parse_iw_scan(out)
 
 def start_airmon(devices=[]):
 	"""Start airmon at all wlan interfaces."""

@@ -649,43 +649,6 @@ EOF"""%wlan_iface)
 	################ FREE INTERNET ################	
 		
 		######################### wireless scanner is ready #################
-	def parse_iw_scan(self, iw_output):
-		"""Parse output of % iw <iface> scan; command."""
-		parsed = []
-		iw_net = {
-			'BSS': None,
-			'SSID': None,
-			'ciphers': None,
-		}
-		reBSS = re.compile(r'^BSS [\w\d]{2}:.+\(')
-		reGroup = re.compile(r'Group cipher: ')
-		for line in iw_output.splitlines():
-			line = line.strip()
-			if line == '':
-				continue
-
-			if line.startswith('BSS '):
-				match = reBSS.search(line)
-				if not match:
-					continue
-				elif iw_net['BSS']:
-					parsed.append(iw_net.copy())
-					for key in iw_net:
-						iw_net[key] = None
-
-				iw_net['BSS'] = line.split('(', 1)[0].replace('BSS ', '')
-			elif line.startswith('SSID: '):
-				iw_net['SSID'] = line.split(':', 1)[1][1:]
-			elif reGroup.search(line):
-				iw_net['ciphers'] = line.split(':', 1)[1][1:]
-			else:
-				continue
-
-		if iw_net['BSS']:
-			parsed.append(iw_net.copy())
-
-		return parsed
-
 	def wireless_scan(self, e):
 		wlan_ifaces = wless_commands.get_monitoring_interfaces()
 		if not wlan_ifaces:
@@ -696,23 +659,14 @@ EOF"""%wlan_iface)
 
 		mon_iface = wlan_ifaces[0]
 		try:
-			wless_commands.bring_wlan_devs_up([mon_iface])
 			read_only_txt = wx.TextCtrl(self, -1, '**WIRELESS SCAN**\n',
 				style=wx.TE_MULTILINE|wx.TE_READONLY,
 				pos=(20, 200),size=(400,600))
-			logging.debug('WiFi scan in progress at %s.', mon_iface)
-			proc1 = subprocess.Popen(['iw', mon_iface, 'scan'],
-					stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-			out, err = proc1.communicate()
-			if proc1.returncode != 0:
-				raise ValueError
-
-			logging.debug('WiFi scan complete.')
-			parsed_out = self.parse_iw_scan(out)
+			iw_nets = wless_commands.get_wireless_scan(mon_iface)
 			wireless_ssid_file = open('wScan.log', 'w')
-			for iw_network in parsed_out:
+			for iw_net in iw_nets:
 				text = ('[SSID: %(SSID)s, BSS: %(BSS)s, Ciphers: %(ciphers)s]\n'
-						% iw_network)
+						% iw_net)
 				read_only_txt.AppendText(text)
 				wireless_ssid_file.write(text)
 
@@ -1432,7 +1386,7 @@ class WPA2_crack(wx.Frame):
         select = wx.Button(btnPanel, -1, 'Select SSID', size=(100, 30))
         attack = wx.Button(btnPanel, -1, 'Attack', size=(100, 30))
         
-        self.Bind(wx.EVT_BUTTON, self.ScanW, id=-1)
+        self.Bind(wx.EVT_BUTTON, self.wireless_scan, id=-1)
         
         attack.Bind(wx.EVT_BUTTON, self.attack_WPA2)
         
@@ -1448,57 +1402,49 @@ class WPA2_crack(wx.Frame):
         self.Show(True)
     app_select= ''
     
-    def wireless_scan_cracker(self):
-		iface = wless_commands.get_monitoring_interfaces()[0]
-		
-		wless_commands.bring_wlan_devs_up([iface])
-		read_only_txt = wx.TextCtrl(self, -1, '', style=wx.TE_MULTILINE|wx.TE_READONLY, pos=(20, 200),size=(400,600))
-		proc1 = subprocess.Popen(['iw', iface, 'up'], stdout=subprocess.PIPE,
-				stderr=subprocess.PIPE)
-		output, err = proc1.communicate()
+    def wireless_scan(self, event):
+		wlan_ifaces = wless_commands.get_monitoring_interfaces()
+		if not wlan_ifaces:
+			wx.MessageBox('make sure you have mon0 interface',
+					'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
+			return
 
-		#p = r'SSID: \S*|cipher: \S*|Authentication suites: \S*'
-		p = r'SSID: \S*|cipher: \S*'
-		match = re.findall(p, output)
-		wireless_ssid_file = open('wScan_cracker.log', 'w')
-		grouped = list(zip(*[iter(match)] * 2))
-		for i in grouped:
-			
-			#print sorted(i)
-			wireless_ssid_file.write(str(sorted(i))+'\n')
-		
-		#~ wireless_ssid_file.write(grouped)
-		wireless_ssid_file.close()	
-    
-    def ScanW(self, event):
-		self.wireless_scan_cracker()
-		with open('wScan_cracker.log') as f:
-			for i in f:
-				self.listbox.Append(i)
+		wlan_iface = wlan_ifaces[0]
+		try:
+			iw_nets = wless_commands.get_wireless_scan(wlan_iface)
+			iw_scan_file = open('wScan.log', 'w')
+			for iw_net in iw_nets:
+				text = ('[SSID: %(SSID)s, BSS: %(BSS)s, Ciphers: %(ciphers)s]\n'
+						% iw_net)
+				self.listbox.Append(text)
+				iw_scan_file.write(text)
+
+			iw_scan_file.close()
+		except Exception:
+			wx.MessageBox('Failed to get a scan of wireless networks.',
+						'Warning/Error',
+						wx.ICON_ERROR | wx.ICON_INFORMATION)
+			logging.error(traceback.format_exc())
 
     def wpa_crack_key(self, SSID):
-		iface = wless_commands.get_monitoring_interfaces()[0]
-		
-		wless_commands.start_airmon([iface])
+		wlan_ifaces = wless_commands.get_monitoring_interfaces()
+		wlan_iface = wlan_ifaces[0]
+		wless_commands.start_airmon([wlan_iface])
+
+		mon_ifaces = wless_commands.get_monitoring_interfaces()
+		mon_iface = mon_ifaces[0]
 		#os.system("mkdir capture")
 		print 'wpa2 hack is started'
-		
 		##os.system("airodump-ng --essid "+str(SSID)+" --write "+str(SSID)+"_crack mon0")
-		monitoring_interface = wless_commands.get_monitoring_interfaces()[0]
-		
+		command = ("airodump-ng --essid '%s' --write 'capture/%s_crack' %s &"
+				% (SSID, SSID, mon_iface))
+		logging.debug('WPA Crack command: %s', command)
 		#~ os.system("gnome-terminal -x airodump-ng --essid "+SSID+" --write capture/"+SSID+"_crack mon0")
-		os.system("airodump-ng --essid "+SSID+" --write capture/"+SSID+"_crack "+monitoring_interface+" &")
+		os.system(command)
 		#os.system("airmon-ng stop mon0")
 		#print str(SSID)
-		
 		#os.system("airmon-ng stop mon0")
-		
 		#~ app_select = SSID
-
-
-    
-		
-		
 
 	#~ def about(self, event):
 		#~ frm=MyHtmlFrame2(None, "About...")
@@ -1509,8 +1455,8 @@ class WPA2_crack(wx.Frame):
     def attack_WPA2(self, e):
 		sel = self.listbox.GetSelection()
 		text = self.listbox.GetString(sel)
-		text_split = str(text).split(', ')
-		app_select = text_split[0].replace("['SSID:","").replace("'","").strip()
+		cut_end = text.find(', BSS: ')
+		app_select = text[:cut_end].replace('[SSID: ', '')
 		##### remove ['SSID: 
 		#self.evil_twin_attack(app_select)
 		#print type(app_select)
