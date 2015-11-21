@@ -1,4 +1,5 @@
 from scapy.all import *
+import logging
 import multiprocessing
 import os
 import re
@@ -81,9 +82,12 @@ def get_monitoring_interfaces():
 	return [dev for dev in sorted(get_net_devices())
 		if re.match(r'[wma]\S*', dev)]
 
-def start_airmon():
+def start_airmon(devices=[]):
 	"""Start airmon at all wlan interfaces."""
-	for dev in sorted(get_net_devices()):
+	if not devices:
+		devices = sorted(get_net_devices())
+
+	for dev in devices:
 		if re.match(r'^wlan[0-9]$', dev):
 			os.system("airmon-ng start %s" % dev)
 
