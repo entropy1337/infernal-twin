@@ -803,9 +803,12 @@ EOF"""%wlan_iface)
 					'Warning', wx.ICON_INFORMATION)
 			return
 
-		mon_iface = wlan_ifaces[0]
-		wless_commands.bring_wlan_devs_up([mon_iface])
-		wless_commands.start_airmon([mon_iface])
+		wlan_iface = wlan_ifaces[0]
+		wless_commands.bring_wlan_devs_up([wlan_iface])
+		wless_commands.start_airmon([wlan_iface])
+
+		mon_ifaces = wless_commands.get_monitoring_interfaces()
+		mon_iface = mon_ifaces[0]
 		#~ print 'mon0 is created'
 		os.system("gnome-terminal -x airodump-ng "+mon_iface+" &")
 		#~ print 'Attack is launched  is created'
