@@ -1437,7 +1437,9 @@ class WPA2_crack(wx.Frame):
 
     def wpa_crack_key(self, ssid, bssid):
 		if not ssid:
-			ssid = bssid.replace(':', '_')
+			ssid = 'none'
+
+		cap_file = '%s_%s' % (ssid, bssid.replace(':', '_'))
 
 		wlan_ifaces = wless_commands.get_monitoring_interfaces()
 		wlan_iface = wlan_ifaces[0]
@@ -1449,7 +1451,7 @@ class WPA2_crack(wx.Frame):
 		print 'wpa2 hack is started'
 		##os.system("airodump-ng --essid "+str(SSID)+" --write "+str(SSID)+"_crack mon0")
 		command = ("airodump-ng --bssid '%s' --write 'capture/%s_crack' %s &"
-				% (bssid, ssid, mon_iface))
+				% (bssid, cap_file, mon_iface))
 		logging.debug('WPA Crack command: %s', command)
 		#~ os.system("gnome-terminal -x airodump-ng --essid "+SSID+" --write capture/"+SSID+"_crack mon0")
 		os.system(command)
