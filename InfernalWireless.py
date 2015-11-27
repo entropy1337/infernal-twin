@@ -85,7 +85,7 @@ class Example(wx.Frame):
 	
     def __init__(self, parent, title):
         super(Example, self).__init__(parent, title=title, 
-            size=(600, 400))
+            size=(600, 450))
 
         #~ self.create_project_table()
         #~ self.create_report_table()
