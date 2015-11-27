@@ -694,7 +694,7 @@ EOF"""%wlan_iface)
 			iw_nets = wless_commands.get_wireless_scan(mon_iface)
 			wireless_ssid_file = open('wScan.log', 'w')
 			for iw_net in iw_nets:
-				text = ('[SSID: %(SSID)s, BSS: %(BSS)s, Ciphers: %(ciphers)s]\n\n'
+				text = ('[SSID: %(SSID)s, BSS: %(BSS)s, Ciphers: %(ciphers)s, Channel: %(channel)s]\n\n'
 						% iw_net)
 				read_only_txt.AppendText(text)
 				wireless_ssid_file.write(text)
@@ -1447,7 +1447,7 @@ class WPA2_crack(wx.Frame):
 			iw_scan_file = open('wScan.log', 'w')
 			for iw_net in iw_nets:
 				
-				text = ('[SSID: %(SSID)s, BSS: %(BSS)s, Ciphers: %(ciphers)s]\n'
+				text = ('[SSID: %(SSID)s, BSS: %(BSS)s, Ciphers: %(ciphers)s, Channel: %(channel)s]\n'
 						% iw_net)
 				self.listbox.Append(text)
 				iw_scan_file.write(text)
@@ -1459,7 +1459,7 @@ class WPA2_crack(wx.Frame):
 						wx.ICON_ERROR | wx.ICON_INFORMATION)
 			logging.error(traceback.format_exc())
 
-    def wpa_crack_key(self, SSID):
+    def wpa_crack_key(self, SSID, channel):
 		wlan_ifaces = wless_commands.get_monitoring_interfaces()
 		wlan_iface = wlan_ifaces[0]
 		wless_commands.start_airmon([wlan_iface])
@@ -1471,8 +1471,16 @@ class WPA2_crack(wx.Frame):
 		##os.system("airodump-ng --essid "+str(SSID)+" --write "+str(SSID)+"_crack mon0")
 		#~ print "airodump-ng --essid '%s' --write 'capture/%s_crack' %s &"% (SSID, SSID, mon_iface)
 		
-		command = ("airodump-ng --essid '%s' --write 'capture/%s_crack' %s &"
-				% (SSID, SSID, mon_iface))
+		channelSearch = re.search('Channel: .*', channel)
+		found_channel =  channelSearch.group(0)
+		
+		mychannel = found_channel.replace('Channel: ','').replace(']','').strip()
+		
+		command = ("airodump-ng --essid '%s' --write 'capture/%s_crack' %s -c %s &"
+		
+				% (SSID, SSID, mon_iface, mychannel))
+				
+		print command 
 		
 		logging.debug('WPA Crack command: %s', command)
 		#~ os.system("gnome-terminal -x airodump-ng --essid "+SSID+" --write capture/"+SSID+"_crack mon0")
@@ -1494,11 +1502,17 @@ class WPA2_crack(wx.Frame):
 		text = self.listbox.GetString(sel)
 		cut_end = text.find(', BSS: ')
 		app_select = text[:cut_end].replace('[SSID: ', '')
+		
+		reChannel = re.compile(r'primary channel: ')
+		reChannel.search(text)
+		
+		channel_select = text.split(':', 1)[1][1:]
+		
 		##### remove ['SSID: 
 		#self.evil_twin_attack(app_select)
 		#print type(app_select)
 		#print app_select
-		self.wpa_crack_key(str(app_select))
+		self.wpa_crack_key(str(app_select),str(channel_select))
 			
     #~ def attack_W(self, e):
 		#~ sel = self.listbox.GetSelection()

@@ -41,9 +41,12 @@ def _parse_iw_scan(iw_output):
 		'BSS': None,
 		'SSID': None,
 		'ciphers': None,
+		'channel': None,
 	}
 	reBSS = re.compile(r'^BSS [\w\d]{2}:.+\(')
 	reGroup = re.compile(r'Group cipher: ')
+	reChannel = re.compile(r'primary channel: ')
+	
 	for line in iw_output.splitlines():
 		line = line.strip()
 		if line == '':
@@ -63,6 +66,8 @@ def _parse_iw_scan(iw_output):
 			iw_net['SSID'] = line.split(':', 1)[1][1:]
 		elif reGroup.search(line):
 			iw_net['ciphers'] = line.split(':', 1)[1][1:]
+		elif reChannel.search(line):
+			iw_net['channel'] = line.split(':', 1)[1][1:]
 		else:
 			continue
 
