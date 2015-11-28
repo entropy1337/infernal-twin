@@ -7,6 +7,44 @@ For any comments and suggestions please email on 3ntr0py1337@gmail.com
 
 **Note:** Please make sure to run the 'configure under File menu to install required software'
 
+Recent Bug Fixes:
+
+* Display Scanned network with BSSID and Channel
+
+* WPA2 hacking is now captured by automatically setting an appropriate Channel
+
+* Aireplay issue is resolved during deauthentication stage due to channel settings in airodump
+
+* SSID selecting during WPA2 hacking is resolved (extra symbol was being added)
+
+* One import was removed by mistake but now it is resolved. 
+
+* Frame size is enlarged slightly, as it was hiding a button
+
+* User interaction during Fake Access Points creation. This will let the user to choose the outbout interface for the internet, Evil Twin, Infernal Wireless and Free Internet
+
+* NAT rules for Fake APs are improved
+
+* Catch and Error implemented for Infernal Wireless Attack
+
+* Evil Twin Attack is improved. Now lets the user to choose outbound interface
+
+
+
+
+New Addition: 
+
+* Extra Menu is added to kill airodump-ng from GUI, previously it was shutting down the whole tool.
+
+* Added a feature to let the user decide how many packets to send for deauthentication during WPA2 Hacking  
+
+* Added a logo
+
+* During MiTM via Fake AP, you can see the victim's browser live on the GUI panel
+
+* During MiTM, now you can see the HTTP request and responses live on the GUI panel
+
+
 ## FAQ:
 
 ### I have a problem with connecting to the Database
