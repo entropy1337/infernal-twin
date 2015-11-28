@@ -110,8 +110,19 @@ class Example(wx.Frame):
         self.quote = wx.StaticText(panel,-1, label="PROJECT DETAILS \n", pos=(10, 30))
         self.quote.SetForegroundColour((255,0,0)) # set text color
         
+        start_image = wx.Image("logo2.png")
+        start_image.Rescale(450, 450)
+        image = wx.BitmapFromImage(start_image)
+        pic=wx.StaticBitmap(panel, -1, image, pos=(150, 0), style=wx.BITMAP_TYPE_PNG)
+        
         #~ prjBtn = wx.Button(panel, -1, "Create a Project",size=(150,30), pos=(10,650))
         #~ prjBtn.Bind(wx.EVT_BUTTON, self.create_project)
+        
+        
+		#~ start_image = wx.Image("logo2.png")
+		#~ start_image.Rescale(180, 140)
+		#~ image = wx.BitmapFromImage(start_image) 
+		#~ pic=wx.StaticBitmap(pnl, -1, image, pos=(250, 50), style=wx.BITMAP_TYPE_PNG)
         
         
 
@@ -253,7 +264,7 @@ def create_new_project():
 
     app = wx.App()
     
-    Example(None, title='Create A project')
+    Example(None, title='Infernal Wireless - Create A project')
     
     app.MainLoop()
 	
