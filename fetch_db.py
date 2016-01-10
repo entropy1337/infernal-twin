@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 #~ 
 import MySQLdb as mdb
-import wx
+import db_connect_creds
 import generate_pdf_file
 import view_projects
+import wx
 
-dbfile = open('dbconnect.conf', 'r').readlines()
-
-con = mdb.connect('localhost', str(dbfile[0]).replace('\n',''), str(dbfile[1]).replace('\n',''), 'InfernalWireless');
+username, password = db_connect_creds.read_creds()
+con = mdb.connect('localhost', username, password, 'InfernalWireless');
 
 cur = con.cursor()
 cur.execute("SELECT ProjectId,ProjectName FROM Projects")

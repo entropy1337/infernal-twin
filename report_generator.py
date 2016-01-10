@@ -1,13 +1,14 @@
-import wx
-import sys
-import os
-import ast
 import MySQLdb
+import ast
+import db_connect_creds
+import os
+import sys
+import wx
 from datetime import datetime
 
-dbfile = open('dbconnect.conf', 'r').readlines()
+username, password = db_connect_creds.read_creds()
 
-cxn = MySQLdb.connect('localhost',user=str(dbfile[0]).replace('\n',''), passwd=str(dbfile[1]).replace('\n',''))
+cxn = MySQLdb.connect('localhost', user=username, passwd=password)
 
 date = datetime.now()
 
@@ -141,7 +142,8 @@ class Example(wx.Frame):
 		print project_id
 		
 	def create_database(self):
-		cxn = MySQLdb.connect('localhost',user=str(dbfile[0]).replace('\n',''), passwd=str(dbfile[1]).replace('\n',''))
+		username, password = db_connect_creds.read_creds()
+		cxn = MySQLdb.connect('localhost', user=username, passwd=password)
 
 		date = datetime.now()
 		

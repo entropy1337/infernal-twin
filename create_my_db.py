@@ -1,23 +1,15 @@
 import MySQLdb
-from datetime import datetime
+import db_connect_creds
 
-dbfile = open('dbconnect.conf', 'r').readlines()
-
-cxn = MySQLdb.connect('localhost',user=str(dbfile[0]).replace('\n',''), passwd=str(dbfile[1]).replace('\n',''))
-
-date = datetime.now()
-
+username, password = db_connect_creds.read_creds()
+cxn = MySQLdb.connect('localhost', user=username, passwd=password)
 
 cxn.query('CREATE DATABASE IF NOT EXISTS InfernalWireless')
-#~ cxn = MySQLdb.connect(db='InfernalWireless')
-
-cxn = MySQLdb.connect('localhost',user=str(dbfile[0]).replace('\n',''), passwd=str(dbfile[1]).replace('\n',''))
-cxn = MySQLdb.connect(db='InfernalWireless')
-
-cur = cxn.cursor()
-
 cxn.commit()
-cxn.close()
+cnx.close()
+
+cxn = MySQLdb.connect('localhost', user=username, passwd=password, db='InfernalWireless')
+cur = cxn.cursor()
 
 PROJECT_TITLE = '''CREATE TABLE IF NOT EXISTS Projects (ProjectId MEDIUMINT NOT NULL AUTO_INCREMENT, ProjectName TEXT, PRIMARY KEY (ProjectId), AuditorName TEXT, TargetName TEXT, date TEXT)'''
 

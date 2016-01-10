@@ -1,8 +1,9 @@
-import wx
 #~ import infernal_wireless_gui_project
-import os
-import os.path 
 import MySQLdb
+import db_connect_creds
+import os
+import os.path
+import wx
 from datetime import datetime
 
 os.system('/etc/init.d/apache2 start')
@@ -12,12 +13,12 @@ if os.path.exists('dbconnect.conf'):
 	print 'DB Config files is found'
 else:
 	print 'Creating DB config file'
-	import db_connect_creds
+	db_connect_creds.main()
 
 
-dbfile = open('dbconnect.conf', 'r').readlines()
+username, password = db_connect_creds.read_creds()
 
-cxn = MySQLdb.connect('localhost',str(dbfile[0]).replace('\n',''),str(dbfile[1]).replace('\n',''))
+cxn = MySQLdb.connect('localhost', username, password)
 
 date = datetime.now()
 
@@ -29,7 +30,7 @@ cxn.close()
 
 #~ cxn = MySQLdb.connect(db='InfernalWireless')
 
-cxn = MySQLdb.connect('localhost',str(dbfile[0]).replace('\n',''),str(dbfile[1]).replace('\n',''), db='InfernalWireless')
+cxn = MySQLdb.connect('localhost', username, password, db='InfernalWireless')
 
 cur = cxn.cursor()
 
