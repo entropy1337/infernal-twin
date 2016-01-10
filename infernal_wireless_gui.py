@@ -206,20 +206,20 @@ class Example(wx.Frame):
 		pnl = wx.Panel(self)
 
 		######### spider 
-		start_image = wx.Image("spider.png")
+		start_image = wx.Image("img/spider.png")
 		start_image.Rescale(180, 140)
 		image = wx.BitmapFromImage(start_image) 
 		pic=wx.StaticBitmap(pnl, -1, image, pos=(200, 50), style=wx.BITMAP_TYPE_PNG)
 		
 		
 		######## logo
-		start_image2 = wx.Image("scorpion.png")
+		start_image2 = wx.Image("img/scorpion.png")
 		start_image2.Rescale(200, 150)
 		image2 = wx.BitmapFromImage(start_image2) 
 		pic2=wx.StaticBitmap(pnl, -1, image2, pos=(800, 20), style=wx.BITMAP_TYPE_PNG)
 		
 		#~ 
-#		pic.SetBitmap(wx.Bitmap("spider.png"))
+#		pic.SetBitmap(wx.Bitmap("img/spider.png"))
 		#~ 
 		###################################################################################################
 		################### THIS SECTION IS WORKING BUT COMMENTED OUT FOR DEBUGGING PURPOSE################
