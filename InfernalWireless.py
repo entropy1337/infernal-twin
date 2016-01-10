@@ -3,18 +3,17 @@ import MySQLdb
 import db_connect_creds
 import os
 import os.path
+import sys
 import wx
 from datetime import datetime
 
 os.system('/etc/init.d/apache2 start')
 os.system('/etc/init.d/mysql start')
 
-if os.path.exists('dbconnect.conf'):
-	print 'DB Config files is found'
-else:
-	print 'Creating DB config file'
-	db_connect_creds.main()
-
+if not os.path.exists('dbconnect.conf'):
+    print "DB Config 'dbconnect.conf' file doesn't seem to exist."
+    print "Run db_setup.py."
+    sys.exit(1)
 
 username, password = db_connect_creds.read_creds()
 
