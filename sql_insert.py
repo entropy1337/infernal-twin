@@ -1,9 +1,9 @@
 import MySQLdb
+import db_connect_creds
 from datetime import datetime
 
-dbfile = open('dbconnect.conf', 'r').readlines()
-
-cxn = MySQLdb.connect('localhost',user=str(dbfile[0]).replace('\n',''), passwd=str(dbfile[1]).replace('\n',''))
+username, password = db_connect_creds.read_creds()
+cxn = MySQLdb.connect('localhost', user=username, passwd=password)
 
 date = datetime.now()
 

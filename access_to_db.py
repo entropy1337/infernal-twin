@@ -1,5 +1,7 @@
 import MySQLdb
-import wx,os
+import db_connect_creds
+import os
+import wx
 
 class Example(wx.Frame):
 	
@@ -42,16 +44,12 @@ class Example(wx.Frame):
     def clearlog(self, e):
 		
 		try:
-			#
-			dbfile = open('dbconnect.conf', 'r').readlines()
-		
-			db = MySQLdb.connect("localhost",str(dbfile[0]).replace('\n',''),str(dbfile[1]).replace('\n',''),"wpa_crack" )
-		
+			username, password = db_connect_creds.read_creds()
+			db = MySQLdb.connect("localhost", username, password, "wpa_crack")
 			# prepare a cursor object using cursor() method
 			cursor = db.cursor()
-	
 			# execute SQL query using execute() method.
-			cursor.execute("truncate content")	
+			cursor.execute("truncate content")
 		except:
 			wx.MessageBox('Could not connect to DB', 'Warning/Error', wx.ICON_ERROR | wx.ICON_INFORMATION)
 			
@@ -59,11 +57,8 @@ class Example(wx.Frame):
     def refresh(self, e):
 		
 		try:
-			#
-			# Open database connection
-			dbfile = open('dbconnect.conf', 'r').readlines()
-			
-			db = MySQLdb.connect("localhost",str(dbfile[0]).replace('\n',''), str(dbfile[1]).replace('\n',''),"wpa_crack" )
+			username, password = db_connect_creds.read_creds()
+			db = MySQLdb.connect("localhost", username, password, "wpa_crack")
 		
 			# prepare a cursor object using cursor() method
 			cursor = db.cursor()
