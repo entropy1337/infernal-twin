@@ -29,6 +29,37 @@ def _test_mysql_conn():
 
     return username, password
 
+def create_db(dbcurr, dbname, username, password):
+    """Create MySQL DB `dbname` and grant all to `username` with `password` from
+    localhost.
+    """
+    create_dbase = 'CREATE DATABASE IF NOT EXISTS %s' % dbname
+    logging.debug(create_dbase)
+    dbcurr.execute(create_dbase)
+
+    grant_all = "GRANT ALL ON %s.* TO '%s'@'localhost'" % (dbname, username)
+    if password != '':
+        grant_all = "%s IDENTIFIED BY '%s'" % (grant_all, password)
+
+    logging.debug(grant_all)
+    dbcurr.execute(grant_all)
+
+def create_projects_table(dbcurr):
+    """Create MySQL table for Projects."""
+    projects_table = '''CREATE TABLE IF NOT EXISTS Projects (ProjectId MEDIUMINT
+    NOT NULL AUTO_INCREMENT, ProjectName TEXT, PRIMARY KEY (ProjectId),
+    AuditorName TEXT, TargetName TEXT, date TEXT)'''
+    dbcurr.execute(projects_table)
+
+def create_reports_table(dbcurr):
+    """Create MySQL table for Reports."""
+    reports_table = '''CREATE TABLE IF NOT EXISTS Reports (findingID MEDIUMINT
+    NOT NULL AUTO_INCREMENT, finding_name TEXT, phase TEXT, PRIMARY KEY
+    (findingID), risk_level TEXT, risk_category TEXT, Findings_detail TEXT,
+    Notes TEXT, Project_fk_Id MEDIUMINT, FOREIGN KEY (Project_fk_Id) REFERENCES
+    Projects (ProjectId))'''
+    dbcurr.execute(reports_table)
+
 def main():
     """Main."""
     os.system('/etc/init.d/mysql start')
@@ -37,16 +68,7 @@ def main():
 
     dbconn = MySQLdb.connect('localhost', user=username, passwd=password)
     dbcurr = dbconn.cursor()
-    create_db = 'CREATE DATABASE IF NOT EXISTS %s' % INFERNAL_DB
-    logging.debug(create_db)
-    dbcurr.execute(create_db)
-
-    grant_all = "GRANT ALL ON %s.* TO '%s'@'localhost'" % (INFERNAL_DB, username)
-    if password != '':
-        grant_all = "%s IDENTIFIED BY '%s'" % (grant_all, password)
-
-    logging.debug(grant_all)
-    dbcurr.execute(grant_all)
+    create_db(dbcurr, INFERNAL_DB, username, password)
     dbconn.close()
 
 if __name__ == '__main__':
