@@ -157,16 +157,6 @@ class Example(wx.Frame):
 		
 		cur = cxn.cursor()
 		current_project_id = 0
-	
-	def create_report_table(self):
-	
-		##############3333  THIS IS GOING TO CRAETE A TABLE FOR PROJECT 
-		
-		
-		report_table = '''CREATE TABLE IF NOT EXISTS Reports (findingID MEDIUMINT NOT NULL AUTO_INCREMENT, finding_name TEXT, phase TEXT, PRIMARY KEY (findingID), risk_level TEXT, risk_category TEXT, Findings_detail TEXT, Notes TEXT, Project_fk_Id MEDIUMINT, FOREIGN KEY (Project_fk_Id) REFERENCES Projects (ProjectId))'''
-		
-		cur.execute(report_table)	
-		
 
     def create_report(self, finding_name, phase, risk_level, risk_category, Findings_detail, Notes):
 		cxn = MySQLdb.connect(db='InfernalWireless')
