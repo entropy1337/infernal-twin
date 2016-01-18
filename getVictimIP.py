@@ -10,7 +10,7 @@ class Frame(wx.Frame):
         self.SetTitle('Client IP and Browser')
         panel = wx.Panel(self)
 
-        os.system("touch connected_clients.txt")
+        open('./connected_clients.txt', 'w').close()
         os.system('python victim_ip_browser.py &')
 
         style = wx.TE_MULTILINE|wx.TE_READONLY
@@ -24,7 +24,9 @@ class Frame(wx.Frame):
         self.on_timer()
 
     def on_timer(self):
-        client_list = open("connected_clients.txt", 'r').read()
+        with open('./connected_clients.txt', 'r') as fhandle:
+            client_lis = fhandle.read()
+
         self.text.SetValue(str(client_list))
         wx.CallLater(2000, self.on_timer)
 
