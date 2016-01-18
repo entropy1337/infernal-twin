@@ -1,6 +1,7 @@
 #~ import infernal_wireless_gui_project
 import MySQLdb
 import db_connect_creds
+import db_setup
 import os
 import os.path
 import sys
@@ -15,6 +16,7 @@ if not os.path.exists('dbconnect.conf'):
     print "Run db_setup.py."
     sys.exit(1)
 
+# TODO - cleanup this too.
 username, password = db_connect_creds.read_creds()
 
 cxn = MySQLdb.connect('localhost', username, password)
@@ -27,38 +29,14 @@ cxn.query('CREATE DATABASE IF NOT EXISTS InfernalWireless')
 cxn.commit()
 cxn.close()
 
-#~ cxn = MySQLdb.connect(db='InfernalWireless')
-
 cxn = MySQLdb.connect('localhost', username, password, db='InfernalWireless')
 
 cur = cxn.cursor()
 
 current_project_id = 0
-#~ os.system("airmon-ng start wlan0")
 
-def create_project_table():
-	##############3333  THIS IS GOING TO CRAETE A TABLE FOR PROJECT
-	PROJECT_TITLE = '''CREATE TABLE IF NOT EXISTS Projects (ProjectId MEDIUMINT NOT NULL AUTO_INCREMENT, ProjectName TEXT, PRIMARY KEY (ProjectId), AuditorName TEXT, TargetName TEXT, date TEXT)'''
-	cur.execute(PROJECT_TITLE)
-	#~ print 'Project table is created'
-
-#~ def create_report_table(self):
-	#~
-	#~ ##############3333  THIS IS GOING TO CRAETE A TABLE FOR PROJECT
-	#~
-	#~
-	#~ report_table = '''CREATE TABLE IF NOT EXISTS Reports (findingID MEDIUMINT NOT NULL AUTO_INCREMENT, finding_name TEXT, phase TEXT, PRIMARY KEY (findingID), risk_level TEXT, risk_category TEXT, Findings_detail TEXT, Notes TEXT, Project_fk_Id MEDIUMINT, FOREIGN KEY (Project_fk_Id) REFERENCES Projects (ProjectId))'''
-	#~ cur.execute(report_table)
-    #~ print 'Report table is created'
-#~
-
-def create_report_table():
-	##############3333  THIS IS GOING TO CRAETE A TABLE FOR PROJECT
-	report_table = '''CREATE TABLE IF NOT EXISTS Reports (findingID MEDIUMINT NOT NULL AUTO_INCREMENT, finding_name TEXT, phase TEXT, PRIMARY KEY (findingID), risk_level TEXT, risk_category TEXT, Findings_detail TEXT, Notes TEXT, Project_fk_Id MEDIUMINT, FOREIGN KEY (Project_fk_Id) REFERENCES Projects (ProjectId))'''
-	cur.execute(report_table)
-
-create_project_table()
-create_report_table()
+db_setup.create_projects_table(cur)
+db_setup.create_reports_table(cur)
 
 
 class Example(wx.Frame):
@@ -67,8 +45,6 @@ class Example(wx.Frame):
         super(Example, self).__init__(parent, title=title,
             size=(600, 450))
 
-        #~ self.create_project_table()
-        #~ self.create_report_table()
         self.InitUI()
 
         self.Centre()
@@ -121,28 +97,6 @@ class Example(wx.Frame):
         #~ vbox.Add(self.MultiLine, -1,10)
         #~ vbox.Add(prjBtn,-1, border=10)
         #~ panel.SetSizer(vbox)
-
-    def create_project_table(self):
-		##############3333  THIS IS GOING TO CRAETE A TABLE FOR PROJECT
-		PROJECT_TITLE = '''CREATE TABLE IF NOT EXISTS Projects (ProjectId MEDIUMINT NOT NULL AUTO_INCREMENT, ProjectName TEXT, PRIMARY KEY (ProjectId), AuditorName TEXT, TargetName TEXT, date TEXT)'''
-		cur.execute(PROJECT_TITLE)
-		#~ print 'Project table is created'
-
-	#~ def create_report_table(self):
-#~
-		#~ ##############3333  THIS IS GOING TO CRAETE A TABLE FOR PROJECT
-		#~
-		#~
-		#~ report_table = '''CREATE TABLE IF NOT EXISTS Reports (findingID MEDIUMINT NOT NULL AUTO_INCREMENT, finding_name TEXT, phase TEXT, PRIMARY KEY (findingID), risk_level TEXT, risk_category TEXT, Findings_detail TEXT, Notes TEXT, Project_fk_Id MEDIUMINT, FOREIGN KEY (Project_fk_Id) REFERENCES Projects (ProjectId))'''
-		#~ cur.execute(report_table)
-	    #~ print 'Report table is created'
-    #~
-
-    def create_report_table(self):
-		##############3333  THIS IS GOING TO CRAETE A TABLE FOR PROJECT
-		report_table = '''CREATE TABLE IF NOT EXISTS Reports (findingID MEDIUMINT NOT NULL AUTO_INCREMENT, finding_name TEXT, phase TEXT, PRIMARY KEY (findingID), risk_level TEXT, risk_category TEXT, Findings_detail TEXT, Notes TEXT, Project_fk_Id MEDIUMINT, FOREIGN KEY (Project_fk_Id) REFERENCES Projects (ProjectId))'''
-		cur.execute(report_table)
-		#~ print 'Report table is created'
 
     def project_details(self, projectname, Authors_name, TargetName, date):
 		PROJECT_DETAILS = 'INSERT INTO Projects (ProjectName, AuditorName, TargetName, date) VALUES ("%s","%s","%s","%s")'%(projectname, Authors_name, TargetName, date)
