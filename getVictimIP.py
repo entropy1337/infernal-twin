@@ -1,5 +1,4 @@
 #!/usr/bin/env python2.7
-import random
 import wx
 import os
 
@@ -25,7 +24,7 @@ class Frame(wx.Frame):
 
     def on_timer(self):
         with open('./connected_clients.txt', 'r') as fhandle:
-            client_lis = fhandle.read()
+            client_list = fhandle.read()
 
         self.text.SetValue(str(client_list))
         wx.CallLater(2000, self.on_timer)
@@ -35,6 +34,6 @@ def startSniff():
     app = wx.App()
     frame = Frame()
     frame.Show()
-    frame.SetSize((850,600))
+    frame.SetSize((850, 600))
     app.MainLoop()
     os.system("kill  `ps aux | grep victim_ip_browser.py | head -1 | awk '{print $2}'`")
