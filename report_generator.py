@@ -141,23 +141,6 @@ class Example(wx.Frame):
 	def get_project_id():
 		print project_id
 		
-	def create_database(self):
-		username, password = db_connect_creds.read_creds()
-		cxn = MySQLdb.connect('localhost', user=username, passwd=password)
-
-		date = datetime.now()
-		
-		
-		cxn.query('CREATE DATABASE IF NOT EXISTS InfernalWireless')
-		
-		cxn.commit()
-		cxn.close()
-		
-		cxn = MySQLdb.connect(db='InfernalWireless')
-		
-		cur = cxn.cursor()
-		current_project_id = 0
-
     def create_report(self, finding_name, phase, risk_level, risk_category, Findings_detail, Notes):
 		cxn = MySQLdb.connect(db='InfernalWireless')
 		
