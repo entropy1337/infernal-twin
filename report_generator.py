@@ -1,35 +1,31 @@
 import MySQLdb
 import ast
 import db_connect_creds
+import db_setup
 import os
 import sys
 import wx
 from datetime import datetime
 
 username, password = db_connect_creds.read_creds()
-
 cxn = MySQLdb.connect('localhost', user=username, passwd=password)
-
-date = datetime.now()
-
 cur = cxn.cursor()
-
-
-cxn.query('CREATE DATABASE IF NOT EXISTS InfernalWireless')
-
-project_id = []
-project_name = []
-current_project_id = ''
+db_setup.create_db(cur, db_setup.INFERNAL_DB, username, password)
 cxn.commit()
 cxn.close()
 
-cxn = MySQLdb.connect(db='InfernalWireless')
-
+cxn = MySQLdb.connect('localhost', user=username, passwd=password,
+                      db=db_setup.INFERNAL_DB)
 cur = cxn.cursor()
 
+date = datetime.now()
+project_id = []
+project_name = []
 current_project_id = 0
 current_project_name = ''
 
+# TODO - this doesn't make any sense, because we've just potentially creatend an
+# empty database and yet we're about to query table 'Projects'.
 cur.execute("SELECT ProjectId,ProjectName FROM Projects")
 data = row = cur.fetchall()
 for i,y in data:
