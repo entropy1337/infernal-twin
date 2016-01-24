@@ -16,25 +16,19 @@ if not os.path.exists('dbconnect.conf'):
     print "Run db_setup.py."
     sys.exit(1)
 
+date = datetime.now()
+current_project_id = 0
+
 # TODO - cleanup this too.
 username, password = db_connect_creds.read_creds()
-
 cxn = MySQLdb.connect('localhost', username, password)
-
-date = datetime.now()
-
-
-cxn.query('CREATE DATABASE IF NOT EXISTS InfernalWireless')
-
+cur = cxn.cursor()
+db_setup.create_db(cur, db_setup.INFERNAL_DB, username, password)
 cxn.commit()
 cxn.close()
 
-cxn = MySQLdb.connect('localhost', username, password, db='InfernalWireless')
-
+cxn = MySQLdb.connect('localhost', username, password, db=db_setup.INFERNAL_DB)
 cur = cxn.cursor()
-
-current_project_id = 0
-
 db_setup.create_projects_table(cur)
 db_setup.create_reports_table(cur)
 
