@@ -1,21 +1,26 @@
+#!/usr/bin/env python2.7
 import MySQLdb
 import db_connect_creds
+import db_setup
 
-print '*'*20
+WPA_CRACK_DB = 'wpa_crack'
+
+print '*' * 20
 print "Setting up the database\n"
 
 def connect_to_database():
     username, password = db_connect_creds.read_creds()
-    db_connection = MySQLdb.connect(host='localhost', user=username, passwd=password)
+    db_connection = MySQLdb.connect(host='localhost', user=username,
+                                    passwd=password)
     cursor = db_connection.cursor()
-    cursor.execute('CREATE DATABASE IF NOT EXISTS wpa_crack')
-    cursor.execute('USE wpa_crack')
+    db_setup.create_db(cursor, WPA_CRACK_DB, username, password)
+    cursor.execute('USE %s' % WPA_CRACK_DB)
     cursor.execute('''CREATE TABLE IF NOT EXISTS content (
                       key1 VARCHAR(64), key2 VARCHAR(64)
                       )
                       ''')
 def create_file():
-    phpcreate = open('/var/www/getcreds.php','wb')
+    phpcreate = open('/var/www/getcreds.php', 'wb')
     php = """<?php
 $con=mysqli_connect("localhost","root","","wpa_crack");
 // Check connection
