@@ -1,0 +1,351 @@
+10.10.70.184  : 
+'GET /generate_204 HTTP/1.1
+User-Agent: Dalvik/1.6.0 (Linux; U; Android 4.4.4; SM-E500H Build/KTU84P)
+Host: clients3.google.com
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+'10.10.70.184 -> 173.194.124.103
+
+
+10.10.70.184  : 
+'GET /generate_204 HTTP/1.1
+User-Agent: Dalvik/1.6.0 (Linux; U; Android 4.3; SM-E500H Build/JSS15J)
+Host: clients3.google.com
+Connection: close
+
+'10.10.70.184 -> 173.194.124.97
+
+
+10.10.70.184  : 
+'GET / HTTP/1.1
+Host: www.baidu.com
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/UNAVAILABLE (java 1.4)
+
+'10.10.70.184 -> 103.235.46.39
+
+
+172.17.1.40  : 
+'GET /nr-892.min.js HTTP/1.1
+Host: js-agent.newrelic.com
+Connection: keep-alive
+Referer: http://connect.socifi.com/?gw_addr=http://172.17.0.1:80&error_num=0&mobile=1&ps_display=0&ps_path=&wg_display=1&uag_mac=a0:e4:cb:7f:b9:30&client_mac=80:57:19:67:A4:51&auth_path=/weblogin.cgi&original_url=http%3A%2F%2Fm%2Efacebook%2Ecom%2F%3Fcid%3D256002347743983%26locale%3Den%5FUS&mp_idx=1458202856652594
+Accept: */*
+x-wap-profile: http://wap.samsungmobile.com/uaprof/GT-S7582.xml
+User-Agent: Mozilla/5.0 (Linux; U; Android 4.2.2; en-ph; GT-S7582 Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+Accept-Encoding: gzip,deflate
+Accept-Language: en-PH, en-US
+Accept-Charset: utf-8, iso-8859-1, utf-16, *;q=0.7
+
+'172.17.1.40 -> 103.245.222.175
+
+
+172.17.1.40  : 
+'GET /nr-892.min.js HTTP/1.1
+Host: js-agent.newrelic.com
+Connection: keep-alive
+Referer: http://connect.socifi.com/?gw_addr=http://172.17.0.1:80&error_num=0&mobile=1&ps_display=0&ps_path=&wg_display=1&uag_mac=a0:e4:cb:7f:b9:30&client_mac=80:57:19:67:A4:51&auth_path=/weblogin.cgi&original_url=http%3A%2F%2Fm%2Efacebook%2Ecom%2F%3Fcid%3D256002347743983%26locale%3Den%5FUS&mp_idx=1458202856652594
+Accept: */*
+x-wap-profile: http://wap.samsungmobile.com/uaprof/GT-S7582.xml
+User-Agent: Mozilla/5.0 (Linux; U; Android 4.2.2; en-ph; GT-S7582 Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+Accept-Encoding: gzip,deflate
+Accept-Language: en-PH, en-US
+Accept-Charset: utf-8, iso-8859-1, utf-16, *;q=0.7
+
+'172.17.1.40 -> 103.245.222.175
+
+
+172.17.1.40  : 
+'GET /nr-892.min.js HTTP/1.1
+Host: js-agent.newrelic.com
+Connection: keep-alive
+Referer: http://connect.socifi.com/?gw_addr=http://172.17.0.1:80&error_num=0&mobile=1&ps_display=0&ps_path=&wg_display=1&uag_mac=a0:e4:cb:7f:b9:30&client_mac=80:57:19:67:A4:51&auth_path=/weblogin.cgi&original_url=http%3A%2F%2Fm%2Efacebook%2Ecom%2F%3Fcid%3D256002347743983%26locale%3Den%5FUS&mp_idx=1458202856652594
+Accept: */*
+x-wap-profile: http://wap.samsungmobile.com/uaprof/GT-S7582.xml
+User-Agent: Mozilla/5.0 (Linux; U; Android 4.2.2; en-ph; GT-S7582 Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+Accept-Encoding: gzip,deflate
+Accept-Language: en-PH, en-US
+Accept-Charset: utf-8, iso-8859-1, utf-16, *;q=0.7
+
+'172.17.1.40 -> 103.245.222.175
+
+
+172.17.1.40  : 
+'GET /mobidown/?pu=1&aff=2418&sub_id=&sub_id2=MTNlOWZlNjE0MmIyNzQ1YzZlMGNhYzc1ZDQ2Y2U5ZTE6OjA6OjE6OjExOTo6Mzg3MTY3ODo6MzE0OjoyNzI4NTo6MDo6Mjg5NTo6MTEyMjI6OjQ3NDY6OjEzOTk3Njc0MTU6OjEzMzI2OjozOTAyMjIxV3R2 HTTP/1.1
+Host: ae2.adsmena.com
+Connection: keep-alive
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+x-wap-profile: http://wap.samsungmobile.com/uaprof/GT-S7582.xml
+User-Agent: Mozilla/5.0 (Linux; U; Android 4.2.2; en-ph; GT-S7582 Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+Accept-Encoding: gzip,deflate
+Accept-Language: en-PH, en-US
+Accept-Charset: utf-8, iso-8859-1, utf-16, *;q=0.7
+
+'172.17.1.40 -> 52.18.184.22
+
+
+172.17.1.40  : 
+'GET /ajax/libs/jquery/1.8.2/jquery.min.js HTTP/1.1
+Host: ajax.googleapis.com
+Connection: keep-alive
+Referer: http://ae2.adsmena.com/mobidown/?pu=1&aff=2418&sub_id=&sub_id2=MTNlOWZlNjE0MmIyNzQ1YzZlMGNhYzc1ZDQ2Y2U5ZTE6OjA6OjE6OjExOTo6Mzg3MTY3ODo6MzE0OjoyNzI4NTo6MDo6Mjg5NTo6MTEyMjI6OjQ3NDY6OjEzOTk3Njc0MTU6OjEzMzI2OjozOTAyMjIxV3R2
+Accept: */*
+x-wap-profile: http://wap.samsungmobile.com/uaprof/GT-S7582.xml
+User-Agent: Mozilla/5.0 (Linux; U; Android 4.2.2; en-ph; GT-S7582 Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+Accept-Encoding: gzip,deflate
+Accept-Language: en-PH, en-US
+Accept-Charset: utf-8, iso-8859-1, utf-16, *;q=0.7
+
+'172.17.1.40 -> 216.58.213.170
+
+
+172.17.1.40  : 
+'GET /mobidown/img/bg.jpg HTTP/1.1
+Host: ae2.adsmena.com
+Connection: keep-alive
+Referer: http://ae2.adsmena.com/mobidown/?pu=1&aff=2418&sub_id=&sub_id2=MTNlOWZlNjE0MmIyNzQ1YzZlMGNhYzc1ZDQ2Y2U5ZTE6OjA6OjE6OjExOTo6Mzg3MTY3ODo6MzE0OjoyNzI4NTo6MDo6Mjg5NTo6MTEyMjI6OjQ3NDY6OjEzOTk3Njc0MTU6OjEzMzI2OjozOTAyMjIxV3R2
+x-wap-profile: http://wap.samsungmobile.com/uaprof/GT-S7582.xml
+User-Agent: Mozilla/5.0 (Linux; U; Android 4.2.2; en-ph; GT-S7582 Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+Accept-Encoding: gzip,deflate
+Accept-Language: en-PH, en-US
+Accept-Charset: utf-8, iso-8859-1, utf-16, *;q=0.7
+Accept: */*
+
+'172.17.1.40 -> 52.18.184.22
+
+
+172.17.1.40  : 
+'GET /lp/images/etisalat_logo.jpg HTTP/1.1
+Host: pt1.etisalat.ae
+Connection: keep-alive
+Referer: http://pt1.etisalat.ae/lp/tmw/bestpoetryEN/SubConsent.htm
+x-wap-profile: http://wap.samsungmobile.com/uaprof/GT-S7582.xml
+User-Agent: Mozilla/5.0 (Linux; U; Android 4.2.2; en-ph; GT-S7582 Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+Accept-Encoding: gzip,deflate
+Accept-Language: en-PH, en-US
+Accept-Charset: utf-8, iso-8859-1, utf-16, *;q=0.7
+Accept: */*
+Cookie: JSESSIONID=ACA21A52F5EF49EBF5091E2EF9BBC522
+
+'172.17.1.40 -> 213.42.24.164
+
+
+172.17.1.40  : 
+'GET /lp/images/etisalat_logo.jpg HTTP/1.1
+Host: pt1.etisalat.ae
+Connection: keep-alive
+Referer: http://pt1.etisalat.ae/lp/tmw/bestpoetryEN/SubConsent.htm
+x-wap-profile: http://wap.samsungmobile.com/uaprof/GT-S7582.xml
+User-Agent: Mozilla/5.0 (Linux; U; Android 4.2.2; en-ph; GT-S7582 Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+Accept-Encoding: gzip,deflate
+Accept-Language: en-PH, en-US
+Accept-Charset: utf-8, iso-8859-1, utf-16, *;q=0.7
+Accept: */*
+Cookie: JSESSIONID=ACA21A52F5EF49EBF5091E2EF9BBC522
+
+'172.17.1.40 -> 213.42.24.164
+
+
+localhost : 
+'GET /login.html HTTP/1.1
+Accept-Encoding: identity
+Host: localhost
+Connection: close
+User-Agent: Python-urllib/2.7
+
+'
+
+localhost : 
+'GET /login.html HTTP/1.1
+Accept-Encoding: identity
+Host: localhost
+Connection: close
+User-Agent: Python-urllib/2.7
+
+'
+
+localhost : 
+'GET /index.html HTTP/1.1
+Host: localhost
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0 Iceweasel/31.8.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cookie: __utma=111872281.70769081.1448264651.1448264651.1448264651.1; __utmz=111872281.1448264651.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __CT_Data=gpv=1&apv_5367_www07=1; WRUID=0; _ga=GA1.1.70769081.1448264651; __atuvc=31%7C4
+Connection: keep-alive
+If-Modified-Since: Wed, 16 Mar 2016 06:50:33 GMT
+If-None-Match: "10b5e-52e24ee2f165d-gzip"
+
+'
+
+localhost : 
+'GET /index.html HTTP/1.1
+Host: localhost
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0 Iceweasel/31.8.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cookie: __utma=111872281.70769081.1448264651.1448264651.1448264651.1; __utmz=111872281.1448264651.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __CT_Data=gpv=1&apv_5367_www07=1; WRUID=0; _ga=GA1.1.70769081.1448264651; __atuvc=31%7C4
+Connection: keep-alive
+If-Modified-Since: Wed, 16 Mar 2016 06:50:33 GMT
+If-None-Match: "10b5e-52e24ee2f165d-gzip"
+
+'
+
+localhost : 
+'GET /login_files/avatar_2x.png HTTP/1.1
+Host: localhost
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0 Iceweasel/31.8.0
+Accept: image/png,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://localhost/index.html
+Cookie: __utma=111872281.70769081.1448264651.1448264651.1448264651.1; __utmz=111872281.1448264651.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __CT_Data=gpv=1&apv_5367_www07=1; WRUID=0; _ga=GA1.1.70769081.1448264651; __atuvc=31%7C4
+Connection: keep-alive
+If-Modified-Since: Mon, 14 Mar 2016 23:20:42 GMT
+If-None-Match: "272-52e0a878cf18c"
+
+'
+
+localhost : 
+'GET /login_files/avatar_2x.png HTTP/1.1
+Host: localhost
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0 Iceweasel/31.8.0
+Accept: image/png,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://localhost/index.html
+Cookie: __utma=111872281.70769081.1448264651.1448264651.1448264651.1; __utmz=111872281.1448264651.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __CT_Data=gpv=1&apv_5367_www07=1; WRUID=0; _ga=GA1.1.70769081.1448264651; __atuvc=31%7C4
+Connection: keep-alive
+If-Modified-Since: Mon, 14 Mar 2016 23:20:42 GMT
+If-None-Match: "272-52e0a878cf18c"
+
+'
+
+localhost : 
+'GET /login_files/universal_language_settings-21.png HTTP/1.1
+Host: localhost
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0 Iceweasel/31.8.0
+Accept: image/png,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://localhost/index.html
+Cookie: __utma=111872281.70769081.1448264651.1448264651.1448264651.1; __utmz=111872281.1448264651.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __CT_Data=gpv=1&apv_5367_www07=1; WRUID=0; _ga=GA1.1.70769081.1448264651; __atuvc=31%7C4
+Connection: keep-alive
+If-Modified-Since: Mon, 14 Mar 2016 23:20:42 GMT
+If-None-Match: "c7-52e0a878d300c"
+
+'
+
+localhost : 
+'GET /login_files/universal_language_settings-21.png HTTP/1.1
+Host: localhost
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0 Iceweasel/31.8.0
+Accept: image/png,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://localhost/index.html
+Cookie: __utma=111872281.70769081.1448264651.1448264651.1448264651.1; __utmz=111872281.1448264651.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __CT_Data=gpv=1&apv_5367_www07=1; WRUID=0; _ga=GA1.1.70769081.1448264651; __atuvc=31%7C4
+Connection: keep-alive
+If-Modified-Since: Mon, 14 Mar 2016 23:20:42 GMT
+If-None-Match: "c7-52e0a878d300c"
+
+'
+
+localhost : 
+'GET /favicon.ico HTTP/1.1
+Host: localhost
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0 Iceweasel/31.8.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cookie: __utma=111872281.70769081.1448264651.1448264651.1448264651.1; __utmz=111872281.1448264651.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __CT_Data=gpv=1&apv_5367_www07=1; WRUID=0; _ga=GA1.1.70769081.1448264651; __atuvc=31%7C4
+Connection: keep-alive
+
+'
+
+localhost : 
+'GET /favicon.ico HTTP/1.1
+Host: localhost
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0 Iceweasel/31.8.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cookie: __utma=111872281.70769081.1448264651.1448264651.1448264651.1; __utmz=111872281.1448264651.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __CT_Data=gpv=1&apv_5367_www07=1; WRUID=0; _ga=GA1.1.70769081.1448264651; __atuvc=31%7C4
+Connection: keep-alive
+
+'
+
+localhost : 
+'GET /version.txt HTTP/1.1
+Accept-Encoding: identity
+Host: localhost
+Connection: close
+User-Agent: Python-urllib/2.7
+
+'
+
+localhost : 
+'GET /version.txt HTTP/1.1
+Accept-Encoding: identity
+Host: localhost
+Connection: close
+User-Agent: Python-urllib/2.7
+
+'
+
+localhost : 
+'GET /version.txt HTTP/1.1
+Accept-Encoding: identity
+Host: localhost
+Connection: close
+User-Agent: Python-urllib/2.7
+
+'
+
+localhost : 
+'GET /version.txt HTTP/1.1
+Accept-Encoding: identity
+Host: localhost
+Connection: close
+User-Agent: Python-urllib/2.7
+
+'
+
+localhost : 
+'GET /version.txt HTTP/1.1
+Accept-Encoding: identity
+Host: localhost
+Connection: close
+User-Agent: Python-urllib/2.7
+
+'
+
+localhost : 
+'GET /version.txt HTTP/1.1
+Accept-Encoding: identity
+Host: localhost
+Connection: close
+User-Agent: Python-urllib/2.7
+
+'
+
+localhost : 
+'GET /version.txt HTTP/1.1
+Accept-Encoding: identity
+Host: localhost
+Connection: close
+User-Agent: Python-urllib/2.7
+
+'
+
+localhost : 
+'GET /version.txt HTTP/1.1
+Accept-Encoding: identity
+Host: localhost
+Connection: close
+User-Agent: Python-urllib/2.7
+
+'
+

