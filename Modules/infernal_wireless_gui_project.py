@@ -1280,11 +1280,11 @@ class wpa2enterprise_cracker(wx.Frame):
       #~ self.Bind(wx.EVT_MENU, self.openfile, id=99)
       
       
-      wbtn = wx.Button(self,-1, label='Choose wordlist', pos=(10,40))
+      wbtn = wx.Button(panel,-1, label='Choose wordlist', pos=(10,40))
       wbtn.Bind(wx.EVT_BUTTON, self.openfile)
       
-      challenge = wx.TextCtrl(self, -1, "Enter the Challenge", size=(250, 30),pos=(10,80))
-      response =  wx.TextCtrl(self, -1, "Enter the Response",size=(250, 30),pos=(10,120))
+      challenge = wx.TextCtrl(panel, -1, "Enter the Challenge", size=(250, 30),pos=(10,80))
+      response =  wx.TextCtrl(panel, -1, "Enter the Response",size=(250, 30),pos=(10,120))
       
       
       self.g_challenge = challenge
@@ -1294,7 +1294,7 @@ class wpa2enterprise_cracker(wx.Frame):
       #~ capbtn = wx.Button(panel, label='Choose capture file',pos=(10,80))
       #~ capbtn.Bind(wx.EVT_BUTTON, self.openhash)
       
-      brutebtn = wx.Button(self, -1, label='Start bruteforce',pos=(10,155))
+      brutebtn = wx.Button(panel, -1, label='Start bruteforce',pos=(10,155))
       brutebtn.Bind(wx.EVT_BUTTON, self.bruteforce)
       
       
