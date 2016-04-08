@@ -29,19 +29,39 @@ class Example(wx.Frame):
         
         clearBtn = wx.Button(panel, -1, "clear Log")
         clearBtn.Bind(wx.EVT_BUTTON, self.clearlog)
+        
+        bruteBtn = wx.Button(panel, -1, "Brute Foce")
+        bruteBtn.Bind(wx.EVT_BUTTON, self.brutentlm)
+        
+        
+        closeBtn = wx.Button(panel, -1, "Close")
+        closeBtn.Bind(wx.EVT_BUTTON, self.closeme)
+
+
 
         panel.SetBackgroundColour('#4f5049')
         vbox = wx.BoxSizer(wx.VERTICAL)
         self.MultiLine = wx.TextCtrl(panel, -1, "",style = wx.TE_MULTILINE|wx.TE_READONLY|wx.TE_AUTO_URL)
         self.MultiLine.SetBackgroundColour('#ededed')
         
+        
+        
         vbox.Add(self.MultiLine, 1, wx.EXPAND | wx.ALL, 10)
         vbox.Add(refreshBtn)
         vbox.Add(clearBtn)
+        vbox.Add(bruteBtn)
+        vbox.Add(closeBtn)
         panel.SetSizer(vbox)
 	
     def clearlog(self, e):
         open('/usr/local/var/log/radius/freeradius-server-wpe.log', 'w').close()
+	
+    def brutentlm(self, e):
+        import ntml_bruter 
+        ntml_bruter.launch_ntlm_cracker()
+	
+    def closeme(self, e):
+        self.Close()
 		
     def refresh(self, e):
 		pathtofile ="/usr/local/var/log/radius/freeradius-server-wpe.log"
@@ -64,3 +84,4 @@ def launch_ntlm_cracker():
     app.MainLoop()
 
 
+#~ launch_ntlm_cracker()

@@ -636,7 +636,7 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 	def configure(self, e):
 		try:
 			
-			os.system("apt-get install -y --force-yes hostapd dnsmasq wireless-tools iw wvdial &")
+			os.system("apt-get install -y --force-yes hostapd dnsmasq &")
 			os.system("pip install reportlab &")
 			os.system("python ./Modules/airgraph-ng/setup.py build &")
 			os.system("python ./Modules/airgraph-ng/setup.py install &")
