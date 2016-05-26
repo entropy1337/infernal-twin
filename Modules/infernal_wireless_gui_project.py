@@ -61,6 +61,7 @@ class Example(wx.Frame):
 		deauth_all = toolbar1.Append(-1, "Deauthenticate Access Point", "Deauthenticate Access Point")
 		kill_all = toolbar1.Append(-1, "Kill Srv", "Kill Infernal Wireless")
 		radiusd_check = toolbar1.Append(-1, "Check freeradius", "Check if Freeradius installed")
+		radiusd_install = toolbar1.Append(-1, "Install freeradius", "Install Freeradius")
 		
 		
 		menubar.Append(toolbar1, "Tools")
@@ -197,6 +198,8 @@ class Example(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.killall, kill_all)
 		
 		self.Bind(wx.EVT_MENU, self.radiusd_check, radiusd_check)
+		
+		self.Bind(wx.EVT_MENU, self.install_radiusd,radiusd_install)
 		
 		self.Bind(wx.EVT_MENU, self.probRequest, probrecon)
 		
@@ -458,6 +461,14 @@ class Example(wx.Frame):
 		wx.MessageBox('Killed Conflict Processes', 'Info', wx.OK | wx.ICON_INFORMATION)
 		
 	
+	def install_radiusd(self, e):
+		try:
+			os.system('sh Modules/install_freeradius.sh')
+			wx.MessageBox('Freeradius/radiusd is installed', 'Information',wx.ICON_INFORMATION)
+			
+		except:
+			wx.MessageBox('Please check your internet connectivity or run as root', 'Information',wx.ICON_INFORMATION)
+	
 	def radiusd_check(self, e):
 		check_rd = subprocess.Popen(["which","radiusd"], stdout=subprocess.PIPE)
 		(out, err) = check_rd.communicate()
@@ -471,7 +482,7 @@ tar -jxvf freeradius-server-2.1.11.tar.bz2
 
 cd freeradius-server-2.1.11
 
-patch -p1 < freeradius-wpe-2.1.11.patch
+patch -p1 < ../freeradius-wpe-2.1.11.patch
 
 ./configure
 
@@ -479,7 +490,11 @@ make
 
 sudo make install
 
-sh /usr/local/etc/raddb/certs/bootstrap'''
+sh /usr/local/etc/raddb/certs/bootstrap
+
+
+or click on tool menu and click on Install Freeradius
+'''
 			wx.MessageBox('Please Intall Free Radius Server', 'Warning/Error', wx.ICON_ERROR)
 			wx.MessageBox(fRadius_install, 'Information', wx.ICON_INFORMATION)
 			 
@@ -876,7 +891,7 @@ sh /usr/local/etc/raddb/certs/bootstrap'''
 	
 	
 	def wpe_ssid_get(self, e):
-		
+		os.system('airmon-ng check kill')
 		import wpa2_enterprise_module
 		wpa2_enterprise_module.main()
 		

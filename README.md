@@ -1,4 +1,4 @@
-Infernal-Wireless v2
+Infernal-Wireless v2.3
 
 This tool is created to aid the penetration testers in assessing wireless security.
 Author is not responsible for misuse. Please read instructions thoroughly.  

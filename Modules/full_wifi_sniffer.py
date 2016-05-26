@@ -40,6 +40,15 @@ connAP = None
 connAPMAC = None
 
 
+mac_dict = {}
+
+with open('Modules/mac_addresses.lst','r') as f:
+	
+	for i in f:
+		
+		tmp = i.split('=')
+		mac_dict[str(tmp[0]).strip()]=str(tmp[1]).strip()
+
 ############
 found_probes = ''
 found_ssids = ''
@@ -73,6 +82,8 @@ class MySniffer(Thread):
 		
 	def stopper(self):
 		sniff(iface='mon0', prn=self.packet_sniffer, stop_filter=self.stopper_flag)
+	
+	
 	
 	
 	
@@ -135,10 +146,18 @@ class MySniffer(Thread):
 			
 					
 					
-					global tssid
+					global tssid, mac_dict
 					
+					#~ print 'Device is' + str(mac_dict[str(bssid[8])])
+					#~ print "Device is "+ str(bssid[0:8]).replace(':','-').upper()
+					try:
+						manufacturer = str(bssid[0:8]).replace(':','-').upper()
+						manufactuerer_id = str(mac_dict[manufacturer])
+					except:
 					
-					tssid = str(str(bssid) + ' : ' + str(essid) + ' : ' + str(encryption))
+						manufactuerer_id = 'Unknown device'
+										#~ 
+					tssid = str('[MAC Addr]-> '+str(bssid) + ' : [ESSID]-> ' + str(essid) + ' \t\t: [Encr]-> ' + str(encryption) + '\t :[Manufacturer]-> '+manufactuerer_id)
 					tempSSID2 = str(str(bssid) + '-' + str(essid) + '-' +str(channel)) 
 					ssid_dictionary[bssid]=essid
 					#~ print ssid_dictionary

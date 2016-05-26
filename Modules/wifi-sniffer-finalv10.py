@@ -120,7 +120,7 @@ class MySniffer(Thread):
 					global tssid
 					
 					
-					tssid = str(str(bssid) + ' : ' + str(essid) + ' : ' + str(encryption))
+					tssid = str(str(bssid) + '< : >' + str(essid) + '< : >' + str(encryption))
 					ssid_dictionary[bssid]=essid
 					#~ print ssid_dictionary
 					######### write to file #######

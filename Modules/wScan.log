@@ -1,11 +1,14 @@
-[SSID: ichoco, BSS: 54:b8:0a:20:fd:6c, Ciphers: CCMP, Channel: 1]
-[SSID: Panos, BSS: 30:b5:c2:6e:cd:f4, Ciphers: CCMP, Channel: 6]
-[SSID: Chillis (Free), BSS: 4c:5e:0c:b2:cc:03, Ciphers: None, Channel: 4]
-[SSID: donttry, BSS: 48:9d:24:09:6f:9f, Ciphers: CCMP, Channel: 11]
-[SSID: ADVL, BSS: 94:10:3e:c3:e9:52, Ciphers: CCMP, Channel: 6]
-[SSID: \x00\x00\x00, BSS: d8:fe:e3:51:32:fd, Ciphers: CCMP, Channel: 6]
-[SSID: Club-Apparel, BSS: 00:11:74:e0:e5:40, Ciphers: None, Channel: 1]
-[SSID: LM-INTRA, BSS: b4:c7:99:5d:cb:21, Ciphers: CCMP, Channel: 11]
-[SSID: None, BSS: 00:10:41:16:65:16, Ciphers: TKIP, Channel: None]
-[SSID: LM-Retail, BSS: b4:c7:99:5d:cb:20, Ciphers: CCMP, Channel: 11]
-[SSID: UAE WiFi by Etisalat, BSS: 58:93:96:0f:d4:f8, Ciphers: None, Channel: 11]
+[SSID: h_ssid, BSS: f8:e9:03:c4:4d:d4, Ciphers: CCMP, Channel: 10]
+
+[SSID: Mooshy, BSS: 1c:7e:e5:46:ed:4d, Ciphers: TKIP, Channel: 5]
+
+[SSID: belkin.bf8, BSS: ec:1a:59:b5:8b:f8, Ciphers: CCMP, Channel: 6]
+
+[SSID: SHAMIL, BSS: 6c:72:20:0a:34:9c, Ciphers: TKIP, Channel: 10]
+
+[SSID: don1806_2.4GHz, BSS: c4:e9:84:42:d0:ec, Ciphers: TKIP, Channel: 10]
+
+[SSID: ramika, BSS: ec:1a:59:1a:15:97, Ciphers: CCMP, Channel: 1]
+
+[SSID: None, BSS: fa:8f:ca:76:72:7d, Ciphers: None, Channel: 6]
+
