@@ -1,9 +1,0 @@
-
-BSSID, First time seen, Last time seen, channel, Speed, Privacy, Cipher, Authentication, Power, # beacons, # IV, LAN IP, ID-length, ESSID, Key
-
-Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs
-00:CD:FE:83:8E:C3, 2016-06-04 18:18:06, 2016-06-04 18:18:06,  -1,        9, 1C:7E:E5:46:ED:4D,
-
-st time seen, Power, # packets, BSSID, Probed ESSIDs
-00:CD:FE:83:8E:C3, 2016-06-04 18:18:06, 2016-06-04 18:18:06,  -1,        9, 1C:7E:E5:46:ED:4D,
-
