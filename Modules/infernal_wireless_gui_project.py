@@ -168,7 +168,11 @@ class Example(wx.Frame):
 		updateCheck = aboutmenu.Append(-1, "Check Update","Check Update")
 		menubar.Append(aboutmenu,"About")
 		
-
+		############# Scan Wizard ###########
+		
+		wizardMenu = wx.Menu()
+		wizardSelect = wizardMenu.Append(-1,'Wireless Attack Wizard', 'Wireless Attack Wizard')
+		menubar.Append(wizardMenu, 'Wireless Wizard')
 
 
 
@@ -246,6 +250,8 @@ class Example(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.mapWireless, mapWireless)
 		
 		self.Bind(wx.EVT_MENU, self.about_author, aboutme)
+		
+		self.Bind(wx.EVT_MENU, self.wizrd_launch, wizardSelect)
 		
 		self.Bind(wx.EVT_MENU, self.getVictimInfo, victim_IP_list)
 		
@@ -423,6 +429,11 @@ class Example(wx.Frame):
 		########### text aread ######
 	def OnQuit(self, e):
 		self.Close()
+	
+	def wizrd_launch(self, e):
+		import wizard_scanner
+		
+		
 	
 	def checkUpdate(self, e):
 		request = urllib2.urlopen("https://github.com/entropy1337/infernal-twin/README.md")

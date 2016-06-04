@@ -1,0 +1,6 @@
+
+BSSID, First time seen, Last time seen, channel, Speed, Privacy, Cipher, Authentication, Power, # beacons, # IV, LAN IP, ID-length, ESSID, Key
+E4:6F:13:31:5C:FC, 2016-06-04 18:23:32, 2016-06-04 18:23:51,  2,  54, WPA2, CCMP,PSK, -80,      169,        7,   0.  0.  0.  0,  11, TEHSEENBUTT, 
+
+Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs
+

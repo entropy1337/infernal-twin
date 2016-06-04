@@ -1,0 +1,11 @@
+
+BSSID, First time seen, Last time seen, channel, Speed, Privacy, Cipher, Authentication, Power, # beacons, # IV, LAN IP, ID-length, ESSID, Key
+
+Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs
+70:EC:E4:4A:7E:5C, 2016-06-04 18:16:23, 2016-06-04 18:16:53, -55,       12, F8:E9:03:C4:4D:D4,
+C0:BD:D1:87:62:28, 2016-06-04 18:16:31, 2016-06-04 18:17:00, -33,      718, F8:E9:03:C4:4D:D4,
+84:3A:4B:8C:D0:28, 2016-06-04 18:16:29, 2016-06-04 18:16:49, -15,        4, F8:E9:03:C4:4D:D4,
+
+18:16:58, -37,      659, F8:E9:03:C4:4D:D4,
+84:3A:4B:8C:D0:28, 2016-06-04 18:16:29, 2016-06-04 18:16:49, -15,        4, F8:E9:03:C4:4D:D4,
+

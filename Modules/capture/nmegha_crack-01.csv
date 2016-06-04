@@ -1,0 +1,8 @@
+
+BSSID, First time seen, Last time seen, channel, Speed, Privacy, Cipher, Authentication, Power, # beacons, # IV, LAN IP, ID-length, ESSID, Key
+
+Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs
+A4:77:33:3C:E4:FA, 2016-06-04 18:26:05, 2016-06-04 18:26:06, -81,        7, (not associated) ,benjoe
+
+en, Power, # packets, BSSID, Probed ESSIDs
+

@@ -118,16 +118,18 @@ class MySniffer(Thread):
 					
 				
 					
-					if essid != '':
+					if essid:
 						essid = pkt.info
-						ssid_dictionary[bssid] = essid
+						ssid_dictionary[bssid] = repr(essid)
+						if not essid:
+							essid = 'Unknown'
 						
 					else:
 						essid = 'Unknown'
-						ssid_dictionary[bssid] = essid
+						ssid_dictionary[bssid] = repr(essid)
 						
 					bssid = pkt.addr3
-					ssid_dictionary[bssid] = essid
+					ssid_dictionary[bssid] = repr(essid)
 					ssids.add(bssid)
 				
 				
@@ -138,7 +140,7 @@ class MySniffer(Thread):
 					global ssid_channel_dictionary
 					
 					channel = ord(temp.info)
-					ssid_channel_dictionary[bssid] = essid +'-'+str(channel)
+					ssid_channel_dictionary[bssid] = repr(essid) +'-'+str(channel)
 					
 				elif temp and temp.ID == 221:
 					encryption = 'WPA/WPA2'
@@ -157,8 +159,8 @@ class MySniffer(Thread):
 					
 						manufactuerer_id = 'Unknown device'
 										#~ 
-					tssid = str('[MAC Addr]-> '+str(bssid) + ' : [ESSID]-> ' + str(essid) + ' \t\t: [Encr]-> ' + str(encryption) + '\t :[Manufacturer]-> '+manufactuerer_id)
-					tempSSID2 = str(str(bssid) + '-' + str(essid) + '-' +str(channel)) 
+					tssid = str('[MAC Addr]-> '+str(bssid) + ' : [ESSID]-> ' + repr(essid) + ' \t\t: [Encr]-> ' + str(encryption) + '\t :[Manufacturer]-> '+manufactuerer_id)
+					tempSSID2 = str(str(bssid) + '-' + repr(essid) + '-' +str(channel)) 
 					ssid_dictionary[bssid]=essid
 					#~ print ssid_dictionary
 					######### write to file #######
