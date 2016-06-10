@@ -9,10 +9,12 @@ import sys
 import wx
 from datetime import datetime
 
+import logging 
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 try:
 
-	os.system('/etc/init.d/apache2 start')
-	os.system('/etc/init.d/mysql start')
+	os.system('/etc/init.d/apache2 start >/dev/null 2>&1')
+	os.system('/etc/init.d/mysql start >/dev/null 2>&1')
 except:
 	print 'Opps, I could not start apache2 or MySQL'
 	
@@ -116,8 +118,8 @@ class Example(wx.Frame):
 		#print self.projectName
 		dic_project = {"Project":str(self.projectName),"Authors Full Name":str(self.author.GetValue()),"Target name":str(self.targetname.GetValue()),"Date":str(self.datename.GetValue())}
 		os.system("mkdir ./Modules/Projects/%s"%str(self.projectName).replace(" ","_"))
-		print 'Executed following command'
-		print "mkdir ./Modules/Projects/%s"%str(self.projectName).replace(" ","_")
+		#~ print 'Executed following command'
+		#~ print "mkdir ./Modules/Projects/%s"%str(self.projectName).replace(" ","_")
 		dic_project['Filename']=str(self.projectName).replace(" ","_")
 
 		pFile = open('./Modules/Projects/'+self.projectName.replace(" ","_")+"/Project Info.txt","wb")

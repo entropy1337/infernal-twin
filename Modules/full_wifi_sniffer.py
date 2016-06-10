@@ -118,16 +118,18 @@ class MySniffer(Thread):
 					
 				
 					
-					if essid != '':
+					if essid:
 						essid = pkt.info
-						ssid_dictionary[bssid] = essid
+						ssid_dictionary[bssid] = repr(essid)
+						if not essid:
+							essid = 'Unknown'
 						
 					else:
 						essid = 'Unknown'
-						ssid_dictionary[bssid] = essid
+						ssid_dictionary[bssid] = repr(essid)
 						
 					bssid = pkt.addr3
-					ssid_dictionary[bssid] = essid
+					ssid_dictionary[bssid] = repr(essid)
 					ssids.add(bssid)
 				
 				
@@ -138,7 +140,7 @@ class MySniffer(Thread):
 					global ssid_channel_dictionary
 					
 					channel = ord(temp.info)
-					ssid_channel_dictionary[bssid] = essid +'-'+str(channel)
+					ssid_channel_dictionary[bssid] = repr(essid) +'-'+str(channel)
 					
 				elif temp and temp.ID == 221:
 					encryption = 'WPA/WPA2'
@@ -157,8 +159,8 @@ class MySniffer(Thread):
 					
 						manufactuerer_id = 'Unknown device'
 										#~ 
-					tssid = str('[MAC Addr]-> '+str(bssid) + ' : [ESSID]-> ' + str(essid) + ' \t\t: [Encr]-> ' + str(encryption) + '\t :[Manufacturer]-> '+manufactuerer_id)
-					tempSSID2 = str(str(bssid) + '-' + str(essid) + '-' +str(channel)) 
+					tssid = str('[MAC Addr]-> '+str(bssid) + ' : [ESSID]-> ' + repr(essid) + ' \t\t: [Encr]-> ' + str(encryption) + '\t :[Manufacturer]-> '+manufactuerer_id)
+					tempSSID2 = str(str(bssid) + '-' + repr(essid) + '-' +str(channel)) 
 					ssid_dictionary[bssid]=essid
 					#~ print ssid_dictionary
 					######### write to file #######
@@ -200,32 +202,32 @@ class MySniffer(Thread):
 					
 					
 					
-					if pkt.info != '':
-						found_probe_request.append(pkt.addr2 + ' : '+pkt.info)
+					if pkt.info:
+						found_probe_request.append(pkt.addr2 + ' : '+repr(pkt.info))
 						
 						######### write to file #######
 						global found_probes
 						global probe_dict
 						global client_macs
 						
-						found_probes = pkt.addr2 + ' : '+pkt.info
+						found_probes = pkt.addr2 + ' : '+repr(pkt.info)
 						
 						client_macs.append(pkt.addr2)
 						
 						
 						with open('./Modules/probe_list.txt','a') as f:
-							f.write(pkt.addr2 + ' : '+pkt.info+'\n')
+							f.write(pkt.addr2 + ' : '+repr(pkt.info)+'\n')
 						######### write to file #######
 						
 						if pkt.addr2 not in probe_dict.keys():
-							probe_dict[pkt.addr2] = pkt.info
+							probe_dict[pkt.addr2] = repr(pkt.info)
 							global nDevices
 							nDevices = nDevices + 1
 							#print probe_dict
 							
 						else:
 							tmp = probe_dict[pkt.addr2]
-							probe_dict[pkt.addr2] = tmp + ';' + pkt.info
+							probe_dict[pkt.addr2] = tmp + ';' + repr(pkt.info)
 							#print probe_dict
 							
 				

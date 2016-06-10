@@ -1,4 +1,4 @@
-Infernal-Wireless v2.6
+Infernal-Wireless v2.4
 
 This tool is created to aid the penetration testers in assessing wireless security.
 Author is not responsible for misuse. Please read instructions thoroughly.  
@@ -12,7 +12,6 @@ For any comments and suggestions please email on 3ntr0py1337@gmail.com
 1. Non ASCII SSID Name used to crash the software. It is fixed now
 2. Warnings on the background is supressed
 3. New Experimental Section is added but under development
-4. Improved and Added Wizard Assessment
 
 ## Release Notes:
 

@@ -4,7 +4,7 @@ try:
 	import wx.html
 except ImportError as error:
 	#~ raise ImportError("Detected Python3 +")
-	print 'Python 3 detected'
+	print ''
 import os
 
 

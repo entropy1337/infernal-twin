@@ -8,13 +8,13 @@ import sys
 import wx
 from datetime import datetime
 
-os.system('/etc/init.d/apache2 start')
-os.system('/etc/init.d/mysql start')
+os.system('/etc/init.d/apache2 start >/dev/null 2>&1')
+os.system('/etc/init.d/mysql start >/dev/null 2>&1')
 
 if not os.path.exists('./Modules/dbconnect.conf'):
-    print "DB Config 'dbconnect.conf' file doesn't seem to exist."
+    #~ print "DB Config 'dbconnect.conf' file doesn't seem to exist."
     
-    print "Current path is above"
+    print ""
     sys.exit(1)
 
 date = datetime.now()

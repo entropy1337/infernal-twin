@@ -1,4 +1,5 @@
 #!/usr/bin/env python2.7
+
 """Test MySQL connection."""
 import MySQLdb
 import db_connect_creds
@@ -6,6 +7,10 @@ import logging
 import os
 import sys
 import traceback
+import MySQLdb
+import warnings
+warnings.filterwarnings(action="ignore", category=MySQLdb.Warning) 
+    
 
 INFERNAL_DB = 'InfernalWireless'
 

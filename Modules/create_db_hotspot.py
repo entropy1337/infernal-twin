@@ -5,8 +5,8 @@ import db_setup
 
 WPA_CRACK_DB = 'wpa_crack'
 
-print '*' * 20
-print "Setting up the database\n"
+#~ print '*' * 20
+#~ print "Setting up the database\n"
 
 def connect_to_database():
     username, password = db_connect_creds.read_creds()
@@ -45,7 +45,7 @@ mysqli_close($con);
     phpcreate.write(php)
     phpcreate.close()
 
-print "Database and appropriate file is created"
+#~ print "Database and appropriate file is created"
 
 connect_to_database()
 create_file()
