@@ -86,7 +86,7 @@ rsn_pairwise=CCMP
 	os.system("gnome-terminal -x radiusd -X &")
 	os.system("/usr/local/etc/raddb/certs/bootstrap &")
 	
-	time.sleep(5)
+	time.sleep(300)
 	
 	
 		
