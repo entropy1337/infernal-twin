@@ -1,0 +1,28 @@
+<table style="width: 1250px; height: 187px;" border="1">
+	      <tbody>
+	        <tr>
+	          <td id="title" style="width: 909.12px;">testing1<br>
+	          </td>
+	          <td id="phase" style="width: 522.883px; height: 55.867px;" colspan="2"
+	            rowspan="1">Exploitation<br>
+	            <br>
+	          </td>
+	        </tr>
+	        <tr>
+	          <td id="findings">test1  <br>
+	          </td>
+	          <td><span style="font-weight: bold;">Risk Level</span><br>
+	          </td>
+	          <td><span style="font-weight: bold;">Category</span><br>
+	          </td>
+	        </tr>
+	        <tr>
+	          <td id="notes">asdf12<br>
+	          </td>
+	          <td id="risklevel">High<br>
+	          </td>
+	          <td id="category">Active Exploitation data<br>
+	          </td>
+	        </tr>
+	      </tbody>
+	    </table></br></br></br>

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block body %}
+<div id="container">
+    <div id="header">
+        <a href="/"><div id="logo"></div></a>
+        <div id="topbar"></div>
+        <ul id="menu">
+            <li class="menu txt-blue highlight_blue"><a href="/">Home</a></li>
+            <li class="menu txt-lightblue highlight_lightblue"><a href="/solutions/">Solutions</a></li>
+            <li class="menu txt-green highlight_green"><a href="/software/">Software</a></li>
+            <li class="menu txt-purple highlight_purple"><a href="/about/">About Us</a></li>
+            <li class="menu txt-pink highlight_pink" style="border:0px;"><a href="/contact/">Contact</a></li>
+        </ul>
+        <a style="color:white" href="/accounts/login/"><img id="login_btn" src="/media/base/login_btn.gif" alt="Login / Register" style="border: 0" /></a>
+    </div>
+    <div id="content">
+        <div id="breadcrumb">
+        </div>
+        <div id="divider">
+            <div id="nav_bar">
+                <div id="nav_bar_top">
+                    {% block sidebar1 %}{{ sidebar() }}{% endblock %}
+                </div>
+            </div>
+            <div id="main_content_sub_pages_wide">
+                {% block relbar1 %}{{ relbar() }}{% endblock %}
+                {{ body }}
+                {% block relbar2 %}{{ relbar() }}{% endblock %}
+            </div>
+        </div>
+        <div id="clear"></div>
+    </div>
+</div>
+{% endblock %}
+
