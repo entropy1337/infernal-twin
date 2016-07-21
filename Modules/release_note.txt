@@ -1,0 +1,66 @@
+----------------
+Release 2.6.5
+
+Features added and improved: 
+
+- Added BeeF XSS framework Integration 
+- Added HTTP Traffic View within tool
+- Improved Infenral Wireless Attack
+- Visual View of some of the panel improved
+- Improved Basic Authentication during Social engineering assessment over wireless network
+
+---------------------------------------------------------------------
+Release 
+---------------------------------------------------------------------
+
+
+
+NEW FEATURES:
+
+- GUI Wireless security assessment SUITE
+
+- Impelemented 
+-- WPA2 hacking
+-- WEP Hacking
+-- WPA2 Enterprise hacking
+-- Wireless Social Engineering
+-- SSL Strip
+-- Report generation 
+--- PDF Report
+--- HTML Report
+-- Note taking function
+-- Data is saved into Database
+-- Network mapping 
+-- MiTM 
+-- Probe Request
+
+
+CHANGES:
+- Improved compatibility 
+- Report improvement
+- Better NAT Rules
+
+
+BUG FIXES:
+
+- Wireless Evil Access Point traffic redirect
+
+Coming Soon: 
+- Parsing t-shark log files for gathering creds and more
+- More attacks.
+
+BUGS exptected: 
+- wireless card might not be supported
+- windodw might crash 
+- freeze
+- a lot of work to be done, but this tool is still being developed. 
+
+Thanks and Credits: 
+- Special thanks to all my friends for comments
+- creators: 
+-- Aircrack
+-- SSL Strip
+-- Online Community
+-- others whom I forgot to mention. 
+
+

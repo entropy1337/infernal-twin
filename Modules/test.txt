@@ -1,0 +1,5 @@
+Opening /root/Desktop/infernal-twin-v2.5.1/Modules/mynetwork-01.cap
+Reading packets, please wait...No matching network found - check your essid.
+
+
+Quitting aircrack-ng...

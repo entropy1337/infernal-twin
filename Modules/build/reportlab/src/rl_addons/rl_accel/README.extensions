@@ -1,0 +1,21 @@
+This directory contains all of ReportLab's extensions.
+
+The file __BUILD.dsw is suitable for VC++ 6.0; th dsp files are 
+for individual projects. At present these are
+
+	_rl_accel.dsp (.c)
+	pyHnj.dsp
+
+for unix the Setup.in and generic Makefile.pre.in are included.
+You need to do
+
+	make -f Makefile.pre.in boot
+	make
+
+then you should have some shared libraries.
+
+Alternatively you can use the distutils setup.py file
+eg
+	setup.py build or setup.py install
+
+Robin Becker

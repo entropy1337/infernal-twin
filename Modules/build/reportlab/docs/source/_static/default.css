@@ -1,0 +1,995 @@
+/*
+
+ReportLab website stylesheet
+
+Reorder into
+
+1. reset
+
+2. standard styles, which should appear normally in the main content div
+
+3. named divs for layout, with clear explanation of where they go
+
+
+4. everything else that's left over. (this will be most of it at first and
+we can work through seeing where each item is used)
+
+
+
+*/
+
+html, body {
+    margin: 0 0 1px;
+    padding: 0;
+}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, th, td {
+	margin:0;
+	padding:0;
+	font-family:"Trebuchet MS",Verdana,sans-serif;
+	font-weight:normal;
+	font-size: 13px;
+	color: #444444;
+	}
+body{
+	background: #43505d;
+	}
+a {
+	font-weight:bold;
+	/* text-decoration: underline; */
+	}
+A:link.menu2{
+	color:white;
+	text-decoration:none;
+	}
+A:visited.menu2{
+	color:white;
+	text-decoration:none;
+	}
+A:active.menu2{
+	color:white;
+	}
+A:hover.menu2{
+	color:white;
+	}
+A:link{
+	color:#00337f;
+	text-decoration:none;
+/*	text-decoration: underline;*/
+	}
+A:visited{
+	color:#00337f;
+	text-decoration:none;
+	}
+A:active{
+	color:#ca002a;
+	}
+A:hover{
+	color:#ca002a;
+	}
+a.txt-green {
+	color:#00800d;
+}
+a.txt-green:link {
+	color:#00800d;
+}
+a.txt-green:active {
+	color:#00800d;
+}
+a.txt-green:visited {
+	color:#00800d;
+}
+ul{
+	margin: 5px 0;
+	list-style-type: square;
+	/*#list-style-position: inside;*/
+	}
+	
+ol{
+	list-style-type:decimal;
+	}	
+	
+	
+/*ul.sidemenu {*/
+/*	padding-top: 0;*/
+/*}*/
+	
+li.sidemenu {
+    margin-left:15px;
+    padding: 2px 0;
+	/*text-indent: -1em;*/
+    /*#overflow:hidden;*/
+    /*#list-style: none; url('http://www.reportlab.com/media/level2/menu_arrow_bg.gif');*/
+}
+
+li.mlevel1 {
+    width:150px;
+    margin-left:4px;
+    /*#padding: 10px 0;*/
+    /*#background:url('http://www.reportlab.com/media/level2/menu_bar_bg.gif') repeat-x;*/
+    /*#list-style: none; url('http://www.reportlab.com/media/level2/menu_arrow_bg.gif');*/
+}
+
+li.selected {
+	color: #ca002a;
+	font-weight: bold;
+}
+pre, .dp-highlighter li { /* Javascript code syntax highlighter */
+    font-family: monospace;
+    font-size:11px;
+    }
+
+.blue{background-color:#00337f}
+.red{background-color:#ca002a}
+.lightblue{background-color:#44ADC7}
+.green{background-color:#9ac083}
+.purple{background-color:#714893}
+.pink{background-color:#c04b95}
+.gray{background-color:#ccc}
+.txt-blue{color:#00337f}
+.txt-red{color:#ca002a}
+.txt-lightblue{color:#44ADC7}
+.txt-green{color:#00800d}
+.txt-purple{color:#714893}
+.txt-pink{color:#c04b95}
+.txt-gray{color:#ccc}
+.txt-white{color:#fff}
+
+.txt-blue>a, .txt-blue>a:link, .txt-blue>a:visited {color:#00337f}
+.txt-red>a, .txt-red>a:link, .txt-red>a:visited {color:#ca002a}
+.txt-lightblue>a, .txt-lightblue>a:link, .txt-lightblue>a:visited {color:#44ADC7}
+.txt-green>a, .txt-green>a:link, .txt-green>a:visited {color:#00800d}
+.txt-purple>a, .txt-purple>a:link, .txt-purple>a:visited {color:#714893}
+.txt-pink>a, .txt-pink>a:link, .txt-pink>a:visited {color:#c04b95}
+.txt-gray>a, .txt-gray>a:link, .txt-gray>a:visited {color:#ccc}
+.txt-white>a, .txt-white>a:link, .txt-white>a:visited {color:#fff}
+
+
+a#logo{
+	display: block;
+	width:182px;
+	height:113px;
+	position:absolute;
+	left:41px;
+	top:23px;
+	}
+a#logo img{
+	border: 0 none;
+	}
+
+
+div#logo{
+	width:182px;
+	height:113px;
+	position:absolute;
+	left:41px;
+	top:23px;
+	background: url('http://www.reportlab.com/media/base/logo_bg.gif') no-repeat;
+	}
+div#topbar{
+	width:566px;
+	height:7px;
+	position:absolute;
+	left:241px;
+	top:77px;
+	background: url('http://www.reportlab.com/media/base/topbar_bg.gif') no-repeat;
+	}
+div#container{
+	position:relative;
+	/*#border:1px none red;*/
+	top:0px;
+	width:926px;
+	margin: 17px auto 17px auto;
+	background: #fdfdfd url('http://www.reportlab.com/media/base/page_bg.jpg') no-repeat 797px -1px;
+	}
+div#content{
+	margin-left:43px;
+	margin-right:43px;
+	margin-bottom:20px;
+	}
+div#footer{
+	margin-left:43px;
+	margin-right:43px;
+	}
+div#footer_slogan{
+    width: 838px;
+    height: 19px;
+    background: #fff url('http://www.reportlab.com/media/base/slogan_img.gif') no-repeat;
+	}
+.footer{
+	font-size:11px;
+	}
+img#login_btn{
+	cursor:pointer;
+	position:absolute;
+	top:10px;
+	right:125px;
+	}
+div#header{
+	height: 150px;
+	}
+	
+#call_us{
+	position:absolute;
+	text-align:right;
+	top:100px;
+	right:125px;
+	font-size:12pt;
+	line-height:25px;
+	}
+ul#menu{
+	padding-top: 0;
+	margin-top: 0;
+	cursor:pointer;
+	position:absolute;
+	top:56px;
+	left:270px;
+	list-style-type:none;
+	}
+li.menu{
+	margin-left: 0;
+	padding-top: 0;
+	width: 95px;
+	line-height:18px;
+	text-align:center;
+	font-size:13px;
+	font-weight:bold;
+	float:left;
+	border-right:2px solid #00337f;
+	}
+li.menu:hover, li.menu:hover>a, li.menu:hover>a:link, li.menu:hover>a:visited, li.menu:hover>a:hover {
+	color: black;
+	
+	}
+li.menu>a {
+    display: block;
+    }
+li.highlight_blue:hover{
+	background: #00337f;
+	}
+li.highlight_lightblue:hover{
+	background: #44ADC7;
+	}
+li.highlight_green:hover{
+	background: #9ac083;
+	}
+li.highlight_purple:hover{
+	background: #714893;
+	}
+li.highlight_pink:hover{
+	background: #c04b95;
+	}
+div#shadow{
+	position:absolute;
+	top:68px;
+	left:163px;
+	background: url('http://www.reportlab.com/media/base/menu_bg.jpg') no-repeat;
+	width:550px;
+	height:48px;
+	}
+div#clear{
+	clear:both;
+	height:10px;
+	}
+.intro{
+	padding:20px;
+	padding-top:30px;
+	font-size:10pt;
+	line-height:14pt;
+	font-weight:normal;
+	text-align:justify;
+	}
+td#slogan{
+	text-align:center;
+	}
+table#footer_table{
+	width:100%;
+	}
+p.title{
+	font-size:13pt;
+	line-height:16pt;
+	color: #00337F;
+	}
+
+p.teaser{
+    font-style: italic;
+    font-weight: bold;
+	}
+
+
+/*	Added by andy. This is all wrong; the base styles should
+cover standard text, and the 'home page' or 'menu' styles.
+should be overridden in each page that needs them, and
+with selectors like '#menu li'.  */
+
+table {
+    /*#border: 1px solid #e5e5e5;*/
+    border-bottom: 0;
+    border-collapse: collapse;
+}
+table th {
+    font-weight: bold;
+    text-align: left;
+    background-color: #e5e5e5;
+    padding: 3px;
+}
+table th.left {
+    width: 12em;
+}
+table td {
+    /*#border-bottom: 1px solid #e5e5e5;*/
+    padding: 3px 8px;
+}
+table#main_content td {
+    /*#border-bottom: 1px solid #e5e5e5;*/
+    padding: 0;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #e5e5e5;
+}
+
+#main_content_teaser{
+	font-style:italic;
+    font-weight:bold;
+	font-size:13pt;
+    margin: 15px 0;
+}
+
+#main_content_sub_pages{
+	width:450px;
+	min-height:700px;
+	margin:10px;
+	float:left;
+	/*font-size:16px;*/
+}
+
+#main_content_sub_pages_wide{
+	width:600px;
+	min-height:700px;
+	margin:10px;
+	float:left;
+	/*font-size:16px;*/
+}
+
+
+#content h1 {
+	font-size:20px;
+    margin: 0 0 20px 0;
+	color:#264D90;
+	font-weight:bold;
+	line-height:40px;
+	}
+
+#content h2 {
+	font-size:18px;
+	margin: 25px 0 10px 0;
+	font-weight: bold;
+	color: #264D90;
+	}
+
+#content h3 {
+	font-size:15px;
+    margin: 12px 0 4px 0;
+    font-weight: bold;
+    color: #264D90;
+    }
+#content h4 {
+	font-size:13px;
+    margin: 5px 0 0 0;
+    font-weight: bold;
+    color: #264D90;
+    }
+
+
+#content p {
+    margin: 10px 0;
+    font-size: 13px;
+    }
+li {
+    margin-left: 15px;
+    list-style-position: outside;
+	/*#list-style-type:square;*/
+    }
+ul {
+    margin-left: 10px;
+    list-style-position: outside;
+    }
+
+
+#breadcrumb{
+
+    position: absolute;
+    left: 250px;
+    top: 90px;
+	height: 22px;
+	width: 560px;
+	font-weight:bold;
+
+	/*background:pink;  uncomment to see it*/
+	margin-top:20px;
+	/*border:1px solid #f2f2f2;*/
+	font-size:12px;
+	line-height:24px;
+	text-indent:21px;
+	color:#264D90;
+}
+#divider{
+	height:100%;
+	background:white;
+	border-top:1px solid #E5E5E5;
+	margin-top:10px;
+}
+#nav_bar{
+	float:left;
+	margin-left:0px; 
+	margin-top:16px;
+}
+
+#nav_bar_top{
+	width:180px;
+	height:100%;
+	background:url('http://www.reportlab.com/media/level2/menu_bg.gif') repeat-y;
+	color:white;
+	/*#text-indent:10px;*/
+	color:#264D90;
+	/*#padding-left:10pt;*/
+    padding: 5px 10px;
+}
+#nav_bar_bottom{
+	height:37px;
+	width:200px;
+	background:url('http://www.reportlab.com/media/level2/menu_footer_bg.gif') no-repeat;
+	line-height:37px;
+}
+
+#nav_bar li {
+    /*#margin-left: 8px;*/
+    /*#list-style-position: inside;*/
+	font-size:12px;
+
+	font-weight:bold;
+    }
+#nav_bar ul {
+    margin-left: 5px;
+    list-style-position: inside;
+    }
+
+
+
+#side_div h1 {
+    font-size: 13px;
+    margin: 0 0 12px 25px;
+    color: #000;
+    font-weight:bold;
+    text-align: left;
+}
+
+#side_div a.related_item img {
+    width:100px;
+    height:100px;
+    display:block;
+    margin:0 auto;
+    border: 0;
+    padding-top: 10px;
+}
+#side_div li {
+    list-style: none;
+}
+
+
+table.price_table th  {
+	padding-right:10pt;
+	text-align:right;
+	}
+
+td.tick {
+	text-align:center;
+	}
+
+.notification {
+    border: 2px solid #43505d;
+    padding: 15px;
+    background: #c0c4c9;
+    color: #000;
+    margin: 10px 0;
+}
+
+/* juraj starts here */
+
+#users-navigation {
+	float: right; 
+	height: 22px;
+	margin: 10px 120px 10px 10px;
+	background-image: url(status_left.gif); 
+	background-repeat: no-repeat; 
+	background-position: left; 
+	padding-left:2px;
+	}
+
+#users-navigation div, #users-navigation a{
+	color: white;
+	font-size: 90%;
+	line-height: 22px;
+}
+
+#users-navigation div{
+	float: left; 
+	height: 22px; 
+	background-image: url(status_middle.gif); 
+	padding-left: 3px;
+}
+
+#users-navigation a{
+	padding-right: 3px;
+}
+
+#users-navigation a:hover{
+	text-decoration: underline;
+	}
+
+#users-navigation div.last{
+	background-image: url(status_right.gif); 
+	background-repeat: no-repeat;
+}
+
+#loggedAs{
+	float: right; 
+	margin: 10px  10px 10px;
+	height: 22px; 
+	line-height: 25px; 
+	font-size: 10px;
+}
+
+#messages{
+	margin-left:57px;
+	margin-right:43px;
+	font-size:14px;
+	line-height:24px;
+	text-indent:21px;
+	color:#264D90;
+}
+
+#overlay{
+	display: block;
+	position: absolute;
+	top: 0pt;
+	left: 0pt;
+	z-index: 2;
+	width: 100%;
+	/* background-image:url('overlay.png'); */
+}
+* html #overlay{
+	background-color: #333;
+	back\ground-color: transparent;
+	background-image: url(blank.gif);
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="overlay.png", sizingMethod="scale");
+}
+
+.overlaydiv{
+	background-color: #ffffff;
+	position: absolute;
+	width: 550px;
+	left: 50%;
+	top: 100px;
+	margin-left: -275px;
+	padding: 10px;
+	z-index: 102;
+	border: 2px solid #000000;
+	display: none;
+}
+
+.overlaydiv div{
+	padding: 10px;
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 102;
+	/* border: 2px solid #00337f; */
+}
+
+.noborder{
+	border: none;
+}
+
+/* :::::::::::: START accesible forms styles :::::::::::: */
+/* color #00337f is reportlab blue */
+
+form.accform li {
+	list-style: none;
+	border: none;
+}
+
+form.accform ul{
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	border: none;
+}
+
+form.accform li{
+	margin: 0px 0px 5px 0px;
+	padding: 0px 0px 5px 0px;
+}
+
+
+/* borders */
+
+form.accform textarea, form.accform input[type="text"]{
+	border: 1px solid #CCCCCC;
+	display: inline-block;
+}
+
+/* labels are used for alignement : overide width if needed */
+
+form.accform label{
+	display: block;
+	text-align: left;
+	float: left;
+	width: 80px;
+}
+
+/* fieldset with legend */
+
+form.accform fieldset{
+	border: none;
+	border-top: 2px solid #00337f;
+	padding-top: 10px;
+}
+
+form.accform legend{
+	font-weight: bold;
+	color: #00337f;
+}
+
+/* highlight elements with errors not working in IE6 */
+
+form.accform ul.errorlist + label + input, form.accform ul.errorlist + label + textarea, form.accform ul.errorlist + label + dl + textarea, form.accform ul.errorlist + label + div + textarea, form.accform ul.errorlist + label + select{
+	border: 1px solid #800000;
+}
+
+/* this margin should be same as label width */
+form.accform ul.errorlist li {
+	margin-left: 80px;
+}
+
+/* some help text dd dt styles */
+
+dl.accform {
+	float: right;
+}
+
+dl.accform > dt:first-child{
+	padding-bottom: 5px;
+	color: #00337f;
+}
+
+
+/* :::::::::::: END accesible forms styles  :::::::::::: */
+
+/* :::::::::::: START definition list  :::::::::::: */
+/* inline ; definition type bold */
+
+/* #content #sidebar dl dt, #content #sidebar dl dd { */
+/*     float: left; */
+/*     margin-right: 0.5em; */
+/*     margin-bottom: 0.5em; */
+/* } */
+
+/* #content #sidebar dl dt { */
+/*     clear: left; */
+/*     font-weight: bold; */
+/* } */
+
+
+dl.inline  dt, dl.inline dd {
+    float: left;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+dl.inline dd {
+	*float: none;
+}
+
+dl.inline dt{
+    clear: left;
+    font-weight: bold;
+}
+
+/* :::::::::::: END definition list  :::::::::::: */
+
+
+
+/* :::::::::::: START snippets form  :::::::::::: */
+
+#snippetForm label {
+	width: 130px;
+}
+
+#snippetForm ul.errorlist li {
+	margin-left: 100px;
+}
+
+#snippetForm textarea, #snippetForm input[type="text"]{
+	width: 410px
+}
+
+.help{
+	display: none;
+	float: right;
+	width: 270px;
+}
+
+.help textarea{
+	width: 250px !important;
+}
+
+ul.snippets li{
+	padding-bottom: 5px;
+}
+
+/* :::::::::::: END snippets form  :::::::::::: */
+
+/* :::::::::::: START contact us form  :::::::::::: */
+
+#contactusContainer{
+	display: none;
+	background-color: white;
+}
+
+#contactusContainer fieldset{
+	border: none;
+	width: 500px;
+}
+
+#contactusContainer textarea, #contactusContainer input[type="text"]{
+	width: 410px
+}
+
+/* :::::::::::: END contact us form  :::::::::::: */
+
+/* :::::::::::: START footer  :::::::::::: */
+.newFooter{
+	position: relative;
+	clear: both;
+}
+
+hr#topbar{
+	width:566px;
+	height:7px;
+	position:absolute;
+	left:241px;
+	top:77px;
+	}
+
+
+.newFooter hr, hr#topbar{
+	color: #00337f;
+	background-color: #00337f;
+	height: 5px;
+}
+
+.newFooter span{
+	color: red;
+}
+
+.newFooter div{
+	position: absolute;
+	left: 500px;
+	top: -13px;
+	background-color: #ffffff;
+	padding: 5px;
+	color: #00337f;
+	font-weight: bold;
+	font-size: 120%;
+}
+
+/* :::::::::::: END footer  :::::::::::: */
+
+/* :::::::::::: START columns div  :::::::::::: */
+
+div.columns{
+	overflow: auto;
+	width: 100%;
+	padding: 5px 0px;
+}
+
+div.columns br{
+	clear: both;
+	
+}
+
+div.columns > div{
+	float: left;
+	width: 47%;
+	/* padding: 1%; */
+	/* border: 1px solid red; */
+}
+
+div.columns  div + div{
+	float: right;
+	clear: right;
+}
+
+div.columns_80_20 > div{
+	width: 78%;
+}
+
+div.columns_80_20 > div + div{
+	width: 17%
+}
+
+div.columns_70_30 > div{
+	width: 68%;
+}
+
+div.columns_70_30  > div + div{
+	width: 27%
+}
+
+/* :::::::::::: END columns div  :::::::::::: */
+
+/* :::::::::::: START general  :::::::::::: */
+
+.floatright{
+	display: block;
+	float: right;
+}
+
+span.contact{
+	color: #00337f;
+	text-decoration: underline;
+	font-weight: bold;
+	cursor: pointer;
+}
+span.contact:hover{
+	color: #ca002a;
+}
+/* :::::::::::: END general  :::::::::::: */
+
+.center{
+	margin-left:auto; 
+	margin-right:auto;
+	display:block;
+}
+
+.border{
+	border: 1px solid #cccccc;
+	padding: 2px;
+}
+
+
+/* :::::::::::: END general  :::::::::::: */
+
+/* :::::::::::: START prifile  :::::::::::: */
+
+
+#accordion{
+	display: none;
+}
+
+#accordion h3{
+	margin: 0px;
+	padding: 0px;
+}
+
+#accordion div.notification{
+	margin: 0px;
+	padding: 5px;
+}
+
+div.gcbutton{
+	/* height: 48px; */
+	line-height: 40px;
+	width: 200px;
+	overflow-x: hidden;
+}
+	
+div.gcbutton img{
+
+	display: inline;
+}
+
+span.expand{
+	font-weight: normal;
+	font-size: 80%;
+	cursor: pointer;
+	padding-left: 10px;
+	/* display: inline-block; */
+
+}
+
+div.profileSection{
+	border-bottom: 2px solid #00337f;
+	padding: 5px 0px;
+}
+
+/* div.profileSection div.toogle{ */
+/* 	display: nonex; */
+/* } */
+
+/* remove important  later when css is fixed !!! */
+div.profileSection h2{
+	margin: 0px 0px 0px 0px !important;
+	display: inline
+}
+
+div.profileSection p{
+	margin: 5px 0px !important;
+}
+
+
+div.center{
+	width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+}
+div.profileSection div.notification{
+	margin: 0px 0px 0px 0px !important;
+}
+
+div.profileSection div.notification h3{
+	margin: 0px 0px 0px 0px !important;
+}
+
+dl.profile dt{
+	width: 100px;
+
+}
+
+
+.tag_icons {
+    float: right;
+}
+.tag_icons img {
+    border: 0;
+}
+
+/* Fix for Jquery accordion in IE~6 */
+.ui-accordion-content{ zoom: 1; } 
+
+
+
+
+
+/* Sphinx docs */
+div.related, body>div.sphinxsidebar, body>div.document>div.sphinxsidebar, body>div.footer {
+    display: none;
+}
+pre {
+    background:#ECF0F3;
+    border:1px solid #d7e7f3;
+    border-left:0;
+    border-right:0;
+    padding:0.5em;
+    margin:10px 0;
+}
+
+dl {
+    margin-bottom:15px;
+}
+
+tt {
+    background-color:#ECF0F3;
+    font-size:0.95em;
+    padding:0 1px;
+}
+tt.descname {
+    font-size:1.2em;
+    font-weight:bold;
+}
+
+dd {
+    margin-bottom:10px;
+    margin-left:30px;
+    margin-top:3px;
+}
+div.body p, div.body dd, div.body li {
+    line-height:130%;
+}
+a.headerlink {
+    color:#ECF0F3;
+}
+a.headerlink:hover{
+    color:#ca002a;
+}

@@ -1,0 +1,7 @@
+The rl_addons project contains stuff that we don't include as standard, but
+which might be of use to ReportLab users.
+
+renderPM
+	below this directory are the files needed to build the _renderPM extension
+	which is used by reportlab.graphics.renderPM.
+	The libart and gt1 files come from the gnome source tree at cvs.gnome.org
