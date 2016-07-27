@@ -700,7 +700,9 @@ or click on tool menu and click on Install Freeradius
         try:
 
             os.system("apt-get install -y --force-yes hostapd dnsmasq &")
+            os.system("apt-get install bridge-utils &")
             os.system("pip install reportlab &")
+            os.system("pip apt-get install bridge-utils &")
             os.system("python ./Modules/airgraph-ng/setup.py build &")
             os.system("python ./Modules/airgraph-ng/setup.py install &")
 

