@@ -28,7 +28,7 @@ Author is not responsible for misuse. Please read instructions thoroughly.
 
 Usage: `python InfernalWireless.py` (from the same folder where your code exists)
 
-For any comments and suggestions please email on 3ntr0py1337@gmail.com
+For any comments and suggestions please email on 1337[@]gmail[dot]com
 
 ##BUG Fixes:
 
