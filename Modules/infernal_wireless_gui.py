@@ -839,7 +839,7 @@ class suggestions(wx.Frame):
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, -1, title)
         html = wx.html.HtmlWindow(self)
-        html.SetPage("For suggestions and all other questions email me @ 3ntr0py1337@gmail.com")
+        html.SetPage("For suggestions and all other questions email me @ 3ntr0py1337[at]gmail[dot]com")
 
 
 class EvilWindow(wx.Frame):
