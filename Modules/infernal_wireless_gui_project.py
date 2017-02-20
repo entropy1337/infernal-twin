@@ -1464,14 +1464,14 @@ class authorwindows(wx.Frame):
         wx.Frame.__init__(self, parent, -1, title)
         html = wx.html.HtmlWindow(self)
         html.SetPage(
-            "<h4>Author: </h4>3nt0py<br>Email: 3ntr0py1337@gmail.com<br>LinkedIn: <a href='https://ae.linkedin.com/pub/mo-halilov/40/43a/5b3'> https://ae.linkedin.com/pub/mo-halilov/40/43a/5b3</a><br><h4>Contributors:</h4><br>@ndrix and zstyblik")
+            "<h4>Author: </h4>3nt0py<br>Email: 3ntr0py1337[at]gmail[dot]com<br>LinkedIn: <a href='https://ae.linkedin.com/'> https://ae.linkedin.com/</a><br><h4>Contributors:</h4><br>@ndrix and zstyblik")
 
 
 class suggestions(wx.Frame):
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, -1, title)
         html = wx.html.HtmlWindow(self)
-        html.SetPage("For suggestions and all other questions email me @ 3ntr0py1337@gmail.com")
+        html.SetPage("For suggestions and all other questions email me @ 3ntr0py1337[at]gmail[dot]com")
 
 
 class wifi_card_info(wx.Frame):
