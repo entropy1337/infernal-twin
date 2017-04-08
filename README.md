@@ -1,17 +1,17 @@
-##Infernal-Wireless v2.6
+## Infernal-Wireless v2.6
 
 Release 2.6.11
 
-##Features added and improved: 
+## Features added and improved: 
 
 - Menu to retrieve logs are added 
 
 
-##Infernal-Wireless v2.6
+## Infernal-Wireless v2.6
 
 Release 2.6.10
 
-##Features added and improved: 
+## Features added and improved: 
 
 - Added BeeF XSS framework Integration 
 - Added HTTP Traffic View within tool
@@ -30,7 +30,7 @@ Usage: `python InfernalWireless.py` (from the same folder where your code exists
 
 For any comments and suggestions please email on 1337[@]gmail[dot]com
 
-##BUG Fixes:
+## BUG Fixes:
 
 1. Non ASCII SSID Name used to crash the software. It is fixed now
 2. Warnings on the background is supressed
