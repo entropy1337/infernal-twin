@@ -1,0 +1,6 @@
+When you perform MiTM attack via Evil Twin Attack, it is recommended to perform social engineering attack via fake page creation to steal creds or pop up proxy attack to steal credentials. YouTube walkthrough here: https://www.youtube.com/watch?v=FmSt_d26xU4
+When performing MiTM you can see whole HTTP request and Response from the Log file which can be access from Log MiTM sniffer or see the victim given IP and useragent on Victim IP
+It is recommended to perform 'Configure Software from Tool menu bar. This will install necessary dependencies'
+During MiTM attacks, you can use SSL Strip tool which can be launched from 'Tools' menu bar. This will strip of SSL Layer from HTTPS. 
+If you are trying to hack WPA2 attack, it is also recommended to deauthenticate either specific user or the whole user by selected Access Point name. 
+If you are performing an assessment, you can put your findings under project database. At the end of the assessment, you can create a report. 
