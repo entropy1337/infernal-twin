@@ -1,5 +1,5 @@
-## Infernal-Wireless v2.6
-Release 2.3
+## Infernal-Wireless v3
+Release 3
 
 - Improved and Compatibility on Kali Linux 2018
 - Added Visual Representation of Wireless Scan 
