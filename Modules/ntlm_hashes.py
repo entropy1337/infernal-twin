@@ -46,7 +46,7 @@ class Example(wx.Frame):
         panel.SetSizer(vbox)
 
     def clearlog(self, e):
-        open('/usr/local/var/log/radius/freeradius-server-wpe.log', 'w').close()
+        open('wpe-creds.log', 'w').close()
 
     def brutentlm(self, e):
         import ntml_bruter
@@ -56,7 +56,7 @@ class Example(wx.Frame):
         self.Close()
 
     def refresh(self, e):
-        pathtofile = "/usr/local/var/log/radius/freeradius-server-wpe.log"
+        pathtofile = "wpe-creds.log"
         if os.path.exists(pathtofile) and os.path.getsize(pathtofile) > 5:
             with open(pathtofile) as f:
                 for i in f:
